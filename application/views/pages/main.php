@@ -26,7 +26,6 @@
                 <div class="box-content">
                     <?php
                     $datetime=$year."-".$month;
-
                     if($month==date('m') && $year==date('Y')){
                         $previous="disabled";
                     }else{
