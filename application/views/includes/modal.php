@@ -3,10 +3,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
-                <h3>Logout</h3>
+                <h3>Log me out!</h3>
             </div>
             <div class="modal-body">
-                <h2>Do you wish to logout?</h2>
+                <img  src="<?=base_url('design/img/logout.jpg');?>">
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-default" data-dismiss="modal">No, I will stay</a>
