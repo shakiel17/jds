@@ -32,23 +32,23 @@
                         $previous="";
                     }
                     $nextmonth=date('m',strtotime('1 month',strtotime($datetime)));
-                    $nextyear=date('Y',strtotime($datetime));
+                    $nextyear=date('Y',strtotime('1 month',strtotime($datetime)));
                     $prevmonth=date('m',strtotime('-1 month',strtotime($datetime)));
-                    $prevyear=date('Y',strtotime($datetime));
+                    $prevyear=date('Y',strtotime('-1 month',strtotime($datetime)));
                     ?>
                     <!-- <div id="calendar"></div> -->
                 <table class="table table-bordered" width="100%">
 
-                  <tr style="background-color: greenyellow;">
-                    <!-- <td colspan="2" align="center" style="border-right:0;">
-                      
-                    </td> -->
-                    <td align="center" colspan="7">
-                      <h4 align="center"><b><?=date('F',strtotime($datetime));?> <?=$year;?></b></h4>
+                  <tr style="background-color: purple; color:white;">
+                    <td style="text-transform:uppercase;text-align:center; font-size:24px;">
+                      <b><?=date('m',strtotime($datetime));?></b>
                     </td>
-                    <!-- <td colspan="2" align="right" style="border-left:0;">
-                      
-                    </td> -->
+                    <td align="center" colspan="5" style="text-transform:uppercase;text-align:center; font-size:24px; border-left:0;">
+                      <font styl="text-align:center;"><b><?=date('F',strtotime($datetime));?></b></font>
+                    </td>
+                    <td style="text-transform:uppercase;text-align:center; font-size:24px; border-left:0;">
+                      <b><?=date('y',strtotime($datetime));?></b>
+                    </td>
                   </tr>
 
                     <tr>
@@ -82,7 +82,7 @@
 
                             if(date('w',strtotime($date))==$x){                              
 
-                             echo "<td style='$color' align='center' style='width:50px;height:100px;'><b style='float:center; font-size:1vw;'>$i</b></td>";                                 
+                             echo "<td style='height:100px;' align='center'><b style='float:center; font-size:1.5vw;'>$i</b></td>";                                 
 
                                 $w++;
 
@@ -90,7 +90,7 @@
 
                             }else{
 
-                                echo "<td style='background-color:gray;'>&nbsp;</td>";
+                                echo "<td style='background-color:gray; height:100px;'>&nbsp;</td>";
 
                                 $w++;
 
@@ -102,7 +102,7 @@
 
                     }else{                      
 
-                        echo "<td style='$color' align='center' style='width:50px;height:50px;'><b style='float:center; font-size:1vw;'>$i</b></td>"; 
+                        echo "<td align='center' style='height:100px;'><b style='float:center; font-size:1.5vw;'>$i</b></td>"; 
 
                         $w++;
 
@@ -125,23 +125,25 @@
                     ?>
 
                 </table>
-                <ul class="pagination pagination-centered">
-                        <li>
+                <table width="100%" border="0" cellpadding="0">
+                        <tr>
+                            <td width="3%">
                             <!-- <a href="#">Prev</a> -->
                              <?=form_open(base_url('main'));?>
-                            <input type="text" name="month" value="<?=$prevmonth;?>">
-                            <input type="text" name="year" value="<?=$prevyear;?>">
+                            <input type="hidden" name="month" value="<?=$prevmonth;?>">
+                            <input type="hidden" name="year" value="<?=$prevyear;?>">
                             <button type="submit" class="btn btn-primary btn-sm" <?=$previous;?>><< Previous</button>
                             <?=form_close();?>
-                        </li>
-                        <li>
+                        </td>
+                        <td>
                             <?=form_open(base_url('main'));?>
-                            <input type="text" name="month" value="<?=$nextmonth;?>">
-                            <input type="text" name="year" value="<?=$nextyear;?>">
+                            <input type="hidden" name="month" value="<?=$nextmonth;?>">
+                            <input type="hidden" name="year" value="<?=$nextyear;?>">
                             <button type="submit" class="btn btn-primary btn-sm">Next >></button>
                             <?=form_close();?>
-                        </li>
-                    </ul>
+                        </td>
+                        </tr>
+                </table>
                 </div>
             </div>
         </div>

@@ -15,21 +15,19 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="ManageStudentAssignment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="ManageDepartment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form role="form" action="<?=base_url('save_student_assignment_attachment');?>" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="id" id="assign_student_attach_id">
-                <input type="hidden" name="lesson_id" id="assign_student_attach_lesson_id">
-                <input type="hidden" name="topic_id" id="assign_student_topic_attach_lesson_id">
+            <form role="form" action="<?=base_url('save_department');?>" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="id" id="department_id">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
-                <h3>Assignment Attachment</h3>
+                <h3>Manage Department</h3>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Upload Document</label>
-                    <input type="file" name="file" class="form-control" accept="application/pdf">
+                    <label for="exampleInputEmail1">Description</label>
+                    <input type="text" name="description" class="form-control" required id="department_description">
                 </div>                                
             </div>
             <div class="modal-footer">
@@ -40,22 +38,41 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="ManageStudentQuiz" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="ManageUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form role="form" action="<?=base_url('save_student_quiz_attachment');?>" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="id" id="quiz_student_attach_id">
-                <input type="hidden" name="lesson_id" id="quiz_student_attach_lesson_id">
-                <input type="hidden" name="topic_id" id="quiz_student_topic_attach_lesson_id">
+            <form role="form" action="<?=base_url('save_users');?>" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="id" id="user_id">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
-                <h3>Quiz Attachment</h3>
+                <h3>Manage User</h3>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Upload Document</label>
-                    <input type="file" name="file" class="form-control" accept="application/pdf">
-                </div>                                
+                    <label for="exampleInputEmail1">Full Name</label>
+                    <input type="text" name="fullname" class="form-control" required id="user_fullname">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Department</label>
+                    <select name="department" class="form-control" required id="user_dept">
+                        <option value="">Select Department</option>
+                        <?php
+                        $department=$this->General_model->getAllDepartment();
+                        foreach($department as $dept){
+                            echo "<option value='$dept[description]'>$dept[description]</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Username</label>
+                    <input type="text" name="username" class="form-control" required id="user_name">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Passwod</label>
+                    <input type="password" name="password" class="form-control" required id="user_password">
+                    <input type="checkbox" onclick="user_password.type =  checked ? 'text' : 'password'"> Show Password
+                </div>
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>

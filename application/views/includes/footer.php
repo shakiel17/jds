@@ -38,43 +38,28 @@
         document.getElementById('user_fullname').value='';
         document.getElementById('user_name').value='';
         document.getElementById('user_password').value='';
-        document.getElementById('user_teacher').checked = true;
+        document.getElementById('user_dept').value = '';
     });
     $('.editUser').click(function(){
         var data=$(this).data('id');
         var id=data.split('_');
         document.getElementById('user_id').value=id[0];
-        document.getElementById('user_fullname').value=id[1];
-        document.getElementById('user_name').value=id[2];
-        document.getElementById('user_password').value=id[3];
-        if(id[4]=="teacher"){
-            document.getElementById('user_teacher').checked = true;
-        }else{
-            document.getElementById('user_admin').checked = true;
-        }
+        document.getElementById('user_fullname').value=id[3];
+        document.getElementById('user_name').value=id[1];
+        document.getElementById('user_password').value=id[2];
+        document.getElementById('user_dept').value=id[4];
+        
     });
 
-    $('.addStudent').click(function(){
-        document.getElementById('student_id').value='';
-        document.getElementById('stud_id').value='';
-        document.getElementById('stud_lastname').value='';
-        document.getElementById('stud_firstname').value='';
-        document.getElementById('stud_middlename').value='';
-        document.getElementById('stud_male').checked = true;
+    $('.addDepartment').click(function(){
+        document.getElementById('department_id').value='';
+        document.getElementById('department_description').value='';
     });
-    $('.editStudent').click(function(){
+    $('.editDepartment').click(function(){
         var data=$(this).data('id');
         var id=data.split('_');        
-        document.getElementById('student_id').value=id[0];
-        document.getElementById('stud_id').value=id[1];
-        document.getElementById('stud_lastname').value=id[2];
-        document.getElementById('stud_firstname').value=id[3];
-        document.getElementById('stud_middlename').value=id[4];     
-        if(id[5]=="male"){
-            document.getElementById('stud_male').checked = true;
-        }else{
-            document.getElementById('stud_female').checked = true;
-        }
+        document.getElementById('department_id').value=id[0];
+        document.getElementById('department_description').value=id[1];
     });
     $('.addLesson').click(function(){
         document.getElementById('lesson_id').value='';

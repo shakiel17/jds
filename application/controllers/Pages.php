@@ -62,6 +62,71 @@ date_default_timezone_set('Asia/Manila');
             $this->load->view('includes/modal');     
             $this->load->view('includes/footer');               
         } 
-        
+        public function manage_department(){
+            $page = "manage_department";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $data['department'] = $this->General_model->getAllDepartment();
+            $this->load->view('includes/header'); 
+            $this->load->view('includes/navbar');           
+            $this->load->view('includes/sidebar');            
+            $this->load->view('pages/'.$page,$data);    
+            $this->load->view('includes/modal');     
+            $this->load->view('includes/footer');               
+        }
+        public function save_department(){
+            $save=$this->General_model->save_department();
+            if($save){
+                $this->session->set_flashdata('success','Department details successfull saved!');
+            }else{
+                $this->session->set_flashdata('failed','Unable to save department details!');
+            }
+            redirect(base_url('manage_department'));
+        }
+        public function delete_department($id){
+            $save=$this->General_model->delete_department($id);
+            if($save){
+                $this->session->set_flashdata('success','Department details successfull deleted!');
+            }else{
+                $this->session->set_flashdata('failed','Unable to delete department details!');
+            }
+            redirect(base_url('manage_department'));
+        }
+        public function manage_users(){
+            $page = "manage_users";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $data['users'] = $this->General_model->getAllUsers();
+            $this->load->view('includes/header'); 
+            $this->load->view('includes/navbar');           
+            $this->load->view('includes/sidebar');            
+            $this->load->view('pages/'.$page,$data);    
+            $this->load->view('includes/modal');     
+            $this->load->view('includes/footer');               
+        }
+        public function save_users(){
+            $save=$this->General_model->save_users();
+            if($save){
+                $this->session->set_flashdata('success','User details successfull saved!');
+            }else{
+                $this->session->set_flashdata('failed','Unable to save user details!');
+            }
+            redirect(base_url('manage_users'));
+        }
+        public function delete_users($id){
+            $save=$this->General_model->delete_users($id);
+            if($save){
+                $this->session->set_flashdata('success','User details successfull deleted!');
+            }else{
+                $this->session->set_flashdata('failed','Unable to delete user details!');
+            }
+            redirect(base_url('manage_users'));
+        }
 }
 ?>
