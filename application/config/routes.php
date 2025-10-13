@@ -50,6 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 #
+$route['view_available/(:any)'] = 'pages/view_available/$1';
 $route['delete_package/(:any)'] = 'pages/delete_package/$1';
 $route['save_package'] = 'pages/save_package';
 $route['manage_package'] = 'pages/manage_package';

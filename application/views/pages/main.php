@@ -82,9 +82,13 @@
 
                             if(date('w',strtotime($date))==$x){                                                              
                                 
-                             echo "<td style='height:100px;' align='center'><b style='font-size:1.5vw;'>$i</b>
-                             <p style='text-align:center;'><b><a href='".base_url('view_available/'.$date)."' class='btn btn-primary btn-sm'><i class='glyphicon glyphicon-search'></i> View Available Room<a></b></p>
-                             </td>";                                 
+                             echo "<td style='height:100px;' align='center'><b style='font-size:1.5vw;'>$i</b>";
+                                if($date < date('Y-m-d')){
+
+                                }else{
+                             echo "<p style='text-align:center;'><b><a href='".base_url('view_available/'.$date)."' class='btn btn-primary btn-sm'><i class='glyphicon glyphicon-search'></i> View Available Room<a></b></p>";
+                                }
+                             echo "</td>";                                 
 
                                 $w++;
 
@@ -104,9 +108,13 @@
 
                     }else{                      
 
-                        echo "<td align='center' style='height:100px;'><b style='font-size:1.5vw;'>$i</b>
-                        <p style='text-align:center;'><b><a href='".base_url('view_available/'.$date)."' class='btn btn-primary btn-sm'><i class='glyphicon glyphicon-search'></i> View Available Room<a></b></p>
-                        </td>"; 
+                        echo "<td style='height:100px;' align='center'><b style='font-size:1.5vw;'>$i</b>";
+                                if($date < date('Y-m-d')){
+
+                                }else{
+                             echo "<p style='text-align:center;'><b><a href='".base_url('view_available/'.$date)."' class='btn btn-primary btn-sm'><i class='glyphicon glyphicon-search'></i> View Available Room<a></b></p>";
+                                }
+                             echo "</td>"; 
 
                         $w++;
 
