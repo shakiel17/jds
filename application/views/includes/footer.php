@@ -100,8 +100,15 @@
         document.getElementById('pack_description').value=id[1];
         document.getElementById('pack_rate').value=id[2];        
         document.getElementById('pack_inclusion').value=id[3];
-        
 	});
+    $('.bookRoom').click(function(){
+        var data=$(this).data('id');
+        var id=data.split('_');
+        document.getElementById('book_arrival_date').value = id[0];
+        document.getElementById('book_depart_date').value = id[0];
+        document.getElementById('book_room_id').value = id[1];
+        document.getElementById('book_room_type').innerHTML = id[2];
+    });
 </script>
 
 

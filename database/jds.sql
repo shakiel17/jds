@@ -143,12 +143,13 @@ CREATE TABLE `reservation` (
   `res_no_guest` varchar(100) DEFAULT NULL,
   `res_room_id` varchar(45) DEFAULT NULL,
   `res_room_rate` double DEFAULT NULL,
+  `res_downpayment` double DEFAULT NULL,
   `res_status` varchar(45) DEFAULT NULL,
   `res_user` varchar(100) DEFAULT NULL,
   `res_source` varchar(100) DEFAULT NULL,
   `res_mode_payment` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,6 +158,7 @@ CREATE TABLE `reservation` (
 
 LOCK TABLES `reservation` WRITE;
 /*!40000 ALTER TABLE `reservation` DISABLE KEYS */;
+INSERT INTO `reservation` VALUES (1,'20251013230009','Eczekiel Aboy','Kidapawan City','09107524284','easykill.aboy@gmail.com','Filipino','2025-10-16','14:00:00','2025-10-17','11:00:00','2025-10-13','23:00:09',1,'2 Adult/ 2 Child','3',3000,1500,'booked','Administrator','Messenger','gcash');
 /*!40000 ALTER TABLE `reservation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -400,4 +402,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-13 12:39:12
+-- Dump completed on 2025-10-13 23:04:18

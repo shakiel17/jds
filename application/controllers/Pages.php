@@ -257,5 +257,32 @@ date_default_timezone_set('Asia/Manila');
             $this->load->view('includes/modal');     
             $this->load->view('includes/footer');               
         }
+        public function save_reservation(){
+            $date=$this->input->post('arrival_date');
+            $save=$this->Reservation_model->save_reservation();
+            if($save){
+                redirect(base_url('manage_reservation'));   
+            }else{
+                $this->session->set_flashdata('failed','Unable to save reservation details!');
+                redirect(base_url('view_available/'.$date));
+            }
+        }
+        public function manage_reservation(){
+            $page = "manage_reservation";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $data['booked'] = $this->Reservation_model->getReservation('booked');
+            $data['checkedin'] = $this->Reservation_model->getReservation('checkedin');
+            $data['checkedout'] = $this->Reservation_model->getReservation('checkedout');
+            $this->load->view('includes/header'); 
+            $this->load->view('includes/navbar');           
+            $this->load->view('includes/sidebar');            
+            $this->load->view('pages/'.$page,$data);    
+            $this->load->view('includes/modal');     
+            $this->load->view('includes/footer');               
+        }
 }
 ?>

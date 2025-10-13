@@ -10,7 +10,14 @@
             </li>
         </ul>
     </div>
-
+    <?php
+    if($this->session->flashdata('success')){
+        echo "<div class='alert alert-success'>".$this->session->flashdata('success')."</div>";
+    }
+    if($this->session->flashdata('failed')){
+        echo "<div class='alert alert-danger'>".$this->session->flashdata('failed')."</div>";
+    }
+    ?>
     <div class="row">
         <?php
         foreach($rooms as $room){
@@ -28,7 +35,7 @@
                 <div class="box-content">
                     <div class="row">
                         <div class="col-md-4 col-sm-4"><img src="data:image/jpg;charset=utf8;base64,<?=base64_encode($room['room_image']);?>" width='100' alt='Image'><br>
-                    <a href="#" class="btn btn-primary btn-sm" style="margin-top:5px;" data-toggle="modal" data-target="#BookRoom" data-id="<?=$datearray;?>_<?=$room['id'];?>">Book Now</a></div>
+                    <a href="#" class="btn btn-primary btn-sm bookRoom" style="margin-top:5px;" data-toggle="modal" data-target="#BookRoom" data-id="<?=$datearray;?>_<?=$room['id'];?>_<?=$room['room_type'];?> (<?=$room['room_color'];?>)">Book Now</a></div>
                         <div class="col-md-8 col-sm-8">
                             Rate (Mon-Thu): <b><?=number_format($room['room_rate_weekday'],2);?></b><br>
                             Rate (Fri-Sun): <b><?=number_format($room['room_rate_weekend'],2);?></b><br>
