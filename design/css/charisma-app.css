@@ -321,14 +321,14 @@ div.center, p.center, img.center {
     font-family: 'Shojumaru', cursive, Arial, serif;
     letter-spacing: 2px;
     text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-    width: auto;
+    width:auto;
     font-size: 17px;
 }
 
 .navbar-brand img {
     float: left;
     height: 20px;
-    width: 50px;
+    width: 40px;
     margin-right: 5px;
 }
 
@@ -529,7 +529,7 @@ ul.github-buttons li {
 }
 
 /* Mobile */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 1024px) {
 
     .navbar-brand {
         font-family: 'Shojumaru', cursive, Arial, serif;

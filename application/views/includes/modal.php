@@ -82,3 +82,26 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="ManageLogo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('save_logo');?>" method="POST" enctype="multipart/form-data">                
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Manage Logo</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Logo</label>
+                    <input type="file" name="file" class="form-control" required accept="image/*">
+                </div>                                
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

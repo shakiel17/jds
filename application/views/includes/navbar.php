@@ -7,10 +7,18 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-            </button>            
+            </button> 
+            <?php
+            $info=$this->General_model->getSettings();
+            if($info){
+                $img=$info['company_logo'];
+            }else{
+                $img="";
+            }
+            ?>           
             <a class="navbar-brand" href="<?=base_url('main');?>"> 
-                <img alt="Charisma Logo" src="<?=base_url('design/img/jdslogo.jpg');?>" />
-                <span>Property Management System</span>
+                <img alt="Charisma Logo" src="data:image/jpg;charset=utf8;base64,<?=base64_encode($img);?>"/>
+                <span>JDS | PMS</span>
             </a>
 
             <!-- user dropdown starts -->

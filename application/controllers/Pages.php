@@ -128,5 +128,38 @@ date_default_timezone_set('Asia/Manila');
             }
             redirect(base_url('manage_users'));
         }
+        public function manage_info(){
+            $page = "manage_info";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $data['info'] = $this->General_model->getSettings();
+            $this->load->view('includes/header'); 
+            $this->load->view('includes/navbar');           
+            $this->load->view('includes/sidebar');            
+            $this->load->view('pages/'.$page,$data);    
+            $this->load->view('includes/modal');     
+            $this->load->view('includes/footer');               
+        }
+        public function save_info(){
+            $save=$this->General_model->save_info();
+            if($save){
+                $this->session->set_flashdata('success','Company details successfull saved!');
+            }else{
+                $this->session->set_flashdata('failed','Unable to save company details!');
+            }
+            redirect(base_url('manage_info'));
+        }
+        public function save_logo(){
+            $save=$this->General_model->save_logo();
+            if($save){
+                $this->session->set_flashdata('success','Company logo successfull saved!');
+            }else{
+                $this->session->set_flashdata('failed','Unable to save company logo!');
+            }
+            redirect(base_url('manage_info'));
+        }
 }
 ?>

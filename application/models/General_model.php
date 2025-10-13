@@ -84,5 +84,50 @@ date_default_timezone_set('Asia/Manila');
                 return false;
             }
         }
+        public function getSettings(){
+            $result=$this->db->query("SELECT * FROM settings");
+            if($result->num_rows()>0){
+                return $result->row_array();
+            }else{
+                return false;
+            }
+        }
+        
+        public function save_info(){
+            $company_name=$this->input->post('company_name');
+            $company_address=$this->input->post('company_address');
+            $company_email=$this->input->post('company_email');
+            $company_contactno=$this->input->post('company_contactno');
+            $date=date('Y-m-d');
+            $time=date('H:i:s');
+            $check=$this->db->query("SELECT * FROM settings");
+            if($check->num_rows()>0){
+                $result=$this->db->query("UPDATE settings SET company_name='$company_name',company_address='$company_address',company_email='$company_email',company_contactno='$company_contactno',datearray='$date',timearray='$time'");
+            }else{
+                $result=$this->db->query("INSERT INTO settings SET company_name='$company_name',company_address='$company_address',company_email='$company_email',company_contactno='$company_contactno',datearray='$date',timearray='$time'");
+            }
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function save_logo(){
+            $fileName=basename($_FILES["file"]["name"]);
+            $fileType=pathinfo($fileName, PATHINFO_EXTENSION);
+            $allowTypes = array('jpg','png','jpeg','gif');
+            if(in_array($fileType,$allowTypes)){
+                $image = $_FILES["file"]["tmp_name"];
+                $imgContent=addslashes(file_get_contents($image));
+                $result=$this->db->query("UPDATE settings SET company_logo='$imgContent'");
+                if($result){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                    return false;
+            }
+        }
     }
 ?>
