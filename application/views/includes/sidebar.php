@@ -12,7 +12,11 @@
                         <li class="nav-header">Main</li>
                         <li><a class="ajax-link" href="<?=base_url('main');?>"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a>
                         </li>                        
-                        <li><a class="ajax-link" href="<?=base_url('student_lesson');?>"><i class="glyphicon glyphicon-book"></i><span> Reservation</span></a>
+                        <li><a class="ajax-link" href="<?=base_url('manage_reservation');?>"><i class="glyphicon glyphicon-book"></i><span> Reservation</span></a>
+                        </li>
+                        <li><a class="ajax-link" href="<?=base_url('manage_housekeeping');?>"><i class="glyphicon glyphicon-tasks"></i><span> Housekeeping</span></a>
+                        </li>
+                        <li><a class="ajax-link" href="<?=base_url('point_of_sale');?>"><i class="glyphicon glyphicon-shopping-cart"></i><span> Point of Sale</span></a>
                         </li>
                         <li class="accordion">
                             <a href="#"><i class="glyphicon glyphicon-cog"></i><span> Settings</span></a>

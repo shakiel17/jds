@@ -4,6 +4,8 @@
         public function __construct(){
             $this->load->database();
         }
-        
+        public function getReservation($status){
+            
+        }
     }
 ?>

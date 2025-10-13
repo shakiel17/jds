@@ -36,8 +36,8 @@
                     $prevmonth=date('m',strtotime('-1 month',strtotime($datetime)));
                     $prevyear=date('Y',strtotime('-1 month',strtotime($datetime)));
                     ?>
-                    <!-- <div id="calendar"></div> -->
-                <table class="table table-bordered" width="100%">
+                    <!-- <div id="calendar"></div> --> 
+                <table class="table table-bordered" width="100%" style="table-layout: fixed;">
 
                   <tr style="background-color: purple; color:white;">
                     <td style="text-transform:uppercase;text-align:center; font-size:24px;">
@@ -80,9 +80,11 @@
 
                         for($x=0;$x<7;$x++){
 
-                            if(date('w',strtotime($date))==$x){                              
-
-                             echo "<td style='height:100px;' align='center'><b style='float:center; font-size:1.5vw;'>$i</b></td>";                                 
+                            if(date('w',strtotime($date))==$x){                                                              
+                                
+                             echo "<td style='height:100px;' align='center'><b style='font-size:1.5vw;'>$i</b>
+                             <p style='text-align:center;'><b><a href='".base_url('view_available/'.$date)."' class='btn btn-primary btn-sm'><i class='glyphicon glyphicon-search'></i> View Available Room<a></b></p>
+                             </td>";                                 
 
                                 $w++;
 
@@ -102,7 +104,9 @@
 
                     }else{                      
 
-                        echo "<td align='center' style='height:100px;'><b style='float:center; font-size:1.5vw;'>$i</b></td>"; 
+                        echo "<td align='center' style='height:100px;'><b style='font-size:1.5vw;'>$i</b>
+                        <p style='text-align:center;'><b><a href='".base_url('view_available/'.$date)."' class='btn btn-primary btn-sm'><i class='glyphicon glyphicon-search'></i> View Available Room<a></b></p>
+                        </td>"; 
 
                         $w++;
 
