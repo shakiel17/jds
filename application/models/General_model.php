@@ -129,5 +129,91 @@ date_default_timezone_set('Asia/Manila');
                     return false;
             }
         }
+        public function getRooms(){
+            $result=$this->db->query("SELECT * FROM room");
+            return $result->result_array();
+        }
+        public function save_room(){
+            $room_id=$this->input->post('id');
+            $room_color=$this->input->post('room_color');
+            $room_type=$this->input->post('room_type');
+            $room_rate_weekday=$this->input->post('room_rate_weekday');
+            $room_rate_weekend=$this->input->post('room_rate_weekend');
+            $room_excess=$this->input->post('room_excess');
+            $room_inclusion=$this->input->post('room_inclusion');
+            $date=date('Y-m-d');
+            $time=date('H:i:s');
+            $user=$this->session->fullname;
+            $check=$this->db->query("SELECT * FROM room WHERE room_color='$room_color' AND room_type='$room_type' AND id <> '$room_id'");
+            if($check->num_rows()>0){
+                return false;
+            }else{
+                if($room_id==""){
+                    $result=$this->db->query("INSERT INTO room SET room_color='$room_color',room_type='$room_type',room_rate_weekday='$room_rate_weekday',room_rate_weekend='$room_rate_weekend',room_excess='$room_excess',room_inclusion='$room_inclusion',room_hk_status='dirty',room_fo_status='vacant'");
+                }else{
+                    $result=$this->db->query("UPDATE room SET room_color='$room_color',room_type='$room_type',room_rate_weekday='$room_rate_weekday',room_rate_weekend='$room_rate_weekend',room_excess='$room_excess',room_inclusion='$room_inclusion' WHERE id='$room_id'");
+                }
+                if($result){
+                    return true;
+                }else{
+                    return false;
+                }
+            }            
+        }
+        public function fetchRoom($id){
+            $result=$this->db->query("SELECT * FROM room WHERE id='$id'");
+            return $result->result_array();
+        }
+        public function save_room_image(){
+            $id=$this->input->post('id');
+            $fileName=basename($_FILES["file"]["name"]);
+            $fileType=pathinfo($fileName, PATHINFO_EXTENSION);
+            $allowTypes = array('jpg','png','jpeg','gif');
+            if(in_array($fileType,$allowTypes)){
+                $image = $_FILES["file"]["tmp_name"];
+                $imgContent=addslashes(file_get_contents($image));
+                $result=$this->db->query("UPDATE room SET room_image='$imgContent' WHERE id='$id'");
+                if($result){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                    return false;
+            }
+        }
+        public function delete_room($id){
+            $result=$this->db->query("DELETE FROM room WHERE id='$id'");
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
+        }
+         public function getPackages(){
+            $result=$this->db->query("SELECT * FROM package");
+            return $result->result_array();
+        }
+         public function save_package(){
+            $id=$this->input->post('id');
+            $description=$this->input->post('description');
+            $rate=$this->input->post('rate');            
+            $package_inclusion=$this->input->post('package_inclusion');
+            $check=$this->db->query("SELECT * FROM package WHERE `description`='$description' AND id <> '$id'");
+            if($check->num_rows()>0){
+                return false;
+            }else{
+                if($id==""){
+                    $result=$this->db->query("INSERT INTO package SET `description`='$description',rate='$rate',package_inclusion='$package_inclusion'");
+                }else{
+                    $result=$this->db->query("UPDATE package SET `description`='$description',rate='$rate',package_inclusion='$package_inclusion' WHERE id='$id'");
+                }
+                if($result){
+                    return true;
+                }else{
+                    return false;
+                }
+            }            
+        }
     }
 ?>

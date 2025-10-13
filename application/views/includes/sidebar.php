@@ -17,8 +17,8 @@
                         <li class="accordion">
                             <a href="#"><i class="glyphicon glyphicon-cog"></i><span> Settings</span></a>
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="<?=base_url('manage_room');?>">Room</a></li>
-                                <li><a href="<?=base_url('manage_package');?>">Package</a></li>
+                                <li><a href="<?=base_url('manage_room');?>">Rooms</a></li>
+                                <li><a href="<?=base_url('manage_package');?>">Packages</a></li>
                                 <li><a href="<?=base_url('manage_department');?>">Department</a></li>
                                 <li><a href="<?=base_url('manage_stocks');?>">Stocks</a></li>
                                 <li><a href="<?=base_url('manage_users');?>">Users</a></li>

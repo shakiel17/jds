@@ -161,5 +161,85 @@ date_default_timezone_set('Asia/Manila');
             }
             redirect(base_url('manage_info'));
         }
+        public function manage_room(){
+            $page = "manage_room";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $data['rooms'] = $this->General_model->getRooms();
+            $this->load->view('includes/header'); 
+            $this->load->view('includes/navbar');           
+            $this->load->view('includes/sidebar');            
+            $this->load->view('pages/'.$page,$data);    
+            $this->load->view('includes/modal');     
+            $this->load->view('includes/footer');               
+        }
+        public function save_room(){
+            $save=$this->General_model->save_room();
+            if($save){
+                $this->session->set_flashdata('success','Room details successfull saved!');
+            }else{
+                $this->session->set_flashdata('failed','Unable to save room details!');
+            }
+            redirect(base_url('manage_room'));
+        }
+        public function fetchRoom(){
+            $id=$this->input->post('id');
+            $data=$this->General_model->fetchRoom($id);            
+            echo json_encode($data);            
+        }
+        public function save_room_image(){
+            $save=$this->General_model->save_room_image();
+            if($save){
+                $this->session->set_flashdata('success','Room Picture successfull updated!');
+            }else{
+                $this->session->set_flashdata('failed','Unable to update room picture!');
+            }
+            redirect(base_url('manage_room'));
+        }
+        public function delete_room($id){
+            $save=$this->General_model->delete_room($id);
+            if($save){
+                $this->session->set_flashdata('success','Room details successfull deleted!');
+            }else{
+                $this->session->set_flashdata('failed','Unable to delete room details!');
+            }
+            redirect(base_url('manage_room'));
+        }
+        public function manage_package(){
+            $page = "manage_package";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $data['packages'] = $this->General_model->getPackages();
+            $this->load->view('includes/header'); 
+            $this->load->view('includes/navbar');           
+            $this->load->view('includes/sidebar');            
+            $this->load->view('pages/'.$page,$data);    
+            $this->load->view('includes/modal');     
+            $this->load->view('includes/footer');               
+        }
+        public function save_package(){
+            $save=$this->General_model->save_package();
+            if($save){
+                $this->session->set_flashdata('success','Package details successfull saved!');
+            }else{
+                $this->session->set_flashdata('failed','Unable to save package details!');
+            }
+            redirect(base_url('manage_package'));
+        }
+        public function delete_package($id){
+            $save=$this->General_model->delete_package($id);
+            if($save){
+                $this->session->set_flashdata('success','Package details successfull deleted!');
+            }else{
+                $this->session->set_flashdata('failed','Unable to delete package details!');
+            }
+            redirect(base_url('manage_package'));
+        }
 }
 ?>
