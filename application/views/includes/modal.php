@@ -383,3 +383,36 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="ChangeRoomStatus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('change_room_hk_status');?>" method="POST" enctype="multipart/form-data"> 
+                <input type="hidden" name="id" id="room_status_id">               
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Manage Status</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Room</label>
+                    <p id="room_status_type"></p>
+                </div>                                
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Room Status</label>
+                    <select name="status" class="form-control" required id="room_status">
+                        <option value="clean">Clean</option>
+                        <option value="dirty">Dirty</option>
+                        <option value="for inspection">For Inspection</option>
+                        <option value="for renovation">For Renovation</option>
+                    </select>
+                </div>                                
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

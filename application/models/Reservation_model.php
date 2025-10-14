@@ -69,5 +69,27 @@
                 return false;
             }
         }
+        public function checkAvailableRoom($id,$book_date){
+            $result=$this->db->query("SELECT * FROM reservation WHERE res_room_id='$id' AND (res_date_arrive = '$book_date' OR (res_date_depart > '$book_date' AND res_date_arrive < '$book_date')) AND (res_status='booked' OR res_status='checkedin')");
+            return $result->result_array();
+        }
+        public function getSingleReservation($id){
+            $result=$this->db->query("SELECT r.*,rm.room_type,rm.room_color FROM reservation r LEFT JOIN room rm ON rm.id=r.res_room_id WHERE r.res_id='$id'");
+            if($result->num_rows()>0){
+                return $result->row_array();
+            }else{
+                return false;
+            }
+        }
+        public function change_room_hk_status(){
+            $room_id=$this->input->post('id');
+            $status=$this->input->post('status');
+            $result=$this->db->query("UPDATE room SET room_hk_status='$status' WHERE id='$room_id'");
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
+        }
     }
 ?>

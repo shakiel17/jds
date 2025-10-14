@@ -249,6 +249,7 @@ date_default_timezone_set('Asia/Manila');
             if($this->session->user_login){}
             else{redirect(base_url());}
             $data['rooms'] = $this->General_model->getRooms();
+            $data['packages'] = $this->General_model->getPackages();
             $data['datearray'] = $date;
             $this->load->view('includes/header'); 
             $this->load->view('includes/navbar');           
@@ -277,12 +278,59 @@ date_default_timezone_set('Asia/Manila');
             $data['booked'] = $this->Reservation_model->getReservation('booked');
             $data['checkedin'] = $this->Reservation_model->getReservation('checkedin');
             $data['checkedout'] = $this->Reservation_model->getReservation('checkedout');
+
             $this->load->view('includes/header'); 
             $this->load->view('includes/navbar');           
             $this->load->view('includes/sidebar');            
             $this->load->view('pages/'.$page,$data);    
             $this->load->view('includes/modal');     
             $this->load->view('includes/footer');               
+        }
+        public function print_reg_form($id){
+            $page = "print_reg_form";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $data['info'] = $this->General_model->getSettings();
+            $data['reserve'] = $this->Reservation_model->getSingleReservation($id);                  
+            $this->load->view('pages/'.$page,$data);                           
+        }
+        public function print_voucher($id){
+            $page = "print_voucher";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $data['info'] = $this->General_model->getSettings();
+            $data['reserve'] = $this->Reservation_model->getSingleReservation($id);                  
+            $this->load->view('pages/'.$page,$data);                           
+        }
+        public function manage_housekeeping(){
+            $page = "manage_housekeeping";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $data['rooms'] = $this->General_model->getRooms();
+            $this->load->view('includes/header'); 
+            $this->load->view('includes/navbar');           
+            $this->load->view('includes/sidebar');            
+            $this->load->view('pages/'.$page,$data);    
+            $this->load->view('includes/modal');     
+            $this->load->view('includes/footer');               
+        }
+        public function change_room_hk_status(){
+            $save=$this->Reservation_model->change_room_hk_status();
+            if($save){
+                $this->session->set_flashdata('success','Room HK status successfull updated!');
+            }else{
+                $this->session->set_flashdata('failed','Unable to update room HK status!');
+            }
+            redirect(base_url('manage_housekeeping'));
         }
 }
 ?>

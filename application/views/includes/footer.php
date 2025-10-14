@@ -109,6 +109,13 @@
         document.getElementById('book_room_id').value = id[1];
         document.getElementById('book_room_type').innerHTML = id[2];
     });
+    $('.changeRoomStatus').click(function(){
+        var data=$(this).data('id');
+        var id=data.split('_');        
+        document.getElementById('room_status_id').value=id[0];
+        document.getElementById('room_status_type').innerHTML = id[1];
+        document.getElementById('room_status').value = id[2];
+    });
 </script>
 
 

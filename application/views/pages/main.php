@@ -86,7 +86,20 @@
                                 if($date < date('Y-m-d')){
 
                                 }else{
-                             echo "<p style='text-align:center;'><b><a href='".base_url('view_available/'.$date)."' class='btn btn-primary btn-sm'><i class='glyphicon glyphicon-search'></i> View Available Room<a></b></p>";
+                             echo "<p style='text-align:center;'><b><a href='".base_url('view_available/'.$date)."' class='btn btn-primary btn-sm'><i class='glyphicon glyphicon-search'></i> View Availability<a></b></p>";
+                             $rooms=$this->General_model->getRooms();
+                             $avail=count($rooms);;
+                             foreach($rooms as $room){
+                                $query=$this->Reservation_model->checkAvailableRoom($room['id'],$date);
+                                if(count($query)>0){
+                                    $avail--;
+                                }
+                             }  
+                                 if($avail==0 ){
+                                    echo "<p align='center'><b style='color:red;'>Fully Booked!</b></p>";
+                                }else{
+                                    echo "<p align='center'>".$avail." Available Room(s)</p>";
+                                }
                                 }
                              echo "</td>";                                 
 
@@ -112,7 +125,20 @@
                                 if($date < date('Y-m-d')){
 
                                 }else{
-                             echo "<p style='text-align:center;'><b><a href='".base_url('view_available/'.$date)."' class='btn btn-primary btn-sm'><i class='glyphicon glyphicon-search'></i> View Available Room<a></b></p>";
+                             echo "<p style='text-align:center;'><b><a href='".base_url('view_available/'.$date)."' class='btn btn-primary btn-sm'><i class='glyphicon glyphicon-search'></i> View Availability<a></b></p>";
+                             $rooms=$this->General_model->getRooms();
+                             $avail=count($rooms);;
+                             foreach($rooms as $room){
+                                $query=$this->Reservation_model->checkAvailableRoom($room['id'],$date);
+                                if(count($query)>0){
+                                    $avail--;
+                                }
+                             }  
+                                if($avail==0 ){
+                                    echo "<p align='center'><b style='color:red;'>Fully Booked!</b></p>";
+                                }else{
+                                    echo "<p align='center'>".$avail." Available Room(s)</p>";
+                                }
                                 }
                              echo "</td>"; 
 

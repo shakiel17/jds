@@ -6,7 +6,7 @@
                 <a href="<?=base_url('main');?>">Home</a>
             </li>
             <li>
-                <a href="#">Packages</a>
+                <a href="#">Reservation</a>
             </li>
         </ul>
     </div>
@@ -69,7 +69,21 @@ if($this->session->flashdata('failed')){
                             echo "</td>";
                             ?>
                             <td width="13%">
-                            
+                                <ul class="collapse navbar-collapse nav navbar-nav top-menu">
+                                    <li class="dropdown">
+                                        <a href="#" data-toggle="dropdown" class="btn btn-primary"><i class="glyphicon glyphicon-th-list"></i> Menu <span
+                                                class="caret"></span></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="<?=base_url('print_reg_form/'.$room['res_id']);?>" target="_blank">Registration Form</a></li>
+                                            <li><a href="<?=base_url('print_voucher/'.$room['res_id']);?>" target="_blank">Reservation Voucher</a></li>
+                                            <li><a href="#">Check In</a></li>
+                                            <!-- <li class="divider"></li>
+                                            <li><a href="#">Separated link</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="#">One more separated link</a></li> -->
+                                        </ul>
+                                    </li>                                    
+                                </ul>
                             </td>
                             <?php
                         echo "</tr>";
