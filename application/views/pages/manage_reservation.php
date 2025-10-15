@@ -67,6 +67,10 @@ if($this->session->flashdata('failed')){
                             echo "<td>";
                                 echo $room['res_status'];
                             echo "</td>";
+
+                            $guest=explode('/ ',$room['res_no_guest']);
+                            $adult=str_replace(' Adult','',$guest[0]);
+                            $child=str_replace(' Child','',$guest[1]);
                             ?>
                             <td width="13%">
                                 <ul class="collapse navbar-collapse nav navbar-nav top-menu">
@@ -76,10 +80,11 @@ if($this->session->flashdata('failed')){
                                         <ul class="dropdown-menu" role="menu">
                                             <li><a href="<?=base_url('print_reg_form/'.$room['res_id']);?>" target="_blank">Registration Form</a></li>
                                             <li><a href="<?=base_url('print_voucher/'.$room['res_id']);?>" target="_blank">Reservation Voucher</a></li>
-                                            <li><a href="#">Check In</a></li>
-                                            <!-- <li class="divider"></li>
-                                            <li><a href="#">Separated link</a></li>
+                                            <li><a href="<?=base_url('check_in/'.$room['res_id']);?>" onclick="return confirm('Do you wish to proceed for check in?');return false;">Check In</a></li>
                                             <li class="divider"></li>
+                                            <li><a href="#" class="editReservation" data-toggle="modal" data-target="#EditReservation" data-id="<?=$room['res_id'];?>_<?=$room['res_fullname'];?>_<?=$room['res_address'];?>_<?=$room['res_contactno'];?>_<?=$room['res_email'];?>_<?=$room['res_nationality'];?>_<?=$room['res_date_arrive'];?>_<?=$room['res_date_depart'];?>_<?=$adult;?>_<?=$child;?>_<?=$room['res_source'];?>_<?=$room['res_downpayment'];?>_<?=$room['res_mode_payment'];?>">Edit</a></li>
+                                            <li><a href="<?=base_url('cancel_reservation/'.$room['res_id']);?>" onclick="return confirm('Do you wish to cancel this reservation?'); return false;">Cancel</a></li>
+                                            <!-- <li class="divider"></li>
                                             <li><a href="#">One more separated link</a></li> -->
                                         </ul>
                                     </li>                                    
@@ -123,7 +128,11 @@ if($this->session->flashdata('failed')){
             <tbody>
                 <?php
                     foreach($checkedin as $room){                        
-                       
+                       if($room['res_date_depart']==date('Y-m-d')){
+                        $status="<span class='blink_text'>For Checkout</span>";
+                       }else{
+                        $status="Checked In";
+                       }
                         echo "<tr>";                            
                             echo "<td>$room[res_id]</td>";                            
                             echo "<td>$room[res_fullname]</td>";                                                        
@@ -140,11 +149,11 @@ if($this->session->flashdata('failed')){
                                 echo $room['res_no_guest'];
                             echo "</td>";
                             echo "<td>";
-                                echo $room['res_status'];
+                                echo $status;
                             echo "</td>";
                             ?>
                             <td width="13%">
-                            
+                                <a href="<?=base_url('reservation_details/'.$room['res_id']);?>" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-search"></i> View</a>
                             </td>
                             <?php
                         echo "</tr>";

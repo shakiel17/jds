@@ -332,5 +332,50 @@ date_default_timezone_set('Asia/Manila');
             }
             redirect(base_url('manage_housekeeping'));
         }
+        public function update_reservation(){
+            $date=$this->input->post('arrival_date');
+            $save=$this->Reservation_model->update_reservation();
+            if($save){
+                $this->session->set_flashdata('success','Reservation details successfully updated!');                   
+            }else{
+                $this->session->set_flashdata('failed','Unable to update reservation details!');                
+            }
+            redirect(base_url('manage_reservation'));
+        }
+        public function cancel_reservation($id){
+            $save=$this->Reservation_model->cancel_reservation($id);
+            if($save){
+                $this->session->set_flashdata('success','Reservation successfull cancelled!');
+            }else{
+                $this->session->set_flashdata('failed','Unable to cancel reservation!');
+            }
+            redirect(base_url('manage_reservation'));
+        }
+        public function check_in($id){
+            $save=$this->Reservation_model->check_in($id);
+            if($save){
+                $this->session->set_flashdata('success','Checked in successfully!');
+            }else{
+                $this->session->set_flashdata('failed','Unable to check in!');
+            }
+            redirect(base_url('manage_reservation'));
+        }
+        public function reservation_details($id){
+            $page = "reservation_details";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}            
+            $data['reserve'] = $this->Reservation_model->getSingleReservation($id);    
+            $data['charges'] = $this->Reservation_model->getAllCharges($id);
+            $data['refno'] = $id;
+            $this->load->view('includes/header'); 
+            $this->load->view('includes/navbar');           
+            $this->load->view('includes/sidebar');            
+            $this->load->view('pages/'.$page,$data);    
+            $this->load->view('includes/modal');     
+            $this->load->view('includes/footer');               
+        }
 }
 ?>

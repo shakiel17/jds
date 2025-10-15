@@ -91,5 +91,50 @@
                 return false;
             }
         }
+        public function update_reservation(){
+            $refno=$this->input->post('id');            
+            $fullname=$this->input->post('fullname');
+            $address=$this->input->post('address');
+            $contactno=$this->input->post('contactno');
+            $email=$this->input->post('email');
+            $nationality=$this->input->post('nationality');
+            $arrival_date=$this->input->post('arrival_date');
+            $departure_date=$this->input->post('departure_date');
+            $adult=$this->input->post('adult');
+            $child=$this->input->post('child');
+            $no_guest=$adult." Adult/ ".$child." Child";
+            $source=$this->input->post('source');
+            $downpayment=$this->input->post('downpayment');
+            $paymentmode=$this->input->post('paymentmode');
+            $date=date('Y-m-d');
+            $time=date('H:i:s');            
+            $loginuser=$this->session->fullname;
+            $result=$this->db->query("UPDATE reservation SET res_fullname='$fullname',res_address='$address',res_contactno='$contactno',res_email='$email',res_nationality='$nationality',res_date_arrive='$arrival_date',res_time_arrive='$arrival_time',res_date_depart='$departure_date',res_time_depart='$departure_time',res_no_guest='$no_guest',res_downpayment='$downpayment',res_status='booked',res_user='$loginuser',res_source='$source',res_mode_payment='$paymentmode' WHERE res_id='$refno'");
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function cancel_reservation($id){
+            $result=$this->db->query("UPDATE reservation SET res_status='cancelled' WHERE res_id='$id'");
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function check_in($id){
+            $result=$this->db->query("UPDATE reservation SET res_status='checkedin' WHERE res_id='$id'");
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function getAllCharges($id){
+            $result=$this->db->query("SELECT * FROM charges WHERE res_id='$id' ORDER BY datearray DESC");
+            return $result->result_array();
+        }
     }
 ?>

@@ -37,6 +37,36 @@
     <!-- The fav icon -->
     <link rel="shortcut icon" href="<?=base_url('design/img/jdslogo.jpg');?>">
 
+    <style>
+        .blink_text
+        {
+            animation:1s blinker linear infinite;
+            -webkit-animation:1s blinker linear infinite;
+            -moz-animation:1s blinker linear infinite;
+            color: red;
+        }
+
+        @-moz-keyframes blinker
+        {  
+            0% { opacity: 1.0; }
+            50% { opacity: 0.0; }
+            100% { opacity: 1.0; }
+        }
+
+        @-webkit-keyframes blinker
+        {  
+            0% { opacity: 1.0; }
+            50% { opacity: 0.0; }
+            100% { opacity: 1.0; }
+        }
+
+        @keyframes blinker
+        {  
+            0% { opacity: 1.0; }
+            50% { opacity: 0.0; }
+            100% { opacity: 1.0; }
+        }
+    </style>
 </head>
 
 <body>

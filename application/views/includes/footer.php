@@ -116,6 +116,23 @@
         document.getElementById('room_status_type').innerHTML = id[1];
         document.getElementById('room_status').value = id[2];
     });
+    $('.editReservation').click(function(){
+        var data=$(this).data('id');
+        var id=data.split('_');        
+        document.getElementById('edit_book_id').value=id[0];
+        document.getElementById('edit_book_customer').value = id[1];
+        document.getElementById('edit_book_address').value = id[2];
+        document.getElementById('edit_book_contactno').value = id[3];
+        document.getElementById('edit_book_email').value = id[4];
+        document.getElementById('edit_book_nationality').value = id[5];
+        document.getElementById('edit_book_arrival_date').value = id[6];
+        document.getElementById('edit_book_depart_date').value = id[7];
+        document.getElementById('edit_book_adult').value = id[8];
+        document.getElementById('edit_book_child').value = id[9];
+        document.getElementById('edit_book_source').value = id[10];
+        document.getElementById('edit_book_downpayment').value = id[11];
+        document.getElementById('edit_book_paymentmode').value = id[12];
+    });
 </script>
 
 
