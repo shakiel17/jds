@@ -75,7 +75,7 @@ if($this->session->flashdata('failed')){
         <br>
         <div class="box-inner">
             <div class="box-header well">
-                <h2><i class="glyphicon glyphicon-shopping-cart"></i> Charges</h2>  
+                <h2><i class="glyphicon glyphicon-shopping-cart"></i> Charged Items</h2>  
                 <div style="float:right;">
                     <a href="#" class="btn btn-round btn-default addCharges" title="Add New Charges" data-toggle="modal" data-target="#AddCharges" data-id="<?=$refno;?>"><i class="glyphicon glyphicon-plus"></i> Add Charges</a>
                     <a href="#" class="btn btn-round btn-default requestFBS" title="Food Request" data-toggle="modal" data-target="#RequestFBS" data-id="<?=$refno;?>"><i class="glyphicon glyphicon-folder-close"></i> FBS Request</a>
@@ -104,7 +104,9 @@ if($this->session->flashdata('failed')){
                                 echo "<td>$item[description]</td>";
                                 echo "<td align='right'>".number_format($item['amount'],2)."</td>";
                                 ?>
-                                <td></td>
+                                <td>
+                                    <a href="#" class="btn btn-danger btn-sm deleteCharges" data-toggle="modal" data-target="#DeleteCharges" data-id="<?=$refno;?>_<?=$item['id'];?>"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+                                </td>
                                 <?php
                             echo "</tr>";
                             $x++;

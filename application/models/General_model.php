@@ -58,6 +58,7 @@ date_default_timezone_set('Asia/Manila');
             $password=$this->input->post('password');
             $fullname=$this->input->post('fullname');
             $department=$this->input->post('department');
+            $access=$this->input->post('access');
             $date=date('Y-m-d');
             $time=date('H:i:s');
             $check=$this->db->query("SELECT * FROM user WHERE `username`='$username' AND id <> '$id'");
@@ -65,9 +66,9 @@ date_default_timezone_set('Asia/Manila');
                 return false;
             }else{
                 if($id==""){
-                    $result=$this->db->query("INSERT INTO user(`username`,`password`,`fullname`,`dept`,datearray,timearray) VALUES('$username','$password','$fullname','$department','$date','$time')");
+                    $result=$this->db->query("INSERT INTO user(`username`,`password`,`fullname`,`dept`,datearray,timearray,Access) VALUES('$username','$password','$fullname','$department','$date','$time','$access')");
                 }else{
-                    $result=$this->db->query("UPDATE user SET `username`='$username',`password`='$password',fullname='$fullname',dept='$department' WHERE id='$id'");
+                    $result=$this->db->query("UPDATE user SET `username`='$username',`password`='$password',fullname='$fullname',dept='$department',Access='$access' WHERE id='$id'");
                 }
                 if($result){
                     return true;

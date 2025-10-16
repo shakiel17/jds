@@ -133,6 +133,16 @@
         document.getElementById('edit_book_downpayment').value = id[11];
         document.getElementById('edit_book_paymentmode').value = id[12];
     });
+     $('.addCharges').click(function(){
+        var id=$(this).data('id');
+        document.getElementById("charged_refno").value=id;
+    });
+    $('.deleteCharges').click(function(){
+        var data=$(this).data('id');
+        var id=data.split('_');        
+        document.getElementById('delete_charge_refno').value=id[0];
+        document.getElementById('delete_charge_id').value = id[1];        
+    });
 </script>
 
 

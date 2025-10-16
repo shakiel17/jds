@@ -73,6 +73,10 @@
                     <input type="password" name="password" class="form-control" required id="user_password">
                     <input type="checkbox" onclick="user_password.type =  checked ? 'text' : 'password'"> Show Password
                 </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Access</label>
+                    <input type="text" name="access" class="form-control" value="0" required id="user_access">
+                </div>
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
@@ -584,6 +588,73 @@
                         <option value="gcash">GCash</option>
                         <option value="credit">Debit/Credit Payment</option>
                     </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="AddCharges" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('save_charges');?>" method="POST"> 
+                <input type="hidden" name="refno" id="charged_refno">               
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Add Charges</h3>
+            </div>
+            <div class="modal-body">                                                
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Description</label>
+                    <input list="chargedesc" name="description" id="browser" class="form-control" autocomplete="off" required>
+                    <?php
+                    $charges=$this->Reservation_model->getAllChargesItem();
+                    ?>
+                    <datalist id="chargedesc">
+                        <?php
+                        foreach($charges as $cus){
+                            echo "<option value='$cus[description]'>";
+                        }
+                        ?>
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Amount</label>
+                    <input type="text" class="form-control" name="amount" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DeleteCharges" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('delete_charges');?>" method="POST" enctype="multipart/form-data"> 
+                <input type="hidden" name="refno" id="delete_charge_refno">               
+                <input type="hidden" name="id" id="delete_charge_id">               
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Delete Charges?</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Username</label>
+                    <input type="text" name="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Password</label>
+                    <input type="password" name="password" class="form-control" required>
                 </div>
             </div>
             <div class="modal-footer">

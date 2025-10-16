@@ -133,8 +133,48 @@
             }
         }
         public function getAllCharges($id){
-            $result=$this->db->query("SELECT * FROM charges WHERE res_id='$id' ORDER BY datearray DESC");
+            $result=$this->db->query("SELECT * FROM charged_item WHERE res_id='$id' ORDER BY datearray DESC");
             return $result->result_array();
+        }
+        public function getAllChargesItem(){
+            $result=$this->db->query("SELECT * FROM charges GROUP BY `description`");
+            return $result->result_array();
+        }
+        public function save_charges(){
+            $refno=$this->input->post('refno');
+            $description=$this->input->post('description');
+            $amount=$this->input->post('amount');
+            $date=date('Y-m-d');
+            $time=date('H:i:s');
+            $result=$this->db->query("INSERT INTO charged_item SET res_id='$refno',`description`='$description',amount='$amount',datearray='$date',timearray='$time'");
+            $check=$this->db->query("SELECT * FROM charges WHERE `description` = '$description'");
+            if($check->num_rows() > 0){
+                
+            }else{
+                $this->db->query("INSERT INTO charges SET `description`='$description'");
+            }
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function checkUser($username,$password){
+            $result=$this->db->query("SELECT * FROM user WHERE username='$username' AND `password`='$password' AND Access='1'");
+            if($result->num_rows()>0){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function delete_charges(){            
+            $id=$this->input->post('id');            
+            $result=$this->db->query("DELETE FROM charged_item WHERE id='$id'");
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
         }
     }
 ?>

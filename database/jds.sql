@@ -42,6 +42,34 @@ INSERT INTO `admin` VALUES (1,'admin','1234','Administrator');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `charged_item`
+--
+
+DROP TABLE IF EXISTS `charged_item`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `charged_item` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `res_id` varchar(100) DEFAULT NULL,
+  `description` text,
+  `amount` double DEFAULT NULL,
+  `datearray` date DEFAULT NULL,
+  `timearray` time DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `charged_item`
+--
+
+LOCK TABLES `charged_item` WRITE;
+/*!40000 ALTER TABLE `charged_item` DISABLE KEYS */;
+INSERT INTO `charged_item` VALUES (2,'20251013230009','Excess Person',200,'2025-10-16','11:01:45');
+/*!40000 ALTER TABLE `charged_item` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `charges`
 --
 
@@ -50,13 +78,9 @@ DROP TABLE IF EXISTS `charges`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `charges` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `res_id` varchar(100) DEFAULT NULL,
-  `description` text,
-  `amount` double DEFAULT NULL,
-  `datearray` date DEFAULT NULL,
-  `timearray` time DEFAULT NULL,
+  `description` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,6 +89,7 @@ CREATE TABLE `charges` (
 
 LOCK TABLES `charges` WRITE;
 /*!40000 ALTER TABLE `charges` DISABLE KEYS */;
+INSERT INTO `charges` VALUES (1,'Excess person');
 /*!40000 ALTER TABLE `charges` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -327,6 +352,7 @@ CREATE TABLE `stocks` (
   `quantity` int DEFAULT NULL,
   `sellingprice` double DEFAULT NULL,
   `dept` varchar(100) DEFAULT NULL,
+  `category` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -379,6 +405,7 @@ CREATE TABLE `user` (
   `dept` varchar(100) DEFAULT NULL,
   `datearray` date DEFAULT NULL,
   `timearray` time DEFAULT NULL,
+  `Access` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -389,7 +416,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'shakiel17','1234','Eczekiel Aboy','FRONT OFFICE','2025-10-12','23:03:23');
+INSERT INTO `user` VALUES (1,'shakiel17','1234','Eczekiel Aboy','FRONT OFFICE','2025-10-12','23:03:23',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -402,4 +429,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-15 15:11:59
+-- Dump completed on 2025-10-16 11:02:30

@@ -26,7 +26,7 @@
                                 <li><a href="<?=base_url('manage_department');?>">Department</a></li>
                                 <li><a href="<?=base_url('manage_stocks');?>">Stocks</a></li>
                                 <li><a href="<?=base_url('manage_users');?>">Users</a></li>
-                                <li><a href="<?=base_url('manage_info');?>">Company Info</a></li>
+                                <li><a href="<?=base_url('manage_info');?>">Company Info</a></li>                                
                             </ul>
                         </li>                        
                     </ul>                    

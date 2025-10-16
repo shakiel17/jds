@@ -377,5 +377,32 @@ date_default_timezone_set('Asia/Manila');
             $this->load->view('includes/modal');     
             $this->load->view('includes/footer');               
         }
+        public function save_charges(){
+            $refno=$this->input->post('refno');
+            $save=$this->Reservation_model->save_charges();
+            if($save){
+                $this->session->set_flashdata('success','Item successfully charged!');                   
+            }else{
+                $this->session->set_flashdata('failed','Unable to charge item!');                
+            }
+            redirect(base_url('reservation_details/'.$refno));
+        }
+        public function delete_charges(){
+            $refno=$this->input->post('refno');
+            $username=$this->input->post('username');
+            $password=$this->input->post('password');
+            $check=$this->Reservation_model->checkUser($username,$password);
+            if($check){
+                $save=$this->Reservation_model->delete_charges();
+                if($save){
+                    $this->session->set_flashdata('success','Charged item successfully deleted!');                   
+                }else{
+                    $this->session->set_flashdata('failed','Unable to delete charged item!');                
+                }
+            }else{
+                $this->session->set_flashdata('failed','You are not authorized!');                
+            }            
+            redirect(base_url('reservation_details/'.$refno));
+        }
 }
 ?>
