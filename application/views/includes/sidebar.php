@@ -16,7 +16,12 @@
                         </li>
                         <li><a class="ajax-link" href="<?=base_url('manage_housekeeping');?>"><i class="glyphicon glyphicon-tasks"></i><span> Housekeeping</span></a>
                         </li>
-                        <li><a class="ajax-link" href="<?=base_url('point_of_sale');?>"><i class="glyphicon glyphicon-shopping-cart"></i><span> Point of Sale</span></a>
+                        <li class="accordion">
+                             <a href="#"><i class="glyphicon glyphicon-shopping-cart"></i><span> Food and Beverages</span></a>
+                             <ul class="nav nav-pills nav-stacked">
+                                <li><a href="<?=base_url('point_of_sale');?>">Point of Sales</a></li>
+                                <li><a href="<?=base_url('manage_stock_quantity');?>">Stock Quantity</a></li>                                
+                            </ul>
                         </li>
                         <li class="accordion">
                             <a href="#"><i class="glyphicon glyphicon-cog"></i><span> Settings</span></a>

@@ -404,5 +404,89 @@ date_default_timezone_set('Asia/Manila');
             }            
             redirect(base_url('reservation_details/'.$refno));
         }
+
+        public function manage_stocks(){
+            $page = "manage_stocks";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $data['stocks'] = $this->Sales_model->getAllStocks();
+            $this->load->view('includes/header'); 
+            $this->load->view('includes/navbar');           
+            $this->load->view('includes/sidebar');            
+            $this->load->view('pages/'.$page,$data);    
+            $this->load->view('includes/modal');     
+            $this->load->view('includes/footer');               
+        }
+        public function save_stocks(){
+            $refno=$this->input->post('refno');
+            $save=$this->Sales_model->save_stocks();
+            if($save){
+                $this->session->set_flashdata('success','Stock details successfully saved!');                   
+            }else{
+                $this->session->set_flashdata('failed','Unable to save stock details!');                
+            }
+            redirect(base_url('manage_stocks'));
+        }
+        public function delete_stocks($code){
+            $refno=$this->input->post('refno');
+            $save=$this->Sales_model->delete_stocks($code);
+            if($save){
+                $this->session->set_flashdata('success','Stock details successfully deleted!');                   
+            }else{
+                $this->session->set_flashdata('failed','Unable to delete stock details!');                
+            }
+            redirect(base_url('manage_stocks'));
+        }
+        public function manage_stock_quantity(){
+            $page = "manage_stock_quantity";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $data['stocks'] = $this->Sales_model->getAllStocks();
+            $this->load->view('includes/header'); 
+            $this->load->view('includes/navbar');           
+            $this->load->view('includes/sidebar');            
+            $this->load->view('pages/'.$page,$data);    
+            $this->load->view('includes/modal');     
+            $this->load->view('includes/footer');               
+        }
+        public function add_stock_quantity(){            
+            $save=$this->Sales_model->add_stock_quantity();
+            if($save){
+                $this->session->set_flashdata('success','Stock quantity details successfully added!');                   
+            }else{
+                $this->session->set_flashdata('failed','Unable to add stock quantity details!');                
+            }
+            redirect(base_url('manage_stock_quantity'));
+        }
+        public function save_stock_image(){
+            $save=$this->Sales_model->save_stock_image();
+            if($save){
+                $this->session->set_flashdata('success','Stock Picture successfull updated!');
+            }else{
+                $this->session->set_flashdata('failed','Unable to update stock picture!');
+            }
+            redirect(base_url('manage_stocks'));
+        }
+        public function point_of_sale(){
+            $page = "point_of_sale";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $data['category'] = $this->Sales_model->getAllStocksByCategory();
+            $this->load->view('includes/header'); 
+            $this->load->view('includes/navbar');           
+            $this->load->view('includes/sidebar');            
+            $this->load->view('pages/'.$page,$data);    
+            $this->load->view('includes/modal');     
+            $this->load->view('includes/footer');               
+        }
 }
 ?>

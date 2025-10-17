@@ -665,3 +665,116 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="ManageStocks" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('save_stocks');?>" method="POST" enctype="multipart/form-data"> 
+                <input type="hidden" name="code" id="stock_code">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Manage Stocks</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Description</label>
+                    <input type="text" name="description" class="form-control" required id="stock_description">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Quantity</label>
+                    <input type="text" name="quantity" class="form-control" required id="stock_quantity">
+                </div>                
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Selling Price</label>
+                    <input type="text" name="sellingprice" class="form-control" required id="stock_sellingprice">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Department</label>
+                    <input list="department" name="department" id="stock_department" class="form-control" autocomplete="off" required>
+                    <?php
+                    $charges=$this->General_model->getAllDepartment();
+                    ?>
+                    <datalist id="department">
+                        <?php
+                        foreach($charges as $cus){
+                            echo "<option value='$cus[description]'>";
+                        }
+                        ?>
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Category</label>
+                    <input list="category" name="category" id="stock_category" class="form-control" autocomplete="off" required>
+                    <?php
+                    $charges=$this->Sales_model->getAllCategory();
+                    ?>
+                    <datalist id="category">
+                        <?php
+                        foreach($charges as $cus){
+                            echo "<option value='$cus[category]'>";
+                        }
+                        ?>
+                    </datalist>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="AddStockQty" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('add_stock_quantity');?>" method="POST" enctype="multipart/form-data"> 
+                <input type="hidden" name="code" id="add_stock_code">
+                <input type="hidden" name="refno" id="add_stock_refno">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Add Quantity</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Item Description</label>
+                    <p style="font-size:20px;" id="add_stock_description"></p>
+                </div>                
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Quantity</label>
+                    <input type="text" name="quantity" class="form-control" required>
+                </div>                
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ManageStockImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('save_stock_image');?>" method="POST" enctype="multipart/form-data"> 
+                <input type="hidden" name="code" id="stock_image_code">               
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Manage Stock Image</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Stock Image</label>
+                    <input type="file" name="file" class="form-control" required accept="image/*">
+                </div>                                
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

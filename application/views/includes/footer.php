@@ -143,6 +143,35 @@
         document.getElementById('delete_charge_refno').value=id[0];
         document.getElementById('delete_charge_id').value = id[1];        
     });
+    $('.editStocks').click(function(){
+        var data=$(this).data('id');
+        var id=data.split('_');        
+        document.getElementById('stock_code').value=id[0];
+        document.getElementById('stock_description').value = id[1];        
+        document.getElementById('stock_quantity').value = id[2];        
+        document.getElementById('stock_sellingprice').value = id[3];        
+        document.getElementById('stock_department').value = id[4];        
+        document.getElementById('stock_category').value = id[5];        
+    });
+    $('.addStocks').click(function(){      
+        document.getElementById('stock_code').value='';
+        document.getElementById('stock_description').value = '';        
+        document.getElementById('stock_quantity').value = '';        
+        document.getElementById('stock_sellingprice').value = '';        
+        document.getElementById('stock_dept').value = '';        
+        document.getElementById('stock_category').value = '';        
+    });
+    $('.addStockQty').click(function(){
+        var data=$(this).data('id');
+        var id=data.split('_');        
+        document.getElementById('add_stock_code').value=id[0];
+        document.getElementById('add_stock_refno').value = id[1];        
+        document.getElementById('add_stock_description').innerHTML = id[2];
+    });
+    $('.addStockImage').click(function(){
+        var id=$(this).data('id');
+        document.getElementById("stock_image_code").value=id;
+    });
 </script>
 
 

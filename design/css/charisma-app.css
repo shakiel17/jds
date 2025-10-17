@@ -245,7 +245,7 @@ ul.dashboard-list li a span {
 }
 
 .thumbnails > li {
-    display: inline-block;
+    display: block;
     margin-left: 15px;
 }
 
