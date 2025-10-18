@@ -112,5 +112,121 @@ date_default_timezone_set('Asia/Manila');
             }
             return $result->result_array();
         }
+        public function getAllPunchedItems($refno){
+            $result=$this->db->query("SELECT so.*,s.description FROM stock_ordered so INNER JOIN stocks s ON s.code=so.code WHERE so.trans_id='$refno'");
+            return $result->result_array();
+        }
+        public function cancel_transaction($refno){
+            $result=$this->db->query("DELETE FROM stock_ordered WHERE trans_id='$refno'");
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function add_item($code,$refno){
+            $query=$this->db->query("SELECT * FROM stocks WHERE code='$code'");
+            $item=$query->row_array();
+
+            $check=$this->db->query("SELECT * FROM stock_ordered WHERE trans_id='$refno' AND code='$code'");
+            if($check->num_rows()>0){
+                $row=$check->row_array();
+                $newqty=$row['quantity']+1;
+                if($newqty <= $item['quantity']){
+                    $result=$this->db->query("UPDATE stock_ordered SET quantity='$newqty' WHERE trans_id='$refno' AND code='$code'");
+                }
+            }else{
+                $result=$this->db->query("INSERT INTO stock_ordered SET trans_id='$refno',code='$code',quantity='1',sellingprice='$item[sellingprice]',discount='0'");
+            }
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function change_qty(){
+            $id=$this->input->post('id');
+            $quantity=$this->input->post('quantity');
+            $query=$this->db->query("SELECT * FROM stock_ordered WHERE id='$id'");
+            $row=$query->row_array();
+            $qry=$this->db->query("SELECT * FROM stocks WHERE code='$row[code]'");
+            $res=$qry->row_array();
+            $soh=$res['quantity'];
+            if($quantity <= $soh){
+                $result=$this->db->query("UPDATE stock_ordered SET quantity='$quantity' WHERE id='$id'");   
+            }
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function remove_order($id){
+            $result=$this->db->query("DELETE FROM stock_ordered WHERE id='$id'");
+            return true;
+        }
+        public function add_single_discount(){
+            $id=$this->input->post('id');
+            $discount=$this->input->post('discount');
+            $type=$this->input->post('type');
+            $query=$this->db->query("SELECT * FROM stock_ordered WHERE id='$id'");
+            $row=$query->row_array();
+
+            if($type=="percent"){
+                $discount = ($row['sellingprice'] * ($discount/100))*$row['quantity'];
+            }
+            $result=$this->db->query("UPDATE stock_ordered SET discount='$discount' WHERE id='$id'");
+            return true;
+        }
+        public function add_discount(){
+            $id=$this->input->post('refno');
+            $discount=$this->input->post('discount');
+            $query=$this->db->query("SELECT * FROM stock_ordered WHERE trans_id='$id'");
+            $items=$query->result_array();
+
+            foreach($items as $row){
+                $disc = ($row['sellingprice'] * ($discount/100)) * $row['quantity'];
+                $result=$this->db->query("UPDATE stock_ordered SET discount='$disc' WHERE id='$row[id]'");
+            }
+            return true;
+        }
+        public function remove_all_discount($refno){
+            $result=$this->db->query("UPDATE stock_ordered SET discount='0' WHERE trans_id='$refno'");
+            return true;
+        }
+        public function tendered($refno){
+            $result=$this->db->query("SELECT * FROM tendered WHERE trans_id='$refno'");
+            if($result->num_rows()>0){
+                return $result->row_array();
+            }else{
+                return false;
+            }
+        }
+        public function save_payment(){
+            $refno=$this->input->post('refno');
+            $amount=$this->input->post('amount');
+            $type=$this->input->post('type');
+            $date=date('Y-m-d');
+            $time=date('H:i:s');
+            $query=$this->db->query("SELECT * FROM stock_ordered WHERE trans_id='$refno'");
+            $items=$query->result_array();
+            foreach($items as $item){
+                $result=$this->db->query("INSERT INTO stock_out SET trans_id='$refno',code='$item[code]',quantity='$item[quantity]',sellingprice='$item[sellingprice]',discount='$item[discount]',datearray='$date',timearray='$time',trantype='$type',`status`='paid'");
+                $query=$this->db->query("SELECT * FROM stocks WHERE code='$item[code]'");
+                $row=$query->row_array();
+                $oldqty=$row['quantity'];
+                $newqty=$oldqty-$item['quantity'];
+                $this->db->query("UPDATE stocks SET quantity='$newqty' WHERE code='$item[code]'");
+            }
+            if($result){
+                $this->db->query("INSERT INTO tendered SET trans_id='$refno',amount='$amount'");
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function emptyOrder(){
+            $result=$this->db->query("TRUNCATE stock_ordered");
+        }
     }
 ?>

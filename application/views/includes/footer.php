@@ -172,6 +172,34 @@
         var id=$(this).data('id');
         document.getElementById("stock_image_code").value=id;
     });
+    $('.changeQty').click(function(){
+        var data=$(this).data('id');
+        var id=data.split('_');
+        document.getElementById("change_qty_id").value=id[0];
+        document.getElementById("change_qty_num").value=id[1];
+    });
+    $('.removeOrder').click(function(){
+        var id=$(this).data('id');
+        document.getElementById("remove_order_id").value=id;
+        document.getElementById('remove_username').value='';
+        document.getElementById('remove_password').value='';
+    });
+    $('.addSingleDiscount').click(function(){
+        var data=$(this).data('id');
+        var id=data.split('_');
+        document.getElementById("single_disc_id").value=id[0];
+        document.getElementById("single_disc_amount").value=id[1]; 
+    });
+    $('.addDiscount').click(function(){
+        var id=$(this).data('id');
+        document.getElementById("add_disc_refno").value=id;
+        document.getElementById('add_disc_amount').value='';
+    });
+    $('.proceedPayment').click(function(){
+        var id=$(this).data('id');
+        document.getElementById("payment_refno").value=id;
+        document.getElementById('payment_amount').value='';
+    });
 </script>
 
 

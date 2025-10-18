@@ -778,3 +778,138 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="ChangeQty" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('change_qty');?>" method="POST" enctype="multipart/form-data"> 
+                <input type="hidden" name="id" id="change_qty_id">               
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Change Quantity</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Quantity</label>
+                    <input type="text" name="quantity" class="form-control" required id="change_qty_num" autocomplete="off">
+                </div>                                
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="RemoveOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('remove_order');?>" method="POST" enctype="multipart/form-data"> 
+                <input type="hidden" name="id" id="remove_order_id">                              
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Remove Item?</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Username</label>
+                    <input type="text" name="username" class="form-control" required id="remove_username">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Password</label>
+                    <input type="password" name="password" class="form-control" required id="remove_password">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="AddSingleDiscount" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('add_single_discount');?>" method="POST" enctype="multipart/form-data"> 
+                <input type="hidden" name="id" id="single_disc_id">               
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Manage Discount</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Discount</label>
+                    <input type="text" name="discount" class="form-control" required id="single_disc_amount" autocomplete="off">
+                </div>  
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Discount Type</label><br>
+                    <input type="radio" name="type" required value="percent"> Percentage
+                    <input type="radio" name="type" required value="amount"> Amount
+                </div>                               
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="AddDiscount" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('add_discount');?>" method="POST" enctype="multipart/form-data"> 
+                <input type="hidden" name="refno" id="add_disc_refno">               
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Manage Discount</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Discount (in %)</label>
+                    <input type="text" name="discount" class="form-control" required id="add_disc_amount" autocomplete="off">
+                </div>                               
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ProceedPayment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('save_payment');?>" method="POST" enctype="multipart/form-data"> 
+                <input type="hidden" name="refno" id="payment_refno">               
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Amount Tendered</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Amount</label>
+                    <input type="text" name="amount" class="form-control" id="payment_amount" required autocomplete="off">
+                </div> 
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Payment Type</label><br>
+                    <input type="radio" name="type" required value="cash" checked> Cash
+                    <input type="radio" name="type" required value="gcash"> GCash
+                    <input type="radio" name="type" required value="card"> Card
+                </div>                              
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

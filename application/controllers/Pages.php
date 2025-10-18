@@ -480,13 +480,94 @@ date_default_timezone_set('Asia/Manila');
             }                        
             if($this->session->user_login){}
             else{redirect(base_url());}
+            if($this->session->refno){
+                $refno=$this->session->refno;
+            }else{
+                $refno="";
+            }
             $data['category'] = $this->Sales_model->getAllStocksByCategory();
+            $data['refno'] = $refno;
+            $data['tender'] = $this->Sales_model->tendered($refno);
             $this->load->view('includes/header'); 
             $this->load->view('includes/navbar');           
             $this->load->view('includes/sidebar');            
             $this->load->view('pages/'.$page,$data);    
             $this->load->view('includes/modal');     
             $this->load->view('includes/footer');               
+        }
+        public function new_transaction(){
+            $refno=date('YmdHis');
+            $this->session->set_userdata('refno',$refno);
+            $this->Sales_model->emptyOrder();
+            redirect(base_url('point_of_sale'));
+        }
+        public function cancel_transaction($refno){
+            $this->Sales_model->cancel_transaction($refno);
+            $this->session->unset_userdata('refno');
+            redirect(base_url('point_of_sale'));
+        }
+        public function add_item($code){
+            if($this->session->refno){
+                $refno=$this->session->refno;
+                $add=$this->Sales_model->add_item($code,$refno);
+                echo "<script>";
+                if($add){
+                    
+                }else{
+                    echo "alert('Insufficient quantity!');";
+                }
+                    echo "window.location='".base_url('point_of_sale')."';";
+                echo "</script>";   
+            }
+
+           
+        }
+        public function change_qty(){
+            $result=$this->Sales_model->change_qty();
+            echo "<script>";
+            if($result){
+                
+            }else{
+                echo "alert('Insufficient quantity!');";
+            }
+                echo "window.location='".base_url('point_of_sale')."';";
+            echo "</script>";
+        }
+
+        public function remove_order(){
+            $id=$this->input->post('id');
+            $username=$this->input->post('username');
+            $password=$this->input->post('password');
+            $check=$this->Reservation_model->checkUser($username,$password);
+            if($check){
+                $this->Sales_model->remove_order($id); 
+            }else{
+
+            }            
+            redirect(base_url('point_of_sale'));
+        }
+        public function add_single_discount(){
+            $this->Sales_model->add_single_discount();
+            redirect(base_url('point_of_sale'));
+        }
+        public function add_discount(){
+            $this->Sales_model->add_discount();
+            redirect(base_url('point_of_sale'));
+        }
+        public function remove_all_discount($refno){
+            $this->Sales_model->remove_all_discount($refno);
+            redirect(base_url('point_of_sale'));
+        }
+        public function save_payment(){
+            $save=$this->Sales_model->save_payment();
+            echo "<script>";
+            if($save){
+                echo "alert('Payment successfully saved!');";
+            }else{
+                echo "alert('Amount tendered must be greater than or equal to the amount to be paid!');";
+            }
+                echo "window.location='".base_url('point_of_sale')."';";
+            echo "</script>";
         }
 }
 ?>
