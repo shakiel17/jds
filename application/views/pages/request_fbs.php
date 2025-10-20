@@ -9,7 +9,10 @@
             <a href="<?=base_url('manage_reservation');?>">Reservation</a>
         </li>        
         <li>
-           Reservation Details
+          <a href="<?=base_url('reservation_details/'.$refno);?>">Reservation Details</a>
+        </li>
+        <li>
+          Request FBS
         </li>
     </ul>
 </div>
@@ -73,24 +76,39 @@ if($this->session->flashdata('failed')){
             </div>
         </div>
         <br>
+        <?php
+        $final=0;
+        foreach($charges as $row){
+            if($row['trans_id']==""){
+                $final++;
+            }
+        }        
+        ?>
         <div class="box-inner">
             <div class="box-header well">
-                <h2><i class="glyphicon glyphicon-shopping-cart"></i> Charged Items</h2>  
+                <h2><i class="glyphicon glyphicon-shopping-cart"></i> Requested Items</h2>  
                 <div style="float:right;">
-                    <a href="#" class="btn btn-round btn-default addCharges" title="Add New Charges" data-toggle="modal" data-target="#AddCharges" data-id="<?=$refno;?>"><i class="glyphicon glyphicon-plus"></i> Add Charges</a>
-                    <a href="<?=base_url('request_fbs/'.$refno);?>" class="btn btn-round btn-default requestFBS" title="Food Request"><i class="glyphicon glyphicon-folder-close"></i> FBS Request</a>
-                    <a href="#" class="btn btn-round btn-default billPayment" title="Payment" data-toggle="modal" data-target="#BillPayment" data-id="<?=$refno;?>"><i class="glyphicon glyphicon-folder-open"></i> Payment</a>
-                    <a href="<?=base_url('print_bill/'.$refno);?>" class="btn btn-round btn-default" title="Print Billing Statement" target="_blank"><i class="glyphicon glyphicon-print"></i> Print Final Bill</a>                    
+                    <a href="#" class="btn btn-round btn-primary btn-sm addFBSCharges" title="Add New Charges" data-toggle="modal" data-target="#AddFBSCharges" data-id="<?=$refno;?>"><i class="glyphicon glyphicon-plus"></i> Add Item</a>
+                    <?php
+                    if($final > 0){
+                    ?>
+                    <a href="<?=base_url('finalize_order/'.$refno);?>" class="btn btn-round btn-warning btn-sm" onclick="return confirm('Do you wish to finalize order?'); return false;"><i class="glyphicon glyphicon-share"></i> Finalize Order</a>
+                    <?php
+                    }
+                    ?>
                 </div>              
             </div>
             <div class="box-content">
                 <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
                     <thead>
                         <tr>
-                            <th width="5%">#</th>
-                            <th width="15%" style="text-align:center;">Date/Time</th>
-                            <th>Description</th>                            
-                            <th width="25%" style="text-align:right;">Amount</th>
+                            <th style="text-align:center;" width="5%">#</th>
+                            <th style="text-align:center;" width="15%" style="text-align:center;">Date/Time</th>
+                            <th style="text-align:center;" width="12%">Transaction #</th>
+                            <th style="text-align:center;" width="30%">Description</th>                            
+                            <th style="text-align:center;" width="5%">Qty</th>
+                            <th style="text-align:center;" width="10%">Amount</th>
+                            <th style="text-align:center;" width="10%">Total</th>
                             <th width="10%" style="text-align:center;">Action</th>
                         </tr>
                     </thead>
@@ -98,15 +116,21 @@ if($this->session->flashdata('failed')){
                         <?php
                         $x=1;
                         foreach($charges as $item){
+                            if($item['trans_id'] == ""){
+                                $view="";
+                            }else{
+                                $view="style='display:none;'";
+                            }
                             echo "<tr>";
                                 echo "<td>$x.</td>";
-                                echo "<td>".date('m/d/Y',strtotime($item['datearray']))." / ".date('h:i A',strtotime($item['timearray']))."</td>";
+                                echo "<td>".date('m/d/Y',strtotime($item['datearray']))."  - ".date('h:i A',strtotime($item['timearray']))."</td>";
+                                echo "<td>$item[trans_id]</td>";
                                 echo "<td>$item[description]</td>";
-                                echo "<td align='right'>".number_format($item['amount'],2)."</td>";
+                                echo "<td style='text-align:center;'>$item[quantity]</td>";
+                                echo "<td style='text-align:right;'>".number_format($item['sellingprice'],2)."</td>";
+                                echo "<td style='text-align:right;'>".number_format($item['quantity']*$item['sellingprice'],2)."</td>";
                                 ?>
-                                <td>
-                                    <a href="#" class="btn btn-danger btn-sm deleteCharges" data-toggle="modal" data-target="#DeleteCharges" data-id="<?=$refno;?>_<?=$item['id'];?>"><i class="glyphicon glyphicon-trash"></i> Delete</a>
-                                </td>
+                                <td><a href="<?=base_url('remove_request_item/'.$item['id']."/".$refno);?>" onclick="return confirm('Do you wish to remove this item?');return false;" class="btn btn-danger btn-sm" <?=$view;?>><i class="glyphicon glyphicon-trash"></i> Remove</a></td>
                                 <?php
                             echo "</tr>";
                             $x++;

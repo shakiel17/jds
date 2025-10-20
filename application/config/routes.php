@@ -50,6 +50,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 #
+$route['remove_request_item/(:any)/(:any)'] = 'pages/remove_request_item/$1/$2';
+$route['save_room_charges'] = 'pages/save_room_charges';
+$route['request_fbs/(:any)'] = 'pages/request_fbs/$1';
+$route['print_order_slip/(:any)'] = 'pages/print_order_slip/$1';
+$route['track_invoice'] = 'pages/track_invoice';
+$route['print_receipt/(:any)'] = 'pages/print_receipt/$1';
 $route['save_payment'] = 'pages/save_payment';
 $route['remove_all_discount/(:any)'] = 'pages/remove_all_discount/$1';
 $route['add_discount'] = 'pages/add_discount';

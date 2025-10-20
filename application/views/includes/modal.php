@@ -895,6 +895,40 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
+                    <label for="exampleInputEmail1">Transaction Type</label>
+                    <select name="trantype" class="form-control" required>
+                        <option value="">Select Transaction Type</option>
+                        <option value="Dine in">Dine in</option>
+                        <option value="Take out">Take out</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Table No.</label>
+                    <select name="controlno" class="form-control" required>
+                        <option value="">Select No.</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="exampleInputEmail1">Amount</label>
                     <input type="text" name="amount" class="form-control" id="payment_amount" required autocomplete="off">
                 </div> 
@@ -904,6 +938,43 @@
                     <input type="radio" name="type" required value="gcash"> GCash
                     <input type="radio" name="type" required value="card"> Card
                 </div>                              
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="AddFBSCharges" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('save_room_charges');?>" method="POST" enctype="multipart/form-data"> 
+                <input type="hidden" name="id" id="request_id">
+                <input type="hidden" name="refno" id="request_refno">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Manage Item Request</h3>
+            </div>
+            <div class="modal-body">                                               
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Item Menu</label>
+                    <select name="code" class="form-control" required id="request_item">
+                        <option value="">Select Item</option>
+                        <?php
+                        $stocks=$this->Sales_model->getAllStocks();
+                        foreach($stocks as $item){
+                            echo "<option value='$item[code]'>$item[description] [P $item[sellingprice]] [QTY: $item[quantity]]</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Quantity</label>
+                    <input type="text" name="quantity" class="form-control" value="1" id="request_quantity">
+                </div>                                
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>

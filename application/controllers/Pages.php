@@ -569,5 +569,83 @@ date_default_timezone_set('Asia/Manila');
                 echo "window.location='".base_url('point_of_sale')."';";
             echo "</script>";
         }
+        public function print_receipt($id){
+            $page = "print_receipt";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $data['info'] = $this->General_model->getSettings();
+            $data['sales'] = $this->Sales_model->getSales($id);
+            $data['refno'] = $id;
+            $data['tendered'] = $this->Sales_model->tendered($id);
+            $this->load->view('pages/'.$page,$data);                           
+        }
+        public function track_invoice(){
+            $page = "track_invoice";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $date=date('Y-m-d');
+            $data['sales'] = $this->Sales_model->getAllSales($date);
+            $this->load->view('includes/header'); 
+            $this->load->view('includes/navbar');           
+            $this->load->view('includes/sidebar');            
+            $this->load->view('pages/'.$page,$data);    
+            $this->load->view('includes/modal');     
+            $this->load->view('includes/footer');               
+        }
+        public function print_order_slip($id){
+            $page = "print_order_slip";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $data['info'] = $this->General_model->getSettings();
+            $data['sales'] = $this->Sales_model->getSales($id);
+            $data['refno'] = $id;
+            $data['tendered'] = $this->Sales_model->tendered($id);
+            $this->load->view('pages/'.$page,$data);                           
+        }
+        public function request_fbs($id){
+            $page = "request_fbs";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}            
+            $data['reserve'] = $this->Reservation_model->getSingleReservation($id);    
+            $data['charges'] = $this->Sales_model->getAllRequestFBS($id);
+            $data['refno'] = $id;
+            $this->load->view('includes/header'); 
+            $this->load->view('includes/navbar');           
+            $this->load->view('includes/sidebar');            
+            $this->load->view('pages/'.$page,$data);    
+            $this->load->view('includes/modal');     
+            $this->load->view('includes/footer');               
+        }
+        public function save_room_charges(){
+            $refno=$this->input->post('refno');
+            $save=$this->Sales_model->save_room_charges();
+            if($save){
+                $this->session->set_flashdata('success','Item successfully added!');
+            }else{
+                $this->session->set_flashdata('failed','Unable to add item!');
+            }
+            redirect(base_url('request_fbs/'.$refno));
+        }
+        public function remove_request_item($id,$refno){
+                $save=$this->Sales_model->remove_request_item($id);
+                if($save){
+                    $this->session->set_flashdata('success','Requested item successfully removed!');                   
+                }else{
+                    $this->session->set_flashdata('failed','Unable to remove requested item!');                
+                }
+            redirect(base_url('request_fbs/'.$refno));
+        }
 }
 ?>

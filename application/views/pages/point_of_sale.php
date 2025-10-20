@@ -136,7 +136,9 @@
                             <a href="#" class="btn btn-round btn-primary btn-sm proceedPayment" <?=$proceed;?> data-toggle="modal" data-target="#ProceedPayment" data-id="<?=$refno;?>"><i
                                     class="glyphicon glyphicon-share"></i> Proceed</a>
                             <a href="<?=base_url('print_receipt/'.$refno);?>" class="btn btn-round btn-success btn-sm" <?=$print;?> target="_blank"><i
-                                    class="glyphicon glyphicon-share"></i> Print Receipt</a>
+                                    class="glyphicon glyphicon-print"></i> Print Receipt</a>
+                                    <a href="<?=base_url('print_order_slip/'.$refno);?>" class="btn btn-round btn-primary btn-sm" <?=$print;?> target="_blank"><i
+                                    class="glyphicon glyphicon-print"></i> Print Slip</a>
                             <a href="#" class="btn btn-round btn-warning btn-sm addDiscount" data-toggle="modal" data-target="#AddDiscount" data-id="<?=$refno;?>" <?=$discount;?>><i
                                     class="glyphicon glyphicon-plus"></i> Add Discount</a>
                             <a href="<?=base_url('remove_all_discount/'.$refno);?>" class="btn btn-round btn-info btn-sm" <?=$viewdisc;?> onclick="return confirm('Do you wish to remove all dicount?'); return false;"><i

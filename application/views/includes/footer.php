@@ -200,6 +200,21 @@
         document.getElementById("payment_refno").value=id;
         document.getElementById('payment_amount').value='';
     });
+    $('.addFBSCharges').click(function(){
+        var id=$(this).data('id');
+        document.getElementById("request_refno").value=id;
+        document.getElementById('request_id').value='';
+        document.getElementById('request_item').value='';
+        document.getElementById('request_quantity').value='1';
+    });
+     $('.editFBSCharges').click(function(){
+        var data=$(this).data('id');
+        var id=data.split('_');
+        document.getElementById("request_refno").value=id[1];
+        document.getElementById('request_id').value=id[0];
+        document.getElementById('request_item').value=id[2];
+        document.getElementById('request_quantity').value=id[3];
+    });
 </script>
 
 

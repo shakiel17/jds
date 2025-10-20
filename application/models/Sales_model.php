@@ -6,7 +6,7 @@ date_default_timezone_set('Asia/Manila');
         }
         public function getAllStocks(){
             $dept=$this->session->dept;
-            if($this->session->dept=="admin"){
+            if($this->session->dept=="admin" || $this->session->dept=="FRONT OFFICE"){
                 $result=$this->db->query("SELECT * FROM stocks ORDER BY `description` ASC");
             }else{
                 $result=$this->db->query("SELECT * FROM stocks WHERE dept='$dept' ORDER BY `description` ASC");
@@ -206,12 +206,15 @@ date_default_timezone_set('Asia/Manila');
             $refno=$this->input->post('refno');
             $amount=$this->input->post('amount');
             $type=$this->input->post('type');
+            $trantype=$this->input->post('trantype');
+            $controlno=$this->input->post('controlno');
             $date=date('Y-m-d');
             $time=date('H:i:s');
+            $fullname=$this->session->fullname;
             $query=$this->db->query("SELECT * FROM stock_ordered WHERE trans_id='$refno'");
             $items=$query->result_array();
             foreach($items as $item){
-                $result=$this->db->query("INSERT INTO stock_out SET trans_id='$refno',code='$item[code]',quantity='$item[quantity]',sellingprice='$item[sellingprice]',discount='$item[discount]',datearray='$date',timearray='$time',trantype='$type',`status`='paid'");
+                $result=$this->db->query("INSERT INTO stock_out SET trans_id='$refno',code='$item[code]',quantity='$item[quantity]',sellingprice='$item[sellingprice]',discount='$item[discount]',datearray='$date',timearray='$time',paymentmode='$type',`status`='paid',fullname='$fullname',control_no='$controlno',trantype='$trantype'");
                 $query=$this->db->query("SELECT * FROM stocks WHERE code='$item[code]'");
                 $row=$query->row_array();
                 $oldqty=$row['quantity'];
@@ -227,6 +230,49 @@ date_default_timezone_set('Asia/Manila');
         }
         public function emptyOrder(){
             $result=$this->db->query("TRUNCATE stock_ordered");
+        }
+        public function getSales($refno){
+            $result=$this->db->query("SELECT so.*,s.description,s.category FROM stock_out so INNER JOIN stocks s ON s.code=so.code WHERE so.trans_id='$refno'");
+            return $result->result_array();
+        }
+        public function getAllSales($date){
+            $result=$this->db->query("SELECT * FROM stock_out WHERE datearray='$date' GROUP BY trans_id ORDER BY id DESC");
+            return $result->result_array();
+        }
+        public function getAllRequestFBS($refno){
+            $result=$this->db->query("SELECT rc.*, s.description FROM room_charge rc INNER JOIN stocks s ON s.code=rc.code WHERE rc.res_id='$refno' ORDER BY id DESC");
+            return $result->result_array();
+        }
+        public function save_room_charges(){
+            $id=$this->input->post('id');
+            $refno=$this->input->post('refno');
+            $quantity=$this->input->post('quantity');
+            $code=$this->input->post('code');
+            $date=date('Y-m-d');
+            $time=date('H:i:s');
+            $fullname=$this->session->fullname;
+            $query=$this->db->query("SELECT * FROM stocks WHERE code='$code'");
+            $item=$query->row_array();
+            if($item['quantity'] >= $quantity){
+                if($id==""){
+                    $result=$this->db->query("INSERT INTO room_charge SET res_id='$refno',trans_id='',code='$code',quantity='$quantity',sellingprice='$item[sellingprice]',`status`='pending',datearray='$date',timearray='$time',fullname='$fullname'");
+                }else{
+                    $result=$this->db->query("UPDATE room_charge SET quantity='$quantity' WHERE id='$id'");
+                }
+            }            
+            if($result){                
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function remove_request_item($id){
+            $result=$this->db->query("DELETE FROM room_charge WHERE id='$id'");
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
         }
     }
 ?>

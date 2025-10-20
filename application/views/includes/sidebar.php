@@ -20,6 +20,8 @@
                              <a href="#"><i class="glyphicon glyphicon-shopping-cart"></i><span> Food and Beverages</span></a>
                              <ul class="nav nav-pills nav-stacked">
                                 <li><a href="<?=base_url('point_of_sale');?>">Point of Sales</a></li>
+                                <li><a href="<?=base_url('room_charges');?>">Room Charges</a></li>
+                                <li><a href="<?=base_url('track_invoice');?>">Track Invoice</a></li>
                                 <li><a href="<?=base_url('manage_stock_quantity');?>">Stock Quantity</a></li>                                
                             </ul>
                         </li>
