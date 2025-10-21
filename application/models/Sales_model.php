@@ -274,5 +274,22 @@ date_default_timezone_set('Asia/Manila');
                 return false;
             }
         }
+        public function finalize_order($id){
+            $refno="FBS".date('YmdHis');
+            $result=$this->db->query("UPDATE room_charge SET trans_id='$refno' WHERE res_id='$id' AND trans_id=''");
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function getAllRoomCharges(){
+            $result=$this->db->query("SELECT rc.*,r.res_fullname,rm.room_type,rm.room_color FROM room_charge rc INNER JOIN reservation r ON r.res_id=rc.res_id INNER JOIN room rm ON rm.id=r.res_room_id WHERE rc.status='pending' AND rc.trans_id <> '' GROUP BY rc.trans_id ORDER BY id DESC");
+            return $result->result_array();
+        }
+        public function getRoomCharges($refno){
+            $result=$this->db->query("SELECT rc.*,s.description FROM room_charge rc INNER JOIN stocks s ON s.code=rc.code WHERE rc.status='pending' AND rc.trans_id='$refno' ORDER BY rc.id DESC");
+            return $result->result_array();
+        }
     }
 ?>

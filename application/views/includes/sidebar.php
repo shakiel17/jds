@@ -16,11 +16,18 @@
                         </li>
                         <li><a class="ajax-link" href="<?=base_url('manage_housekeeping');?>"><i class="glyphicon glyphicon-tasks"></i><span> Housekeeping</span></a>
                         </li>
+                        <?php
+                            $charges=$this->Sales_model->getAllRoomCharges();
+                            $pen="";
+                            if(count($charges)>0){
+                                $pen="(".count($charges).")";
+                            }
+                        ?>
                         <li class="accordion">
-                             <a href="#"><i class="glyphicon glyphicon-shopping-cart"></i><span> Food and Beverages</span></a>
+                             <a href="#"><i class="glyphicon glyphicon-shopping-cart"></i><span> Food and Beverages <?=$pen;?></span></a>
                              <ul class="nav nav-pills nav-stacked">
                                 <li><a href="<?=base_url('point_of_sale');?>">Point of Sales</a></li>
-                                <li><a href="<?=base_url('room_charges');?>">Room Charges</a></li>
+                                <li><a href="<?=base_url('room_charges');?>">Room Charges <?=$pen;?></a></li>
                                 <li><a href="<?=base_url('track_invoice');?>">Track Invoice</a></li>
                                 <li><a href="<?=base_url('manage_stock_quantity');?>">Stock Quantity</a></li>                                
                             </ul>

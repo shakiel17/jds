@@ -6,7 +6,7 @@
             <a href="<?=base_url('main');?>">Home</a>
         </li>        
         <li>
-            Track Invoice
+            FBS Request
         </li>
     </ul>
 </div>
@@ -33,7 +33,7 @@ if($this->session->flashdata('failed')){
     <div class="box col-md-12">                            
         <div class="box-inner">            
             <div class="box-header well">
-                <h2><i class="glyphicon glyphicon-book"></i> Sales List</h2>                                
+                <h2><i class="glyphicon glyphicon-shopping-cart"></i> Request List</h2>                                
             </div>
             <div class="box-content">
                 <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
@@ -41,9 +41,9 @@ if($this->session->flashdata('failed')){
                     <tr>   
                         <th>No.</th>
                         <th>Refno</th>         
-                        <th>Date</th>
-                        <th>Time</th>                        
-                        <th>User</th>
+                        <th>Reservation ID</th>
+                        <th>Customer Name</th>                        
+                        <th>Room</th>
                         <th width="20%">Action</th>
                     </tr>
                     </thead>
@@ -54,13 +54,12 @@ if($this->session->flashdata('failed')){
                             echo "<tr>";
                                 echo "<td>$x.</td>";
                                 echo "<td>$item[trans_id]</td>";                           
-                                echo "<td>$item[datearray]</td>";                                
-                                echo "<td>$item[timearray]</td>";
-                                echo "<td>$item[fullname]</td>";
+                                echo "<td>$item[res_id]</td>";                                
+                                echo "<td>$item[res_fullname]</td>";
+                                echo "<td>$item[room_type] [$item[room_color]]</td>";
                                 ?>
                                 <td>
-                                    <a href="<?=base_url('print_receipt/'.$item['trans_id']);?>" class="btn btn-success btn-sm" target="_blank"><i class="glyphicon glyphicon-print"></i> Print Receipt</a>
-                                    <a href="<?=base_url('print_order_slip/'.$item['trans_id']);?>" class="btn btn-primary btn-sm" target="_blank"><i class="glyphicon glyphicon-print"></i> Print Slip</a>
+                                    <a href="<?=base_url('view_room_charges/'.$item['trans_id']."/".$item['res_id']."/".$item['res_fullname']);?>" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-eye-open"></i> View</a>
                                 </td>
                                 <?php
                             echo "</tr>";

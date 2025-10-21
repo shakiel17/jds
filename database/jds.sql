@@ -269,7 +269,7 @@ CREATE TABLE `room_charge` (
   `timearray` time DEFAULT NULL,
   `fullname` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -278,7 +278,7 @@ CREATE TABLE `room_charge` (
 
 LOCK TABLES `room_charge` WRITE;
 /*!40000 ALTER TABLE `room_charge` DISABLE KEYS */;
-INSERT INTO `room_charge` VALUES (2,'20251013230009','','20251017091513',2,145,'pending','2025-10-20','14:58:57','Administrator');
+INSERT INTO `room_charge` VALUES (2,'20251013230009','FBS20251021152245','20251017091513',2,145,'pending','2025-10-20','14:58:57','Administrator'),(3,'20251013230009','FBS20251021152245','20251017101012',1,20,'pending','2025-10-21','15:19:31','Administrator');
 /*!40000 ALTER TABLE `room_charge` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -498,4 +498,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-20 15:14:53
+-- Dump completed on 2025-10-21 16:01:16

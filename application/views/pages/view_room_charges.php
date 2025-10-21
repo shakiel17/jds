@@ -6,7 +6,10 @@
             <a href="<?=base_url('main');?>">Home</a>
         </li>        
         <li>
-            Track Invoice
+            <a href="<?=base_url('room_charges');?>">FBS Request</a>
+        </li>
+        <li>
+            FBS Request Details (<?=$reserve_id;?> | <?=$fullname;?>)
         </li>
     </ul>
 </div>
@@ -33,34 +36,36 @@ if($this->session->flashdata('failed')){
     <div class="box col-md-12">                            
         <div class="box-inner">            
             <div class="box-header well">
-                <h2><i class="glyphicon glyphicon-book"></i> Sales List</h2>                                
+                <h2><i class="glyphicon glyphicon-shopping-cart"></i> Requested Item List (<?=$refno;?>)</h2>                                
             </div>
             <div class="box-content">
                 <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
                     <thead>
                     <tr>   
-                        <th>No.</th>
-                        <th>Refno</th>         
-                        <th>Date</th>
-                        <th>Time</th>                        
-                        <th>User</th>
-                        <th width="20%">Action</th>
+                        <th style="text-align:center;">No.</th>
+                        <th style="text-align:center;">Item Code</th>         
+                        <th style="text-align:center;">Description</th>
+                        <th style="text-align:center;">Qty</th>                        
+                        <th style="text-align:center;">Price</th>
+                        <th style="text-align:center;">Total</th>
+                        <th style="text-align:center;" width="20%">Action</th>
                     </tr>
                     </thead>
                     <tbody>
                         <?php
                         $x=1;
-                        foreach($sales as $item){                            
+                        foreach($charges as $item){  
+                            $total=$item['quantity']*$item['sellingprice'];                          
                             echo "<tr>";
-                                echo "<td>$x.</td>";
-                                echo "<td>$item[trans_id]</td>";                           
-                                echo "<td>$item[datearray]</td>";                                
-                                echo "<td>$item[timearray]</td>";
-                                echo "<td>$item[fullname]</td>";
+                                echo "<td style='text-align:center;'>$x.</td>";
+                                echo "<td style='text-align:center;'>$item[code]</td>";                           
+                                echo "<td style='text-align:left;'>$item[description]</td>";                                
+                                echo "<td style='text-align:center;'>$item[quantity]</td>";
+                                echo "<td style='text-align:right;'>".number_format($item['sellingprice'],2)."</td>";
+                                echo "<td style='text-align:right;'>".number_format($total,2)."</td>";                                
                                 ?>
                                 <td>
-                                    <a href="<?=base_url('print_receipt/'.$item['trans_id']);?>" class="btn btn-success btn-sm" target="_blank"><i class="glyphicon glyphicon-print"></i> Print Receipt</a>
-                                    <a href="<?=base_url('print_order_slip/'.$item['trans_id']);?>" class="btn btn-primary btn-sm" target="_blank"><i class="glyphicon glyphicon-print"></i> Print Slip</a>
+                                   
                                 </td>
                                 <?php
                             echo "</tr>";

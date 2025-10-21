@@ -598,6 +598,22 @@ date_default_timezone_set('Asia/Manila');
             $this->load->view('includes/modal');     
             $this->load->view('includes/footer');               
         }
+        public function track_invoice_search(){
+            $page = "track_invoice";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $date=$this->input->post('datearray');
+            $data['sales'] = $this->Sales_model->getAllSales($date);
+            $this->load->view('includes/header'); 
+            $this->load->view('includes/navbar');           
+            $this->load->view('includes/sidebar');            
+            $this->load->view('pages/'.$page,$data);    
+            $this->load->view('includes/modal');     
+            $this->load->view('includes/footer');               
+        }
         public function print_order_slip($id){
             $page = "print_order_slip";
             if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
@@ -646,6 +662,51 @@ date_default_timezone_set('Asia/Manila');
                     $this->session->set_flashdata('failed','Unable to remove requested item!');                
                 }
             redirect(base_url('request_fbs/'.$refno));
+        }
+        public function finalize_order($refno){
+                $save=$this->Sales_model->finalize_order($refno);
+                if($save){
+                    $this->session->set_flashdata('success','Requested item successfully finalized!');                   
+                }else{
+                    $this->session->set_flashdata('failed','Unable to finalize requested item!');                
+                }
+            redirect(base_url('request_fbs/'.$refno));
+        }
+        public function room_charges(){
+            $page = "room_charges";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $date=date('Y-m-d');
+            $data['sales'] = $this->Sales_model->getAllRoomCharges();
+            $this->load->view('includes/header'); 
+            $this->load->view('includes/navbar');           
+            $this->load->view('includes/sidebar');            
+            $this->load->view('pages/'.$page,$data);    
+            $this->load->view('includes/modal');     
+            $this->load->view('includes/footer');               
+        }
+
+        public function view_room_charges($refno,$resid,$fullname){
+            $page = "view_room_charges";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $date=date('Y-m-d');
+            $data['charges'] = $this->Sales_model->getRoomCharges($refno);
+            $data['refno'] = $refno;
+            $data['reserve_id'] = $resid;
+            $data['fullname'] = $fullname;
+            $this->load->view('includes/header'); 
+            $this->load->view('includes/navbar');           
+            $this->load->view('includes/sidebar');            
+            $this->load->view('pages/'.$page,$data);    
+            $this->load->view('includes/modal');     
+            $this->load->view('includes/footer');               
         }
 }
 ?>
