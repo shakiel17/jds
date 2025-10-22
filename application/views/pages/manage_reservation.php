@@ -134,7 +134,7 @@ if($this->session->flashdata('failed')){
                 <th>Client Name</th>                            
                 <th>Arrival Date</th> 
                 <th>Departure Date</th>
-                <th>Room</th>
+                <th>Room/Package</th>
                 <th>No. of Guest</th>
                 <th>Status</th> 
                 <th>Action</th>
@@ -214,7 +214,7 @@ if($this->session->flashdata('failed')){
                 <th>Client Name</th>                            
                 <th>Arrival Date</th> 
                 <th>Departure Date</th>
-                <th>Room</th>
+                <th>Room/Package</th>
                 <th>No. of Guest</th>
                 <th>Status</th> 
                 <th>Action</th>
@@ -222,7 +222,16 @@ if($this->session->flashdata('failed')){
             </thead>
             <tbody>
                 <?php
-                    foreach($checkedout as $room){                        
+                    foreach($checkedout as $room){ 
+                        if($room['room_type']=="")                        {
+                                $room_type=$room['description'];
+                                $regform="style='display:none;'";
+                                $edit="";
+                            }else{
+                                $room_type=$room['room_type'];
+                                $regform="";
+                                $edit="style='display:none;'";
+                            }                         
                        
                         echo "<tr>";                            
                             echo "<td>$room[res_id]</td>";                            
@@ -234,7 +243,7 @@ if($this->session->flashdata('failed')){
                                 echo $room['res_date_depart'];
                             echo "</td>";
                             echo "<td>";
-                                echo $room['room_type']." ".$room['room_color'];
+                                echo $room_type." ".$room['room_color'];
                             echo "</td>";
                             echo "<td>";
                                 echo $room['res_no_guest'];

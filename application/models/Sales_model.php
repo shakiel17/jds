@@ -220,7 +220,9 @@ date_default_timezone_set('Asia/Manila');
             foreach($items as $item){
                 if($type=="charge"){
                     $amt=($item['quantity']*$item['sellingprice']) - $item['discount'];
-                    $this->db->query("INSERT INTO charged_item SET res_id='$transno',refno='$refno',`description`='$item[description]',amount='$amt',datearray='$date',timearray='$time',fullname='$fullname'");
+                    $query=$this->db->query("SELECT * FROM stocks WHERE code='$item[code]'");
+                    $row1=$query->row_array();
+                    $this->db->query("INSERT INTO charged_item SET res_id='$transno',refno='$refno',`description`='$row1[description]',amount='$amt',datearray='$date',timearray='$time',fullname='$fullname'");
                 }
                 $result=$this->db->query("INSERT INTO stock_out SET trans_id='$refno',code='$item[code]',quantity='$item[quantity]',sellingprice='$item[sellingprice]',discount='$item[discount]',datearray='$date',timearray='$time',paymentmode='$type',`status`='paid',fullname='$fullname',control_no='$controlno',trantype='$trantype',res_id='$transno'");
                 $query=$this->db->query("SELECT * FROM stocks WHERE code='$item[code]'");
