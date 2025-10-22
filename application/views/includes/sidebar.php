@@ -1,3 +1,37 @@
+<?php
+if($this->session->dept=="admin"){
+    $dashboard="";
+    $reservation="";
+    $housekeeping="";
+    $fbs="";
+    $reports="";
+    $settings="";
+}
+if($this->session->dept=="FRONT OFFICE"){
+    $dashboard="";
+    $reservation="";
+    $housekeeping="style='display:none;'";
+    $fbs="style='display:none;'";
+    $reports="style='display:none;'";
+    $settings="style='display:none;'";
+}
+if($this->session->dept=="CAFE" || $this->session->dept=="FOOD KIOSK" || $this->session->dept=="SOUVENIR"){
+    $dashboard="style='display:none;'";
+    $reservation="style='display:none;'";
+    $housekeeping="style='display:none;'";
+    $fbs="";
+    $reports="style='display:none;'";
+    $settings="style='display:none;'";
+}
+if($this->session->dept=="HOUSEKEEPING"){
+    $dashboard="style='display:none;'";
+    $reservation="style='display:none;'";
+    $housekeeping="";
+    $fbs="style='display:none;'";
+    $reports="style='display:none;'";
+    $settings="style='display:none;'";
+}
+?>
 <div class="ch-container">
     <div class="row">
         
@@ -10,11 +44,11 @@
                     </div>
                     <ul class="nav nav-pills nav-stacked main-menu">
                         <li class="nav-header">Main</li>
-                        <li><a class="ajax-link" href="<?=base_url('main');?>"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a>
+                        <li <?=$dashboard;?>><a class="ajax-link" href="<?=base_url('main');?>"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a>
                         </li>                        
-                        <li><a class="ajax-link" href="<?=base_url('manage_reservation');?>"><i class="glyphicon glyphicon-book"></i><span> Reservation</span></a>
+                        <li <?=$reservation;?>><a class="ajax-link" href="<?=base_url('manage_reservation');?>"><i class="glyphicon glyphicon-book"></i><span> Reservation</span></a>
                         </li>
-                        <li><a class="ajax-link" href="<?=base_url('manage_housekeeping');?>"><i class="glyphicon glyphicon-tasks"></i><span> Housekeeping</span></a>
+                        <li <?=$housekeeping;?>><a class="ajax-link" href="<?=base_url('manage_housekeeping');?>"><i class="glyphicon glyphicon-tasks"></i><span> Housekeeping</span></a>
                         </li>
                         <?php
                             $charges=$this->Sales_model->getAllRoomCharges();
@@ -23,7 +57,7 @@
                                 $pen="(".count($charges).")";
                             }
                         ?>
-                        <li class="accordion">
+                        <li class="accordion" <?=$fbs;?>>
                              <a href="#"><i class="glyphicon glyphicon-shopping-cart"></i><span> Food and Beverages <?=$pen;?></span></a>
                              <ul class="nav nav-pills nav-stacked">
                                 <li><a href="<?=base_url('point_of_sale');?>">Point of Sales</a></li>
@@ -32,7 +66,13 @@
                                 <li><a href="<?=base_url('manage_stock_quantity');?>">Stock Quantity</a></li>                                
                             </ul>
                         </li>
-                        <li class="accordion">
+                        <li class="accordion" <?=$reports;?>>
+                             <a href="#"><i class="glyphicon glyphicon-file"></i><span> Reports <?=$pen;?></span></a>
+                             <ul class="nav nav-pills nav-stacked">
+                                <li><a href="<?=base_url('daily_sales');?>">Daily Sales</a></li>                              
+                            </ul>
+                        </li>
+                        <li class="accordion" <?=$settings;?>>
                             <a href="#"><i class="glyphicon glyphicon-cog"></i><span> Settings</span></a>
                             <ul class="nav nav-pills nav-stacked">
                                 <li><a href="<?=base_url('manage_room');?>">Rooms</a></li>

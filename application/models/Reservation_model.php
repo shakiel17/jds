@@ -185,6 +185,9 @@
         public function check_in($id){
             $result=$this->db->query("UPDATE reservation SET res_status='checkedin' WHERE res_id='$id'");
             if($result){
+                $qry=$this->db->query("SELECT * FROM reservation WHERE res_id='$id'");
+                $res=$qry->row_array();
+                $this->db->query("UPDATE room SET room_fo_status='occupied' WHERE id='$res[res_room_id]'");
                 return true;
             }else{
                 return false;
@@ -193,6 +196,9 @@
         public function check_out($id){
             $result=$this->db->query("UPDATE reservation SET res_status='checkedout' WHERE res_id='$id'");
             if($result){
+                $qry=$this->db->query("SELECT * FROM reservation WHERE res_id='$id'");
+                $res=$qry->row_array();
+                $this->db->query("UPDATE room SET room_fo_status='vacant',room_hk_status='dirty' WHERE id='$res[res_room_id]'");
                 return true;
             }else{
                 return false;

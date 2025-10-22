@@ -166,7 +166,7 @@
                                         echo "<td style='text-align:center;'><a href='#' $disable class='changeQty' data-toggle='modal' data-target='#ChangeQty' data-id='$ord[id]_$ord[quantity]'>$ord[quantity]</a></td>";
                                         echo "<td style='text-align:right;'>".number_format($ord['sellingprice'],2)."</td>";
                                         echo "<td style='text-align:right;'><a href='#' $disable class='addSingleDiscount' data-toggle='modal' data-target='#AddSingleDiscount' data-id='$ord[id]_$ord[discount]'>".number_format($ord['discount'],2)."</a></td>";
-                                        $total=$ord['sellingprice']*$ord['quantity']-$ord['discount'];
+                                        $total=$ord['sellingprice']*$ord['quantity'];
                                         echo "<td style='text-align:right;'>".number_format($total,2)."</td>";
                                     echo "</tr>";
                                         $totalamount += $total;

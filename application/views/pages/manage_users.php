@@ -53,7 +53,7 @@ if($this->session->flashdata('failed')){
                                 echo "<td>$item[dept]</td>";                           
                                 ?>
                                 <td>
-                                    <a href="#" class="btn btn-warning btn-sm editUser" data-toggle="modal" data-target="#ManageUser" data-id="<?=$item['id'];?>_<?=$item['username'];?>_<?=$item['password'];?>_<?=$item['fullname'];?>_<?=$item['dept'];?>"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                                    <a href="#" class="btn btn-warning btn-sm editUser" data-toggle="modal" data-target="#ManageUser" data-id="<?=$item['id'];?>_<?=$item['username'];?>_<?=$item['password'];?>_<?=$item['fullname'];?>_<?=$item['dept'];?>_<?=$item['Access'];?>"><i class="glyphicon glyphicon-edit"></i> Edit</a>
                                     <a href="<?=base_url('delete_user/'.$item['id']);?>" class="btn btn-danger btn-sm" onclick="return confirm('Do you wish to delete this item?');return false;"><i class="glyphicon glyphicon-eye"></i> Delete</a>
                                 </td>
                                 <?php

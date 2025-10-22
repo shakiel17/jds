@@ -48,6 +48,7 @@
         document.getElementById('user_name').value=id[1];
         document.getElementById('user_password').value=id[2];
         document.getElementById('user_dept').value=id[4];
+        document.getElementById('user_access').value=id[5];
         
     });
 

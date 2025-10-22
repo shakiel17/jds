@@ -54,7 +54,12 @@ date_default_timezone_set('Asia/Manila');
                 $data['month'] = $this->input->post('month');
                 $data['year'] = $this->input->post('year');
             }
-            
+            if($this->session->dept=="CAFE" || $this->session->dept=="FOOD KIOSK" || $this->session->dept=="SOUVENIR"){
+                redirect(base_url('point_of_sale'));
+            }
+            if($this->session->dept=="HOUSEKEEPING"){
+                redirect(base_url('manage_housekeeping'));
+            }
             $this->load->view('includes/header'); 
             $this->load->view('includes/navbar');           
             $this->load->view('includes/sidebar');            

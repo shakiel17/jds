@@ -70,7 +70,7 @@
         </tr>
         <tr>
             <td><b>Change:</b></td>
-            <td align="right"><b><?=number_format($tendered['amount']-$subtotal-$totaldiscount,2);?></b></td>
+            <td align="right"><b><?=number_format($tendered['amount']-($subtotal-$totaldiscount),2);?></b></td>
         </tr>
     </table>
     <hr style="border:1px dashed black;">
