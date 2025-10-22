@@ -28,6 +28,13 @@
             <td><h4><?=$reserve['res_address'];?></h4></td>
         </tr>
     </table>
+    <?php
+    if($reserve['room_type']==""){
+        $room_type=$reserve['description'];
+    }else{
+        $room_type=$reserve['room_type']." - ".$reserve['room_color'];
+    }
+    ?>
     <table width="100%" border="0" style="border-collapse:collapse;" cellpadding="1" cellspacing="0">
         <tr style="border-top:1px solid black; border-bottom:1px solid black;">
             <td width="15%" align="center" valign="top"><b>Res No.</b></td>
@@ -38,7 +45,7 @@
         </tr>
         <tr>
             <td valign="top"><?=$reserve['res_id'];?></td>
-            <td valign="top"><b><?=$reserve['room_type'];?> - <?=$reserve['room_color'];?></b><br><?=date('d-M-Y',strtotime($reserve['res_date_arrive']));?> to <?=date('d-M-Y',strtotime($reserve['res_date_depart']));?></td>
+            <td valign="top"><b><?=$room_type;?></b><br><?=date('d-M-Y',strtotime($reserve['res_date_arrive']));?> to <?=date('d-M-Y',strtotime($reserve['res_date_depart']));?></td>
             <td valign="top"><b><?=$reserve['res_no_nights'];?> Night(s) @ <?=number_format($reserve['res_room_rate'],2);?></b><br><?=$reserve['res_no_guest'];?></td>
             <td valign="top" align="center"><?=$reserve['res_no_nights'];?></td>
             <?php

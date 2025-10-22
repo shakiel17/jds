@@ -291,7 +291,7 @@
                     </datalist>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Room Type</label>
+                    <label for="exampleInputEmail1">Package Type</label>
                     <p id="book_room_type"></p>
                 </div>
                 <div class="form-group">
@@ -955,7 +955,12 @@
                         <?php
                         $query=$this->Reservation_model->getReservation('checkedin');                        
                         foreach($query as $row){
-                            echo "<option value='$row[res_id]'>$row[res_fullname] - [$row[room_type] $row[room_color]]</option>";
+                            if($row['room_type']==""){
+                                $roomtype=$row['description'];
+                            }else{
+                                $roomtype=$row['room_type'];
+                            }
+                            echo "<option value='$row[res_id]'>$row[res_fullname] - [$roomtype $row[room_color]]</option>";
                         }
                         ?>
                     </select>
@@ -1081,7 +1086,7 @@
 <div class="modal fade" id="BillPayment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form role="form" action="<?=base_url('save_room_charges');?>" method="POST" enctype="multipart/form-data"> 
+            <form role="form" action="<?=base_url('bill_payment');?>" method="POST" enctype="multipart/form-data"> 
                 <input type="hidden" name="refno" id="final_payment_refno">                
                 <input type="hidden" name="totalamount" id="final_payment_total_amount">                
             <div class="modal-header">
@@ -1093,6 +1098,262 @@
                     <label for="exampleInputEmail1">Payment Amount</label>
                     <input type="text" name="amount" class="form-control"  id="final_payment_amount">
                 </div>                                
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="BookPackage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('save_reservation_package');?>" method="POST">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Book Package</h3>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="room_id" id="book_package_id">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Full Name</label>
+                    <input list="fullname" name="fullname" id="browser" class="form-control" autocomplete="off">
+                    <?php
+                    $clients=$this->Reservation_model->getExistingClient();
+                    ?>
+                    <datalist id="fullname">
+                        <?php
+                        foreach($clients as $cus){
+                            echo "<option value='$cus[res_fullname]'>";
+                        }
+                        ?>
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Address</label>
+                    <input list="address" name="address" id="browser" class="form-control" autocomplete="off">
+                    <?php
+                    $clients=$this->Reservation_model->getClientAddress();
+                    ?>
+                    <datalist id="address">
+                        <?php
+                        foreach($clients as $cus){
+                            echo "<option value='$cus[res_address]'>";
+                        }
+                        ?>
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Contact No.</label>
+                    <input list="contactno" name="contactno" id="browser" class="form-control" autocomplete="off">
+                    <?php
+                    $clients=$this->Reservation_model->getContactNumber();
+                    ?>
+                    <datalist id="contactno">
+                        <?php
+                        foreach($clients as $cus){
+                            echo "<option value='$cus[res_contactno]'>";
+                        }
+                        ?>
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email</label>
+                    <input list="emailadd" name="email" id="browser" class="form-control" autocomplete="off">
+                    <?php
+                    $clients=$this->Reservation_model->getEmailAddress();
+                    ?>
+                    <datalist id="emailadd">
+                        <?php
+                        foreach($clients as $cus){
+                            echo "<option value='$cus[res_email]'>";
+                        }
+                        ?>
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Nationality</label>
+                    <input list="nationality" name="nationality" id="browser" class="form-control" autocomplete="off">
+                    <?php
+                    $clients=$this->Reservation_model->getNationality();
+                    ?>
+                    <datalist id="nationality">
+                        <?php
+                        foreach($clients as $cus){
+                            echo "<option value='$cus[res_nationality]'>";
+                        }
+                        ?>
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Package</label>
+                    <p id="book_package_type"></p>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Arrival Date</label>
+                    <input type="date" name="arrival_date" class="form-control" required id="book_arrival_date_package">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Departure Date</label>
+                    <input type="date" name="departure_date" class="form-control" required id="book_depart_date_package">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">No of Person</label>
+                    <input type="text" name="pax" class="form-control" id="book_no_person_package">
+                </div>                
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Source</label>
+                    <select name="source" class="form-control" required>
+                        <option value="">Select Source</option>
+                        <option value="Walk in">Walk in</option>
+                        <option value="Phone call">Phone Call</option>
+                        <option value="Messenger">Messenger</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Downpayment</label>
+                    <input type="text" name="downpayment" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Payment Mode</label>
+                    <select name="paymentmode" class="form-control" required>
+                        <option value="">Select Payment Mode</option>
+                        <option value="cash">Cash Payment</option>
+                        <option value="gcash">GCash</option>
+                        <option value="credit">Debit/Credit Payment</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="EditReservationPackage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('update_reservation_package');?>" method="POST">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Update Reservation</h3>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="id" id="edit_book_package_id">                
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Full Name</label>
+                    <input list="fullname" name="fullname" id="edit_book_customer_package" class="form-control" autocomplete="off">
+                    <?php
+                    $clients=$this->Reservation_model->getExistingClient();
+                    ?>
+                    <datalist id="fullname">
+                        <?php
+                        foreach($clients as $cus){
+                            echo "<option value='$cus[res_fullname]'>";
+                        }
+                        ?>
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Address</label>
+                    <input list="address" name="address" id="edit_book_address_package" class="form-control" autocomplete="off">
+                    <?php
+                    $clients=$this->Reservation_model->getClientAddress();
+                    ?>
+                    <datalist id="address">
+                        <?php
+                        foreach($clients as $cus){
+                            echo "<option value='$cus[res_address]'>";
+                        }
+                        ?>
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Contact No.</label>
+                    <input list="contactno" name="contactno" id="edit_book_contactno_package" class="form-control" autocomplete="off">
+                    <?php
+                    $clients=$this->Reservation_model->getContactNumber();
+                    ?>
+                    <datalist id="contactno">
+                        <?php
+                        foreach($clients as $cus){
+                            echo "<option value='$cus[res_contactno]'>";
+                        }
+                        ?>
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email</label>
+                    <input list="emailadd" name="email" id="edit_book_email_package" class="form-control" autocomplete="off">
+                    <?php
+                    $clients=$this->Reservation_model->getEmailAddress();
+                    ?>
+                    <datalist id="emailadd">
+                        <?php
+                        foreach($clients as $cus){
+                            echo "<option value='$cus[res_email]'>";
+                        }
+                        ?>
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Nationality</label>
+                    <input list="nationality" name="nationality" id="edit_book_nationality_package" class="form-control" autocomplete="off">
+                    <?php
+                    $clients=$this->Reservation_model->getNationality();
+                    ?>
+                    <datalist id="nationality">
+                        <?php
+                        foreach($clients as $cus){
+                            echo "<option value='$cus[res_nationality]'>";
+                        }
+                        ?>
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Package Type</label>
+                    <p id="edit_book_room_type_package"></p>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Arrival Date</label>
+                    <input type="date" name="arrival_date" class="form-control" required id="edit_book_arrival_date_package">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Departure Date</label>
+                    <input type="date" name="departure_date" class="form-control" required id="edit_book_depart_date_package">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">No of Pax</label>
+                    <input type="text" name="pax" class="form-control" id="edit_book_pax_package"
+                </div>                
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Source</label>
+                    <select name="source" class="form-control" required id="edit_book_source_package">
+                        <option value="">Select Source</option>
+                        <option value="Walk in">Walk in</option>
+                        <option value="Phone call">Phone Call</option>
+                        <option value="Messenger">Messenger</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Downpayment</label>
+                    <input type="text" name="downpayment" class="form-control" required id="edit_book_downpayment_package">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Payment Mode</label>
+                    <select name="paymentmode" class="form-control" required id="edit_book_paymentmode_package">
+                        <option value="">Select Payment Mode</option>
+                        <option value="cash">Cash Payment</option>
+                        <option value="gcash">GCash</option>
+                        <option value="credit">Debit/Credit Payment</option>
+                    </select>
+                </div>
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>

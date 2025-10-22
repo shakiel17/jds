@@ -292,7 +292,7 @@ date_default_timezone_set('Asia/Manila');
             }
         }
         public function getAllRoomCharges(){
-            $result=$this->db->query("SELECT rc.*,r.res_fullname,rm.room_type,rm.room_color FROM room_charge rc INNER JOIN reservation r ON r.res_id=rc.res_id INNER JOIN room rm ON rm.id=r.res_room_id WHERE rc.status='pending' AND rc.trans_id <> '' GROUP BY rc.trans_id ORDER BY id DESC");
+            $result=$this->db->query("SELECT rc.*,r.res_fullname,rm.room_type,rm.room_color,p.description as pack FROM room_charge rc INNER JOIN reservation r ON r.res_id=rc.res_id LEFT JOIN room rm ON rm.id=r.res_room_id LEFT JOIN package p ON p.id=r.res_room_id WHERE rc.status='pending' AND rc.trans_id <> '' GROUP BY rc.trans_id ORDER BY id DESC");
             return $result->result_array();
         }
         public function getRoomCharges($refno){

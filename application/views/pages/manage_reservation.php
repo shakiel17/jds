@@ -47,7 +47,16 @@ if($this->session->flashdata('failed')){
             </thead>
             <tbody>
                 <?php
-                    foreach($booked as $room){                        
+                    foreach($booked as $room){     
+                        if($room['room_type']=="")                        {
+                                $room_type=$room['description'];
+                                $regform="style='display:none;'";
+                                $edit="";
+                            }else{
+                                $room_type=$room['room_type'];
+                                $regform="";
+                                $edit="style='display:none;'";
+                            }                   
                        
                         echo "<tr>";                            
                             echo "<td>$room[res_id]</td>";                            
@@ -59,7 +68,7 @@ if($this->session->flashdata('failed')){
                                 echo date('m/d/Y',strtotime($room['res_date_depart']));
                             echo "</td>";
                             echo "<td>";
-                                echo $room['room_type']." ".$room['room_color'];
+                                echo $room_type." ".$room['room_color'];
                             echo "</td>";
                             echo "<td>";
                                 echo $room['res_no_guest'];
@@ -69,8 +78,13 @@ if($this->session->flashdata('failed')){
                             echo "</td>";
 
                             $guest=explode('/ ',$room['res_no_guest']);
-                            $adult=str_replace(' Adult','',$guest[0]);
-                            $child=str_replace(' Child','',$guest[1]);
+                            if(count($guest)>1){
+                                $adult=str_replace(' Adult','',$guest[0]);
+                                $child=str_replace(' Child','',$guest[1]);
+                            }else{
+                                $adult=$room['res_no_guest'];
+                                $child="";
+                            }                                
                             ?>
                             <td width="13%">
                                 <ul class="collapse navbar-collapse nav navbar-nav top-menu">
@@ -78,11 +92,12 @@ if($this->session->flashdata('failed')){
                                         <a href="#" data-toggle="dropdown" class="btn btn-primary"><i class="glyphicon glyphicon-th-list"></i> Menu <span
                                                 class="caret"></span></a>
                                         <ul class="dropdown-menu" role="menu">
-                                            <li><a href="<?=base_url('print_reg_form/'.$room['res_id']);?>" target="_blank">Registration Form</a></li>
+                                            <li><a href="<?=base_url('print_reg_form/'.$room['res_id']);?>" target="_blank" <?=$regform;?>>Registration Form</a></li>
                                             <li><a href="<?=base_url('print_voucher/'.$room['res_id']);?>" target="_blank">Reservation Voucher</a></li>
                                             <li><a href="<?=base_url('check_in/'.$room['res_id']);?>" onclick="return confirm('Do you wish to proceed for check in?');return false;">Check In</a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#" class="editReservation" data-toggle="modal" data-target="#EditReservation" data-id="<?=$room['res_id'];?>_<?=$room['res_fullname'];?>_<?=$room['res_address'];?>_<?=$room['res_contactno'];?>_<?=$room['res_email'];?>_<?=$room['res_nationality'];?>_<?=$room['res_date_arrive'];?>_<?=$room['res_date_depart'];?>_<?=$adult;?>_<?=$child;?>_<?=$room['res_source'];?>_<?=$room['res_downpayment'];?>_<?=$room['res_mode_payment'];?>">Edit</a></li>
+                                            <li class="divider"></li>                                            
+                                            <li><a href="#" <?=$regform;?> class="editReservation" data-toggle="modal" data-target="#EditReservation" data-id="<?=$room['res_id'];?>_<?=$room['res_fullname'];?>_<?=$room['res_address'];?>_<?=$room['res_contactno'];?>_<?=$room['res_email'];?>_<?=$room['res_nationality'];?>_<?=$room['res_date_arrive'];?>_<?=$room['res_date_depart'];?>_<?=$adult;?>_<?=$child;?>_<?=$room['res_source'];?>_<?=$room['res_downpayment'];?>_<?=$room['res_mode_payment'];?>">Edit</a></li>
+                                            <li><a href="#" <?=$edit;?> class="editReservationPackage" data-toggle="modal" data-target="#EditReservationPackage" data-id="<?=$room['res_id'];?>_<?=$room['res_fullname'];?>_<?=$room['res_address'];?>_<?=$room['res_contactno'];?>_<?=$room['res_email'];?>_<?=$room['res_nationality'];?>_<?=$room['res_date_arrive'];?>_<?=$room['res_date_depart'];?>_<?=$adult;?>_<?=$room['res_source'];?>_<?=$room['res_downpayment'];?>_<?=$room['res_mode_payment'];?>_<?=$room_type;?>">Edit</a></li>
                                             <li><a href="<?=base_url('cancel_reservation/'.$room['res_id']);?>" onclick="return confirm('Do you wish to cancel this reservation?'); return false;">Cancel</a></li>
                                             <!-- <li class="divider"></li>
                                             <li><a href="#">One more separated link</a></li> -->
@@ -133,6 +148,12 @@ if($this->session->flashdata('failed')){
                        }else{
                         $status="Checked In";
                        }
+                       $payment = $this->Reservation_model->getPayment($room['res_id']);
+                       if($payment){
+                            $checkout="";
+                       }else{
+                            $checkout="style='display:none;'";
+                       }
                         echo "<tr>";                            
                             echo "<td>$room[res_id]</td>";                            
                             echo "<td>$room[res_fullname]</td>";                                                        
@@ -153,7 +174,16 @@ if($this->session->flashdata('failed')){
                             echo "</td>";
                             ?>
                             <td width="13%">
-                                <a href="<?=base_url('reservation_details/'.$room['res_id']);?>" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-search"></i> View</a>
+                                <ul class="collapse navbar-collapse nav navbar-nav top-menu">
+                                    <li class="dropdown">
+                                        <a href="#" data-toggle="dropdown" class="btn btn-primary"><i class="glyphicon glyphicon-th-list"></i> Menu <span
+                                                class="caret"></span></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="<?=base_url('reservation_details/'.$room['res_id']);?>">View</a></li>
+                                            <li <?=$checkout;?>><a href="<?=base_url('check_out/'.$room['res_id']);?>" onclick="return confirm('Do you wish to check out now?');return false;">Check out</a></li>
+                                        </ul>
+                                    </li>                                    
+                                </ul>                                
                             </td>
                             <?php
                         echo "</tr>";
@@ -214,7 +244,7 @@ if($this->session->flashdata('failed')){
                             echo "</td>";
                             ?>
                             <td width="13%">
-                            
+                                <a href="<?=base_url('reservation_details/'.$room['res_id']);?>" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-search"></i> View</a>
                             </td>
                             <?php
                         echo "</tr>";

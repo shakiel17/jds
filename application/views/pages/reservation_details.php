@@ -20,6 +20,11 @@ if($this->session->flashdata('success')){
 if($this->session->flashdata('failed')){
     echo "<div class='alert alert-danger'>".$this->session->flashdata('failed')."</div>";
 }
+if($reserve['room_type']==""){
+    $room_type=$reserve['description'];
+}else{
+    $room_type=$reserve['room_type'];
+}
 ?>
 <div class="row">
     <div class="box col-md-12">
@@ -66,7 +71,7 @@ if($this->session->flashdata('failed')){
                             <b>Nationality: </b><?=$reserve['res_nationality'];?>                            
                         </td>
                         <td>
-                            <b>Room: </b><?=$reserve['room_type'];?> [<?=$reserve['room_color'];?>]<br>
+                            <b>Room: </b><?=$room_type;?> [<?=$reserve['room_color'];?>]<br>
                         </td>                        
                     </tr>                    
                 </table>
@@ -74,19 +79,26 @@ if($this->session->flashdata('failed')){
         </div>
         <br>
         <?php
-        $other=0;
+        $other=$reserve['res_room_rate']-$reserve['res_downpayment'];        
         foreach($charges as $item){
-            $other += $item['amount'];
+            $other += $item['amount'];            
+        }        
+        if($payment){
+            $label="Print Invoice";
+            $bill="style='display:none;'";
+        }else{
+            $bill="";
+            $label="Print Final Bill";
         }
         ?>
         <div class="box-inner">
             <div class="box-header well">
                 <h2><i class="glyphicon glyphicon-shopping-cart"></i> Charged Items</h2>  
                 <div style="float:right;">
-                    <a href="#" class="btn btn-round btn-default addCharges" title="Add New Charges" data-toggle="modal" data-target="#AddCharges" data-id="<?=$refno;?>"><i class="glyphicon glyphicon-plus"></i> Add Charges</a>
-                    <a href="<?=base_url('request_fbs/'.$refno);?>" class="btn btn-round btn-default requestFBS" title="Food Request"><i class="glyphicon glyphicon-folder-close"></i> FBS Request</a>
-                    <a href="#" class="btn btn-round btn-default billPayment" title="Payment" data-toggle="modal" data-target="#BillPayment" data-id="<?=$refno;?>_<?=$other;?>"><i class="glyphicon glyphicon-folder-open"></i> Payment</a>
-                    <a href="<?=base_url('print_bill/'.$refno);?>" class="btn btn-round btn-default" title="Print Billing Statement" target="_blank"><i class="glyphicon glyphicon-print"></i> Print Final Bill</a>                    
+                    <a href="#" class="btn btn-round btn-default addCharges" <?=$bill;?>  title="Add New Charges" data-toggle="modal" data-target="#AddCharges" data-id="<?=$refno;?>"><i class="glyphicon glyphicon-plus"></i> Add Charges</a>
+                    <a href="<?=base_url('request_fbs/'.$refno);?>" <?=$bill;?> class="btn btn-round btn-default requestFBS" title="Food Request"><i class="glyphicon glyphicon-folder-close"></i> FBS Request</a>
+                    <a href="#" class="btn btn-round btn-default billPayment" <?=$bill;?> title="Payment" data-toggle="modal" data-target="#BillPayment" data-id="<?=$refno;?>_<?=$other;?>"><i class="glyphicon glyphicon-folder-open"></i> Payment</a>
+                    <a href="<?=base_url('print_bill/'.$refno);?>" class="btn btn-round btn-default" title="Print Billing Statement" target="_blank"><i class="glyphicon glyphicon-print"></i> <?=$label;?></a>                    
                 </div>              
             </div>
             <div class="box-content">
@@ -114,7 +126,7 @@ if($this->session->flashdata('failed')){
                                     <?php
                                     if($item['refno'] ==""){
                                     ?>
-                                    <a href="#" class="btn btn-danger btn-sm deleteCharges" data-toggle="modal" data-target="#DeleteCharges" data-id="<?=$refno;?>_<?=$item['id'];?>"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+                                    <a href="#" class="btn btn-danger btn-sm deleteCharges" <?=$bill;?> data-toggle="modal" data-target="#DeleteCharges" data-id="<?=$refno;?>_<?=$item['id'];?>"><i class="glyphicon glyphicon-trash"></i> Delete</a>
                                     <?php
                                     }
                                     ?>

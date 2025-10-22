@@ -268,6 +268,16 @@ date_default_timezone_set('Asia/Manila');
                 redirect(base_url('view_available/'.$date));
             }
         }
+        public function save_reservation_package(){
+            $date=$this->input->post('arrival_date');
+            $save=$this->Reservation_model->save_reservation_package();
+            if($save){
+                redirect(base_url('manage_reservation'));   
+            }else{
+                $this->session->set_flashdata('failed','Unable to save reservation details!');
+                redirect(base_url('view_available/'.$date));
+            }
+        }
         public function manage_reservation(){
             $page = "manage_reservation";
             if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
@@ -277,7 +287,7 @@ date_default_timezone_set('Asia/Manila');
             else{redirect(base_url());}
             $data['booked'] = $this->Reservation_model->getReservation('booked');
             $data['checkedin'] = $this->Reservation_model->getReservation('checkedin');
-            $data['checkedout'] = $this->Reservation_model->getReservation('checkedout');
+            $data['checkedout'] = $this->Reservation_model->getReservation('checkedout');            
 
             $this->load->view('includes/header'); 
             $this->load->view('includes/navbar');           
@@ -342,6 +352,16 @@ date_default_timezone_set('Asia/Manila');
             }
             redirect(base_url('manage_reservation'));
         }
+        public function update_reservation_package(){
+            $date=$this->input->post('arrival_date');
+            $save=$this->Reservation_model->update_reservation_package();
+            if($save){
+                $this->session->set_flashdata('success','Reservation details successfully updated!');                   
+            }else{
+                $this->session->set_flashdata('failed','Unable to update reservation details!');                
+            }
+            redirect(base_url('manage_reservation'));
+        }
         public function cancel_reservation($id){
             $save=$this->Reservation_model->cancel_reservation($id);
             if($save){
@@ -360,6 +380,15 @@ date_default_timezone_set('Asia/Manila');
             }
             redirect(base_url('manage_reservation'));
         }
+        public function check_out($id){
+            $save=$this->Reservation_model->check_out($id);
+            if($save){
+                $this->session->set_flashdata('success','Checked out successfully!');
+            }else{
+                $this->session->set_flashdata('failed','Unable to check out!');
+            }
+            redirect(base_url('manage_reservation'));
+        }
         public function reservation_details($id){
             $page = "reservation_details";
             if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
@@ -369,6 +398,7 @@ date_default_timezone_set('Asia/Manila');
             else{redirect(base_url());}            
             $data['reserve'] = $this->Reservation_model->getSingleReservation($id);    
             $data['charges'] = $this->Reservation_model->getAllCharges($id);
+            $data['payment'] = $this->Reservation_model->getPayment($id);
             $data['refno'] = $id;
             $this->load->view('includes/header'); 
             $this->load->view('includes/navbar');           
@@ -384,6 +414,16 @@ date_default_timezone_set('Asia/Manila');
                 $this->session->set_flashdata('success','Item successfully charged!');                   
             }else{
                 $this->session->set_flashdata('failed','Unable to charge item!');                
+            }
+            redirect(base_url('reservation_details/'.$refno));
+        }
+        public function bill_payment(){
+            $refno=$this->input->post('refno');
+            $save=$this->Reservation_model->bill_payment();
+            if($save){
+                $this->session->set_flashdata('success','Payment successfully posted!');                   
+            }else{
+                $this->session->set_flashdata('failed','Unable to post payment!');                
             }
             redirect(base_url('reservation_details/'.$refno));
         }

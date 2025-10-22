@@ -32,20 +32,25 @@ if($this->session->flashdata('failed')){
                         <th>Refno</th>         
                         <th>Reservation ID</th>
                         <th>Customer Name</th>                        
-                        <th>Room</th>
+                        <th>Room/Package</th>
                         <th width="20%">Action</th>
                     </tr>
                     </thead>
                     <tbody>
                         <?php
                         $x=1;
-                        foreach($sales as $item){                            
+                        foreach($sales as $item){     
+                            if($item['room_type']==""){
+                                $room_type=$item['pack'];
+                            }else{
+                                $room_type=$item['room_type'];
+                            }
                             echo "<tr>";
                                 echo "<td>$x.</td>";
                                 echo "<td>$item[trans_id]</td>";                           
                                 echo "<td>$item[res_id]</td>";                                
                                 echo "<td>$item[res_fullname]</td>";
-                                echo "<td>$item[room_type] [$item[room_color]]</td>";
+                                echo "<td>$room_type [$item[room_color]]</td>";
                                 ?>
                                 <td>
                                     <a href="<?=base_url('view_room_charges/'.$item['trans_id']."/".$item['res_id']."/".$item['res_fullname']);?>" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-eye-open"></i> View</a>

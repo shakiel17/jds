@@ -95,7 +95,7 @@
             </tr>
              <tr>
                 <td align="right" width="80%"><b>Amount Paid:</b></td>
-                <td align="right" style="border-top:1px solid black; border-bottom:1px solid black;"><b><?=number_format($paid,2);?></b></td>
+                <td align="right" style="border-top:1px solid black; border-bottom:1px solid black;"><b>(<?=number_format($paid,2);?>)</b></td>
             </tr>
             <tr>
                 <td align="right" width="80%"><b>Amount Payable:</b></td>

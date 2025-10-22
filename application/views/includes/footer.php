@@ -109,6 +109,14 @@
         document.getElementById('book_room_id').value = id[1];
         document.getElementById('book_room_type').innerHTML = id[2];
     });
+    $('.bookPackage').click(function(){
+        var data=$(this).data('id');
+        var id=data.split('_');
+        document.getElementById('book_arrival_date_package').value = id[0];
+        document.getElementById('book_depart_date_package').value = id[0];
+        document.getElementById('book_package_id').value = id[1];
+        document.getElementById('book_package_type').innerHTML = id[2];
+    });
     $('.changeRoomStatus').click(function(){
         var data=$(this).data('id');
         var id=data.split('_');        
@@ -132,6 +140,23 @@
         document.getElementById('edit_book_source').value = id[10];
         document.getElementById('edit_book_downpayment').value = id[11];
         document.getElementById('edit_book_paymentmode').value = id[12];
+    });
+    $('.editReservationPackage').click(function(){
+        var data=$(this).data('id');
+        var id=data.split('_');        
+        document.getElementById('edit_book_package_id').value=id[0];
+        document.getElementById('edit_book_customer_package').value = id[1];
+        document.getElementById('edit_book_address_package').value = id[2];
+        document.getElementById('edit_book_contactno_package').value = id[3];
+        document.getElementById('edit_book_email_package').value = id[4];
+        document.getElementById('edit_book_nationality_package').value = id[5];
+        document.getElementById('edit_book_arrival_date_package').value = id[6];
+        document.getElementById('edit_book_depart_date_package').value = id[7];
+        document.getElementById('edit_book_pax_package').value = id[8];
+        document.getElementById('edit_book_source_package').value = id[9];
+        document.getElementById('edit_book_downpayment_package').value = id[10];
+        document.getElementById('edit_book_paymentmode_package').value = id[11];
+        document.getElementById('edit_book_room_type_package').innerHTML = id[12];
     });
      $('.addCharges').click(function(){
         var id=$(this).data('id');

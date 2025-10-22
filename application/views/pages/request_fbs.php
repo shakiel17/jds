@@ -23,6 +23,11 @@ if($this->session->flashdata('success')){
 if($this->session->flashdata('failed')){
     echo "<div class='alert alert-danger'>".$this->session->flashdata('failed')."</div>";
 }
+if($reserve['room_type']==""){
+    $room_type=$reserve['description'];
+}else{
+    $room_type=$reserve['room_type'];
+}
 ?>
 <div class="row">
     <div class="box col-md-12">
@@ -69,7 +74,7 @@ if($this->session->flashdata('failed')){
                             <b>Nationality: </b><?=$reserve['res_nationality'];?>                            
                         </td>
                         <td>
-                            <b>Room: </b><?=$reserve['room_type'];?> [<?=$reserve['room_color'];?>]<br>
+                            <b>Room: </b><?=$room_type;?> [<?=$reserve['room_color'];?>]<br>
                         </td>                        
                     </tr>                    
                 </table>

@@ -5,7 +5,7 @@
             $this->load->database();
         }
         public function getReservation($status){
-            $result=$this->db->query("SELECT r.*,rm.room_type,rm.room_color FROM reservation r LEFT JOIN room rm ON rm.id=r.res_room_id WHERE r.res_status='$status' ORDER BY r.res_date_arrive ASC");
+            $result=$this->db->query("SELECT r.*,rm.room_type,rm.room_color,p.description FROM reservation r LEFT JOIN room rm ON rm.id=r.res_room_id LEFT JOIN package p ON p.id=r.res_room_id WHERE r.res_status='$status' ORDER BY r.res_date_arrive ASC");
             return $result->result_array();
         }
         public function getExistingClient(){
@@ -69,12 +69,46 @@
                 return false;
             }
         }
+        public function save_reservation_package(){
+            $refno=date('YmdHis');
+            $room_id=$this->input->post('room_id');
+            $fullname=$this->input->post('fullname');
+            $address=$this->input->post('address');
+            $contactno=$this->input->post('contactno');
+            $email=$this->input->post('email');
+            $nationality=$this->input->post('nationality');
+            $arrival_date=$this->input->post('arrival_date');
+            $departure_date=$this->input->post('departure_date');
+            $pax=$this->input->post('pax');            
+            $no_guest=$pax;
+            $source=$this->input->post('source');
+            $downpayment=$this->input->post('downpayment');
+            $paymentmode=$this->input->post('paymentmode');
+            $date=date('Y-m-d');
+            $time=date('H:i:s');
+            $arrival_time="14:00:00";
+            $departure_time="11:00:00";
+            $datetime1 = new DateTime($arrival_date);
+            $datetime2 = new DateTime($departure_date);
+            $interval = $datetime1->diff($datetime2);
+            $no_night=$interval->days;
+            $loginuser=$this->session->fullname;
+            $query=$this->db->query("SELECT * FROM package WHERE id='$room_id'");
+            $r=$query->row_array();           
+            $room_rate=$r['rate'];
+            $result=$this->db->query("INSERT INTO reservation SET res_id='$refno',res_fullname='$fullname',res_address='$address',res_contactno='$contactno',res_email='$email',res_nationality='$nationality',res_date_arrive='$arrival_date',res_time_arrive='$arrival_time',res_date_depart='$departure_date',res_time_depart='$departure_time',res_book_date='$date',res_book_time='$time',res_no_nights='$no_night',res_no_guest='$no_guest',res_room_id='$room_id',res_room_rate='$room_rate',res_downpayment='$downpayment',res_status='booked',res_user='$loginuser',res_source='$source',res_mode_payment='$paymentmode'");
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
+        }
         public function checkAvailableRoom($id,$book_date){
             $result=$this->db->query("SELECT * FROM reservation WHERE res_room_id='$id' AND (res_date_arrive = '$book_date' OR (res_date_depart > '$book_date' AND res_date_arrive < '$book_date')) AND (res_status='booked' OR res_status='checkedin')");
             return $result->result_array();
         }
         public function getSingleReservation($id){
-            $result=$this->db->query("SELECT r.*,rm.room_type,rm.room_color FROM reservation r LEFT JOIN room rm ON rm.id=r.res_room_id WHERE r.res_id='$id'");
+            $result=$this->db->query("SELECT r.*,rm.room_type,rm.room_color,p.description FROM reservation r LEFT JOIN room rm ON rm.id=r.res_room_id LEFT JOIN package p ON p.id=r.res_room_id WHERE r.res_id='$id'");
             if($result->num_rows()>0){
                 return $result->row_array();
             }else{
@@ -116,6 +150,30 @@
                 return false;
             }
         }
+        public function update_reservation_package(){
+            $refno=$this->input->post('id');            
+            $fullname=$this->input->post('fullname');
+            $address=$this->input->post('address');
+            $contactno=$this->input->post('contactno');
+            $email=$this->input->post('email');
+            $nationality=$this->input->post('nationality');
+            $arrival_date=$this->input->post('arrival_date');
+            $departure_date=$this->input->post('departure_date');
+            $adult=$this->input->post('pax');
+            $no_guest=$adult;
+            $source=$this->input->post('source');
+            $downpayment=$this->input->post('downpayment');
+            $paymentmode=$this->input->post('paymentmode');
+            $date=date('Y-m-d');
+            $time=date('H:i:s');            
+            $loginuser=$this->session->fullname;
+            $result=$this->db->query("UPDATE reservation SET res_fullname='$fullname',res_address='$address',res_contactno='$contactno',res_email='$email',res_nationality='$nationality',res_date_arrive='$arrival_date',res_time_arrive='$arrival_time',res_date_depart='$departure_date',res_time_depart='$departure_time',res_no_guest='$no_guest',res_downpayment='$downpayment',res_status='booked',res_user='$loginuser',res_source='$source',res_mode_payment='$paymentmode' WHERE res_id='$refno'");
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
+        }
         public function cancel_reservation($id){
             $result=$this->db->query("UPDATE reservation SET res_status='cancelled' WHERE res_id='$id'");
             if($result){
@@ -126,6 +184,14 @@
         }
         public function check_in($id){
             $result=$this->db->query("UPDATE reservation SET res_status='checkedin' WHERE res_id='$id'");
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function check_out($id){
+            $result=$this->db->query("UPDATE reservation SET res_status='checkedout' WHERE res_id='$id'");
             if($result){
                 return true;
             }else{
@@ -180,6 +246,20 @@
             $result=$this->db->query("SELECT * FROM reservation_details WHERE res_id='$refno'");
             if($result->num_rows()>0){
                 return $result->row_array();
+            }else{
+                return false;
+            }
+        }
+        public function bill_payment(){
+            $refno=$this->input->post('refno');
+            $totalamount=$this->input->post('totalamount');
+            $amount=$this->input->post('amount');
+            $date=date('Y-m-d');
+            $time=date('H:i:s');
+            $fullname=$this->session->fullname;
+            $result=$this->db->query("INSERT INTO reservation_details SET res_id='$refno',res_amount_due='$totalamount',res_amount_paid='$amount',datearray='$date',timearray='$time',loginuser='$fullname'");
+            if($result){
+                return true;
             }else{
                 return false;
             }
