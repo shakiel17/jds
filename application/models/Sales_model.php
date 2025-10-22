@@ -132,8 +132,9 @@ date_default_timezone_set('Asia/Manila');
             if($check->num_rows()>0){
                 $row=$check->row_array();
                 $newqty=$row['quantity']+1;
+                $disc=$newqty*$row['discount'];
                 if($newqty <= $item['quantity']){
-                    $result=$this->db->query("UPDATE stock_ordered SET quantity='$newqty' WHERE trans_id='$refno' AND code='$code'");
+                    $result=$this->db->query("UPDATE stock_ordered SET quantity='$newqty',discount='$disc' WHERE trans_id='$refno' AND code='$code'");
                 }
             }else{
                 $result=$this->db->query("INSERT INTO stock_ordered SET trans_id='$refno',code='$code',quantity='1',sellingprice='$item[sellingprice]',discount='0'");
@@ -152,8 +153,10 @@ date_default_timezone_set('Asia/Manila');
             $qry=$this->db->query("SELECT * FROM stocks WHERE code='$row[code]'");
             $res=$qry->row_array();
             $soh=$res['quantity'];
+            $d=$row['discount']/$row['quantity'];
+            $disc=$quantity*$d;
             if($quantity <= $soh){
-                $result=$this->db->query("UPDATE stock_ordered SET quantity='$quantity' WHERE id='$id'");   
+                $result=$this->db->query("UPDATE stock_ordered SET quantity='$quantity',discount='$disc' WHERE id='$id'");   
             }
             if($result){
                 return true;
@@ -208,13 +211,18 @@ date_default_timezone_set('Asia/Manila');
             $type=$this->input->post('type');
             $trantype=$this->input->post('trantype');
             $controlno=$this->input->post('controlno');
+            $transno=$this->input->post('transno');
             $date=date('Y-m-d');
             $time=date('H:i:s');
             $fullname=$this->session->fullname;
             $query=$this->db->query("SELECT * FROM stock_ordered WHERE trans_id='$refno'");
             $items=$query->result_array();
             foreach($items as $item){
-                $result=$this->db->query("INSERT INTO stock_out SET trans_id='$refno',code='$item[code]',quantity='$item[quantity]',sellingprice='$item[sellingprice]',discount='$item[discount]',datearray='$date',timearray='$time',paymentmode='$type',`status`='paid',fullname='$fullname',control_no='$controlno',trantype='$trantype'");
+                if($type=="charge"){
+                    $amt=($item['quantity']*$item['sellingprice']) - $item['discount'];
+                    $this->db->query("INSERT INTO charged_item SET res_id='$transno',refno='$refno',`description`='$item[description]',amount='$amt',datearray='$date',timearray='$time',fullname='$fullname'");
+                }
+                $result=$this->db->query("INSERT INTO stock_out SET trans_id='$refno',code='$item[code]',quantity='$item[quantity]',sellingprice='$item[sellingprice]',discount='$item[discount]',datearray='$date',timearray='$time',paymentmode='$type',`status`='paid',fullname='$fullname',control_no='$controlno',trantype='$trantype',res_id='$transno'");
                 $query=$this->db->query("SELECT * FROM stocks WHERE code='$item[code]'");
                 $row=$query->row_array();
                 $oldqty=$row['quantity'];
@@ -222,7 +230,7 @@ date_default_timezone_set('Asia/Manila');
                 $this->db->query("UPDATE stocks SET quantity='$newqty' WHERE code='$item[code]'");
             }
             if($result){
-                $this->db->query("INSERT INTO tendered SET trans_id='$refno',amount='$amount'");
+                $this->db->query("INSERT INTO tendered SET trans_id='$refno',amount='$amount'");                
                 return true;
             }else{
                 return false;
@@ -254,7 +262,7 @@ date_default_timezone_set('Asia/Manila');
             $query=$this->db->query("SELECT * FROM stocks WHERE code='$code'");
             $item=$query->row_array();
             if($item['quantity'] >= $quantity){
-                if($id==""){
+                if($id==""){                    
                     $result=$this->db->query("INSERT INTO room_charge SET res_id='$refno',trans_id='',code='$code',quantity='$quantity',sellingprice='$item[sellingprice]',`status`='pending',datearray='$date',timearray='$time',fullname='$fullname'");
                 }else{
                     $result=$this->db->query("UPDATE room_charge SET quantity='$quantity' WHERE id='$id'");
@@ -290,6 +298,70 @@ date_default_timezone_set('Asia/Manila');
         public function getRoomCharges($refno){
             $result=$this->db->query("SELECT rc.*,s.description FROM room_charge rc INNER JOIN stocks s ON s.code=rc.code WHERE rc.status='pending' AND rc.trans_id='$refno' ORDER BY rc.id DESC");
             return $result->result_array();
+        }
+        public function getRoomChargesDetails($refno){
+            $result=$this->db->query("SELECT rc.*,s.description FROM room_charge rc INNER JOIN stocks s ON s.code=rc.code WHERE rc.trans_id='$refno' ORDER BY rc.id DESC");
+            return $result->result_array();
+        }
+        public function save_room_charges_qty(){
+            $id=$this->input->post('id');
+            $refno=$this->input->post('refno');
+            $resid=$this->input->post('reserve_id');
+            $quantity=$this->input->post('quantity');
+            $code=$this->input->post('code');
+            $date=date('Y-m-d');
+            $time=date('H:i:s');
+            $fullname=$this->session->fullname;
+            $query=$this->db->query("SELECT * FROM stocks WHERE code='$code'");
+            $item=$query->row_array();
+            if($item['quantity'] >= $quantity){
+                if($id==""){                    
+                    $result=$this->db->query("INSERT INTO room_charge SET res_id='$resid',trans_id='$refno',code='$code',quantity='$quantity',sellingprice='$item[sellingprice]',`status`='pending',datearray='$date',timearray='$time',fullname='$fullname'");
+                }else{
+                    $result=$this->db->query("UPDATE room_charge SET quantity='$quantity' WHERE id='$id'");
+                }
+            }            
+            if($result){                
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function cancel_room_charges($refno){
+            $result=$this->db->query("UPDATE room_charge SET `status`='cancel' WHERE trans_id='$refno'");
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        public function proceed_request($refno,$resid,$fn){
+            $date=date('Y-m-d');
+            $time=date('H:i:s');
+            $fullname=$this->session->fullname;
+            $query=$this->db->query("SELECT * FROM room_charge WHERE trans_id='$refno'");
+            $res=$query->result_array();
+            $amount=0;
+            foreach($res as $item){
+                $result=$this->db->query("INSERT INTO stock_out SET trans_id='$refno',code='$item[code]',quantity='$item[quantity]',sellingprice='$item[sellingprice]',discount='0',fullname='$fullname',datearray='$date',timearray='$time',trantype='Room Service',`status`='paid',control_no='Room Service',paymentmode='charge',res_id='$resid'");
+                $query=$this->db->query("SELECT * FROM stocks WHERE code='$item[code]'");
+                $row=$query->row_array();
+                $oldqty=$row['quantity'];
+                $desc=$row['description'];
+                $newqty=$oldqty-$item['quantity'];
+                $this->db->query("UPDATE stocks SET quantity='$newqty' WHERE code='$item[code]'");
+                $amount += $item['quantity']*$item['sellingprice'];
+                $amt=$item['quantity']*$item['sellingprice'];
+                $this->db->query("INSERT INTO charged_item SET res_id='$resid',refno='$refno',`description`='$desc',amount='$amt',datearray='$date',timearray='$time',fullname='$fullname'");
+            }
+            if($result){
+                $this->db->query("UPDATE room_charge SET `status`='confirmed' WHERE trans_id='$refno'");
+                $this->db->query("INSERT INTO tendered SET trans_id='$refno',amount='$amount'");                                                
+                return true;
+            }else{
+                return false;
+            }
         }
     }
 ?>

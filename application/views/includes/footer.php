@@ -190,6 +190,13 @@
         document.getElementById("single_disc_id").value=id[0];
         document.getElementById("single_disc_amount").value=id[1]; 
     });
+    $('.billPayment').click(function(){
+        var data=$(this).data('id');
+        var id=data.split('_');
+        document.getElementById("final_payment_refno").value=id[0];
+        document.getElementById("final_payment_total_amount").value=id[1]; 
+        document.getElementById("final_payment_amount").value=id[1]; 
+    });
     $('.addDiscount').click(function(){
         var id=$(this).data('id');
         document.getElementById("add_disc_refno").value=id;
@@ -207,6 +214,16 @@
         document.getElementById('request_item').value='';
         document.getElementById('request_quantity').value='1';
     });
+    $('.addChargesFBS').click(function(){
+        var data=$(this).data('id');
+        var id=data.split('_');
+        document.getElementById("request_room_refno").value=id[0];
+        document.getElementById("request_room_res_id").value=id[1];
+        document.getElementById("request_room_fullname").value=id[2];
+        document.getElementById("request_room_id").value='';        
+        document.getElementById('request_room_item').value='';
+        document.getElementById('request_room_quantity').value='1';
+    });
      $('.editFBSCharges').click(function(){
         var data=$(this).data('id');
         var id=data.split('_');
@@ -214,6 +231,40 @@
         document.getElementById('request_id').value=id[0];
         document.getElementById('request_item').value=id[2];
         document.getElementById('request_quantity').value=id[3];
+    });
+    function showGCash(){
+        document.getElementById('gcash').style = 'display:block';
+    }
+    function unshowGCash(){
+        document.getElementById('gcash').style = 'display:none';
+    }
+    function unshowAll(){
+        document.getElementById('card').style = 'display:none';
+        document.getElementById('gcash').style = 'display:none';
+        document.getElementById('charge').style = 'display:none';
+    }
+    function showCard(){
+        document.getElementById('card').style = 'display:block';
+    }
+    function unshowCard(){
+        document.getElementById('card').style = 'display:none';
+    }
+    function showCharged(){
+        document.getElementById('charge').style = 'display:block';
+    }
+    function unshowCharged(){
+        document.getElementById('charge').style = 'display:none';
+    }
+    $('.editRoomChargeQty').click(function(){
+        var data=$(this).data('id');
+        var id=data.split('_');
+        document.getElementById("edit_room_qty_id").value=id[0];
+        document.getElementById('edit_room_qty_code').value=id[1];
+        document.getElementById('edit_room_qty_quantity').value=id[2];
+        document.getElementById('edit_room_qty_description').innerHTML=id[3];
+        document.getElementById('edit_room_qty_refno').value=id[4];
+        document.getElementById('edit_room_qty_res_id').value=id[5];
+        document.getElementById('edit_room_qty_fullname').value=id[6];
     });
 </script>
 

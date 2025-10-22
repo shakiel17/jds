@@ -697,7 +697,7 @@ date_default_timezone_set('Asia/Manila');
             if($this->session->user_login){}
             else{redirect(base_url());}
             $date=date('Y-m-d');
-            $data['charges'] = $this->Sales_model->getRoomCharges($refno);
+            $data['charges'] = $this->Sales_model->getRoomChargesDetails($refno);
             $data['refno'] = $refno;
             $data['reserve_id'] = $resid;
             $data['fullname'] = $fullname;
@@ -707,6 +707,72 @@ date_default_timezone_set('Asia/Manila');
             $this->load->view('pages/'.$page,$data);    
             $this->load->view('includes/modal');     
             $this->load->view('includes/footer');               
+        }
+        public function remove_room_charge_item($id,$refno,$resid,$fullname){
+                $save=$this->Sales_model->remove_request_item($id);
+                if($save){
+                    $this->session->set_flashdata('success','Requested item successfully removed!');                   
+                }else{
+                    $this->session->set_flashdata('failed','Unable to remove requested item!');                
+                }
+            redirect(base_url('view_room_charges/'.$refno."/".$resid."/".$fullname));
+        }
+        public function save_room_charge_qty(){
+                $refno=$this->input->post('refno');
+                $resid=$this->input->post('reserve_id');
+                $fullname=$this->input->post('fullname');
+                $save=$this->Sales_model->save_room_charges();
+                if($save){
+                    $this->session->set_flashdata('success','Requested item quantity successfully updated!');                   
+                }else{
+                    $this->session->set_flashdata('failed','Unable to update requested item quantity!');                
+                }
+            redirect(base_url('view_room_charges/'.$refno."/".$resid."/".$fullname));
+        }
+        public function room_charges_save(){
+            $refno=$this->input->post('refno');
+            $resid=$this->input->post('reserve_id');
+            $fullname=$this->input->post('fullname');
+            $save=$this->Sales_model->save_room_charges_qty();
+            if($save){
+                $this->session->set_flashdata('success','Item successfully added!');
+            }else{
+                $this->session->set_flashdata('failed','Unable to add item!');
+            }
+            redirect(base_url('view_room_charges/'.$refno."/".$resid."/".$fullname));
+        }
+
+        public function cancel_room_charges($refno,$resid,$fullname){
+                $save=$this->Sales_model->cancel_room_charges($refno);
+                if($save){
+                    $this->session->set_flashdata('success','Requested items successfully cancelled!');                   
+                }else{
+                    $this->session->set_flashdata('failed','Unable to cancel requested items!');                
+                }
+            redirect(base_url('view_room_charges/'.$refno."/".$resid."/".$fullname));
+        }
+        public function proceed_request($refno,$resid,$fullname){
+                $save=$this->Sales_model->proceed_request($refno,$resid,$fullname);
+                if($save){
+                    $this->session->set_flashdata('success','Requested items successfully confirmed!');                   
+                }else{
+                    $this->session->set_flashdata('failed','Unable to confirm requested items!');                
+                }
+            redirect(base_url('view_room_charges/'.$refno."/".$resid."/".$fullname));
+        }
+
+        public function print_bill($id){
+            $page = "print_bill";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $data['info'] = $this->General_model->getSettings();
+            $data['reserve'] = $this->Reservation_model->getSingleReservation($id);  
+            $data['charges'] = $this->Reservation_model->getAllCharges($id);
+            $data['payment'] = $this->Reservation_model->getPayment($id);            
+            $this->load->view('pages/'.$page,$data);                           
         }
 }
 ?>

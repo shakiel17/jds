@@ -900,12 +900,14 @@
                         <option value="">Select Transaction Type</option>
                         <option value="Dine in">Dine in</option>
                         <option value="Take out">Take out</option>
+                        <option value="Room Service">Room Service</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Table No.</label>
-                    <select name="controlno" class="form-control" required>
+                    <select name="controlno" class="form-control" requied>
                         <option value="">Select No.</option>
+                        <option value="Room Service">No Table</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -934,10 +936,30 @@
                 </div> 
                 <div class="form-group">
                     <label for="exampleInputEmail1">Payment Type</label><br>
-                    <input type="radio" name="type" required value="cash" checked> Cash
-                    <input type="radio" name="type" required value="gcash"> GCash
-                    <input type="radio" name="type" required value="card"> Card
-                </div>                              
+                    <input type="radio" name="type" required value="cash" checked onclick="unshowAll();"> Cash
+                    <input type="radio" name="type" required value="gcash" onclick="showGCash(); unshowCard(); unshowCharged(); "> GCash
+                    <input type="radio" name="type" required value="card" onclick="showCard();unshowGCash();unshowCharged();"> Card
+                    <input type="radio" name="type" required value="charge" onclick="showCharged();unshowCard();unshowGCash();"> Charge
+                </div>
+                <div class="form-group" id="gcash" style="display:none;">
+                    <label>Transaction #</lable>
+                    <input type="text" name="transno" class="form-control">
+                </div>
+                <div class="form-group" id="card" style="display:none;">
+                    <label>Card #</lable>
+                    <input type="text" name="transno" class="form-control">
+                </div>
+                <div class="form-group" id="charge" style="display:none;">
+                    <label>Reservation ID</lable>
+                    <select name="transno" class="form-control">
+                        <?php
+                        $query=$this->Reservation_model->getReservation('checkedin');                        
+                        foreach($query as $row){
+                            echo "<option value='$row[res_id]'>$row[res_fullname] - [$row[room_type] $row[room_color]]</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
@@ -974,6 +996,102 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1">Quantity</label>
                     <input type="text" name="quantity" class="form-control" value="1" id="request_quantity">
+                </div>                                
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="EditRoomChargeQty" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('save_room_charge_qty');?>" method="POST"> 
+                <input type="hidden" name="id" id="edit_room_qty_id">
+                <input type="hidden" name="refno" id="edit_room_qty_refno">
+                <input type="hidden" name="reserve_id" id="edit_room_qty_res_id">
+                <input type="hidden" name="fullname" id="edit_room_qty_fullname">
+                <input type="hidden" name="code" id="edit_room_qty_code">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Edit Quantity</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Item Description</label>
+                    <p style="font-size:20px;" id="edit_room_qty_description"></p>
+                </div>                
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Quantity</label>
+                    <input type="text" name="quantity" class="form-control" id="edit_room_qty_quantity" required>
+                </div>                
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="AddChargesFBS" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('room_charges_save');?>" method="POST">                 
+                <input type="hidden" name="id" id="request_room_id">
+                <input type="hidden" name="refno" id="request_room_refno">
+                <input type="hidden" name="reserve_id" id="request_room_res_id">
+                <input type="hidden" name="fullname" id="request_room_fullname">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Manage Item Request</h3>
+            </div>
+            <div class="modal-body">                                               
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Item Menu</label>
+                    <select name="code" class="form-control" required id="request_room_item">
+                        <option value="">Select Item</option>
+                        <?php
+                        $stocks=$this->Sales_model->getAllStocks();
+                        foreach($stocks as $item){
+                            echo "<option value='$item[code]'>$item[description] [P $item[sellingprice]] [QTY: $item[quantity]]</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Quantity</label>
+                    <input type="text" name="quantity" class="form-control" value="1" id="request_room_quantity">
+                </div>                                
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="BillPayment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('save_room_charges');?>" method="POST" enctype="multipart/form-data"> 
+                <input type="hidden" name="refno" id="final_payment_refno">                
+                <input type="hidden" name="totalamount" id="final_payment_total_amount">                
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Payment</h3>
+            </div>
+            <div class="modal-body">                                               
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Payment Amount</label>
+                    <input type="text" name="amount" class="form-control"  id="final_payment_amount">
                 </div>                                
             </div>
             <div class="modal-footer">

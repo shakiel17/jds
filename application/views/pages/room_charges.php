@@ -19,17 +19,6 @@ if($this->session->flashdata('failed')){
 }
 ?>
 <div class="row">
-    <div class="box col-12">
-        <?=form_open('track_invoice_search');?>
-        <table width="100%" border="0">
-            <tr>
-                <td width="8%"><b>Select Date:</b></td>
-                <td width="15%"><input type="date" name="datearray" class="form-control" value="<?=date('Y-m-d');?>"></td>
-                <td><input type="submit" class="btn btn-primary btn-sm" value="Search"></td>
-            </tr>
-        </table>
-        <?=form_close();?>                    
-    </div>
     <div class="box col-md-12">                            
         <div class="box-inner">            
             <div class="box-header well">

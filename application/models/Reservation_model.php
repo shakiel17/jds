@@ -176,5 +176,13 @@
                 return false;
             }
         }
+        public function getPayment($refno){
+            $result=$this->db->query("SELECT * FROM reservation_details WHERE res_id='$refno'");
+            if($result->num_rows()>0){
+                return $result->row_array();
+            }else{
+                return false;
+            }
+        }
     }
 ?>

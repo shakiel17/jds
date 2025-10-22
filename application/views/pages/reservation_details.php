@@ -73,13 +73,19 @@ if($this->session->flashdata('failed')){
             </div>
         </div>
         <br>
+        <?php
+        $other=0;
+        foreach($charges as $item){
+            $other += $item['amount'];
+        }
+        ?>
         <div class="box-inner">
             <div class="box-header well">
                 <h2><i class="glyphicon glyphicon-shopping-cart"></i> Charged Items</h2>  
                 <div style="float:right;">
                     <a href="#" class="btn btn-round btn-default addCharges" title="Add New Charges" data-toggle="modal" data-target="#AddCharges" data-id="<?=$refno;?>"><i class="glyphicon glyphicon-plus"></i> Add Charges</a>
                     <a href="<?=base_url('request_fbs/'.$refno);?>" class="btn btn-round btn-default requestFBS" title="Food Request"><i class="glyphicon glyphicon-folder-close"></i> FBS Request</a>
-                    <a href="#" class="btn btn-round btn-default billPayment" title="Payment" data-toggle="modal" data-target="#BillPayment" data-id="<?=$refno;?>"><i class="glyphicon glyphicon-folder-open"></i> Payment</a>
+                    <a href="#" class="btn btn-round btn-default billPayment" title="Payment" data-toggle="modal" data-target="#BillPayment" data-id="<?=$refno;?>_<?=$other;?>"><i class="glyphicon glyphicon-folder-open"></i> Payment</a>
                     <a href="<?=base_url('print_bill/'.$refno);?>" class="btn btn-round btn-default" title="Print Billing Statement" target="_blank"><i class="glyphicon glyphicon-print"></i> Print Final Bill</a>                    
                 </div>              
             </div>
@@ -102,10 +108,16 @@ if($this->session->flashdata('failed')){
                                 echo "<td>$x.</td>";
                                 echo "<td>".date('m/d/Y',strtotime($item['datearray']))." / ".date('h:i A',strtotime($item['timearray']))."</td>";
                                 echo "<td>$item[description]</td>";
-                                echo "<td align='right'>".number_format($item['amount'],2)."</td>";
+                                echo "<td style='text-align:right;'>".number_format($item['amount'],2)."</td>";
                                 ?>
                                 <td>
+                                    <?php
+                                    if($item['refno'] ==""){
+                                    ?>
                                     <a href="#" class="btn btn-danger btn-sm deleteCharges" data-toggle="modal" data-target="#DeleteCharges" data-id="<?=$refno;?>_<?=$item['id'];?>"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+                                    <?php
+                                    }
+                                    ?>
                                 </td>
                                 <?php
                             echo "</tr>";
