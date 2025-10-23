@@ -149,4 +149,13 @@ imagedestroy($image);
         <td width="40%" align="right"><?=$loginuser;?></td>
     </tr>
 </table>
+<br>
+<br>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size:11px;">
+    <tr>
+        <td width="20%">&nbsp;</td>
+        <td width="60%" align="center" style="border-top:1px solid black;">Signature</td>        
+        <td width="20%">&nbsp;</td>
+    </tr>
+</table>
 </div>

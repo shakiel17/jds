@@ -37,7 +37,7 @@ if($this->session->flashdata('failed')){
             <tr>                
                 <th>Reservation #</th>
                 <th>Client Name</th>                            
-                <th>Arrival Date</th> 
+                <th class="sorting_asc">Arrival Date</th> 
                 <th>Departure Date</th>
                 <th>Room</th>
                 <th>No. of Guest</th>
@@ -114,7 +114,7 @@ if($this->session->flashdata('failed')){
         </div>
     </div>
 </div>
-    <div class="box col-md-12">
+    <div class="box col-md-12 col-lg-12 col-sm-12">
         <div class="box-inner">
         <div class="box-header well" data-original-title="">
             <h2><i class="glyphicon glyphicon-home"></i> Check in List</h2>

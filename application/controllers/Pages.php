@@ -597,7 +597,7 @@ date_default_timezone_set('Asia/Manila');
         }
         public function add_discount(){
             $this->Sales_model->add_discount();
-            redirect(base_url('point_of_sale'));
+           // redirect(base_url('point_of_sale'));
         }
         public function remove_all_discount($refno){
             $this->Sales_model->remove_all_discount($refno);
@@ -817,6 +817,76 @@ date_default_timezone_set('Asia/Manila');
             $data['reserve'] = $this->Reservation_model->getSingleReservation($id);  
             $data['charges'] = $this->Reservation_model->getAllCharges($id);
             $data['payment'] = $this->Reservation_model->getPayment($id);            
+            $this->load->view('pages/'.$page,$data);                           
+        }
+        public function sales_report(){
+            $page = "sales_report";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $date=date('Y-m-d');
+            $data['department'] = $this->General_model->getAllDepartment();
+            $data['category'] = $this->Sales_model->getAllCategory();
+            $this->load->view('includes/header'); 
+            $this->load->view('includes/navbar');           
+            $this->load->view('includes/sidebar');            
+            $this->load->view('pages/'.$page,$data);    
+            $this->load->view('includes/modal');     
+            $this->load->view('includes/footer');               
+        }
+        public function generate_sales_report(){
+            $page = "generate_sales_report";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $startdate=$this->input->post('startdate');
+            $enddate=$this->input->post('enddate');
+            $dept=$this->input->post('department');
+            $category=$this->input->post('category');
+            $data['info'] = $this->General_model->getSettings();
+            if($dept=="FRONT OFFICE" && $category=="book"){
+                $data['sales'] = array();
+                $data['sales_res'] = $this->Sales_model->getAllSalesByBooking($startdate,$enddate);
+            }else if($dept=="FRONT OFFICE" && $category=="final"){
+                $data['sales_res'] = $this->Sales_model->getAllSalesByCheckout($startdate,$enddate);
+                $data['sales'] = array();
+            }else{
+                $data['sales'] = $this->Sales_model->getAllSalesByDept($dept,$category);
+                $data['sales_res'] = array();
+            }            
+            $data['startdate'] = $startdate;
+            $data['enddate'] = $enddate;
+            $data['dept'] = $dept;
+            $data['category'] = $category;
+            $this->load->view('pages/'.$page,$data);                           
+        }
+        public function generate_sales_summary_report(){
+            $page = "generate_sales_summary_report";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $startdate=$this->input->post('startdate');
+            $enddate=$this->input->post('enddate');
+            $dept=$this->input->post('department');    
+            $begdate1=date('Y-m',strtotime($startdate))."-01";
+            $begdate2=date('Y-m',strtotime('-1 day',strtotime($startdate)));
+            $data['info'] = $this->General_model->getSettings();
+            if($dept=="FRONT OFFICE"){
+                $data['sales'] = array();
+                $data['sales_res'] = 1;
+            }else{
+                $data['sales'] = $this->Sales_model->getSalesByDept($dept,$startdate,$enddate);
+                $data['sales_res'] = array();
+            }            
+            $data['startdate'] = $startdate;
+            $data['enddate'] = $enddate;
+            $data['dept'] = $dept;            
             $this->load->view('pages/'.$page,$data);                           
         }
 }

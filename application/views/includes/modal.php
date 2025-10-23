@@ -1097,6 +1097,10 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1">Payment Amount</label>
                     <input type="text" name="amount" class="form-control"  id="final_payment_amount">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Discount</label>
+                    <input type="text" name="discount" class="form-control">
                 </div>                                
             </div>
             <div class="modal-footer">

@@ -6,6 +6,7 @@ if($this->session->dept=="admin"){
     $fbs="";
     $reports="";
     $settings="";
+    $addqty="";
 }
 if($this->session->dept=="FRONT OFFICE"){
     $dashboard="";
@@ -14,12 +15,14 @@ if($this->session->dept=="FRONT OFFICE"){
     $fbs="style='display:none;'";
     $reports="style='display:none;'";
     $settings="style='display:none;'";
+    $addqty="style='display:none;'";
 }
 if($this->session->dept=="CAFE" || $this->session->dept=="FOOD KIOSK" || $this->session->dept=="SOUVENIR"){
     $dashboard="style='display:none;'";
     $reservation="style='display:none;'";
     $housekeeping="style='display:none;'";
     $fbs="";
+    $addqty="style='display:none;'";
     $reports="style='display:none;'";
     $settings="style='display:none;'";
 }
@@ -30,6 +33,7 @@ if($this->session->dept=="HOUSEKEEPING"){
     $fbs="style='display:none;'";
     $reports="style='display:none;'";
     $settings="style='display:none;'";
+    $addqty="style='display:none;'";
 }
 ?>
 <div class="ch-container">
@@ -63,13 +67,13 @@ if($this->session->dept=="HOUSEKEEPING"){
                                 <li><a href="<?=base_url('point_of_sale');?>">Point of Sales</a></li>
                                 <li><a href="<?=base_url('room_charges');?>">Room Charges <?=$pen;?></a></li>
                                 <li><a href="<?=base_url('track_invoice');?>">Track Invoice</a></li>
-                                <li><a href="<?=base_url('manage_stock_quantity');?>">Stock Quantity</a></li>                                
+                                <li <?=$addqty;?>><a href="<?=base_url('manage_stock_quantity');?>">Stock Quantity</a></li>                                
                             </ul>
                         </li>
                         <li class="accordion" <?=$reports;?>>
                              <a href="#"><i class="glyphicon glyphicon-file"></i><span> Reports <?=$pen;?></span></a>
                              <ul class="nav nav-pills nav-stacked">
-                                <li><a href="<?=base_url('daily_sales');?>">Daily Sales</a></li>                              
+                                <li><a href="<?=base_url('sales_report');?>">Sales Report</a></li>                              
                             </ul>
                         </li>
                         <li class="accordion" <?=$settings;?>>

@@ -257,13 +257,14 @@
             }
         }
         public function bill_payment(){
-            $refno=$this->input->post('refno');
-            $totalamount=$this->input->post('totalamount');
+            $refno=$this->input->post('refno');            
             $amount=$this->input->post('amount');
+            $discount=$this->input->post('discount');
+            $totalamount=$amount-$discount;
             $date=date('Y-m-d');
             $time=date('H:i:s');
             $fullname=$this->session->fullname;
-            $result=$this->db->query("INSERT INTO reservation_details SET res_id='$refno',res_amount_due='$totalamount',res_amount_paid='$amount',datearray='$date',timearray='$time',loginuser='$fullname'");
+            $result=$this->db->query("INSERT INTO reservation_details SET res_id='$refno',res_amount_due='$discount',res_amount_paid='$amount',datearray='$date',timearray='$time',loginuser='$fullname'");
             if($result){
                 return true;
             }else{

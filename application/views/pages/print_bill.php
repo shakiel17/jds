@@ -68,8 +68,10 @@
             echo "</tr>";
         }
         $paid=0;
+        $disc=0;
         if($payment){
             $paid=$payment['res_amount_paid'];
+            $disc=$payment['res_amount_due'];
         }
         ?>        
         <tr style="border-top:1px solid black;">
@@ -90,12 +92,16 @@
                 <td align="right"><b>(<?=number_format($reserve['res_downpayment'],2);?>)</b></td>
             </tr>
             <tr>
-                <td align="right" width="80%"><b>Total Amount Due:</b></td>
-                <td align="right" style="border-top:1px solid black;"><b><?=number_format($och+($no*$reserve['res_room_rate'])-$reserve['res_downpayment'],2);?></b></td>
+                <td align="right" width="80%"><b>Discount:</b></td>
+                <td align="right" style="border-top:1px solid black; border-bottom:1px solid black;"><b>(<?=number_format($disc,2);?>)</b></td>
             </tr>
-             <tr>
+            <tr>
+                <td align="right" width="80%"><b>Total Amount Due:</b></td>
+                <td align="right" style="border-top:1px solid black;"><b><?=number_format($och+($no*$reserve['res_room_rate'])-$reserve['res_downpayment']-$disc,2);?></b></td>
+            </tr>            
+            <tr>
                 <td align="right" width="80%"><b>Amount Paid:</b></td>
-                <td align="right" style="border-top:1px solid black; border-bottom:1px solid black;"><b>(<?=number_format($paid,2);?>)</b></td>
+                <td align="right" style="border-top:1px solid black; border-bottom:1px solid black;"><b>(<?=number_format($paid-$disc,2);?>)</b></td>
             </tr>
             <tr>
                 <td align="right" width="80%"><b>Amount Payable:</b></td>

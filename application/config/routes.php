@@ -50,6 +50,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 #
+$route['generate_sales_summary_report'] = 'pages/generate_sales_summary_report';
+$route['generate_sales_report'] = 'pages/generate_sales_report';
+$route['sales_report'] = 'pages/sales_report';
 $route['bill_payment'] = 'pages/bill_payment';
 $route['print_bill/(:any)'] = 'pages/print_bill/$1';
 $route['proceed_request/(:any)/(:any)/(:any)'] = 'pages/proceed_request/$1/$2/$3';

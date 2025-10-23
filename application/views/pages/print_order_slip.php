@@ -56,9 +56,12 @@
    <b>Time: <?=date('h:i A',strtotime($time));?></b>
     <?php
    }
-   ?>
-   <br><br><br>
-   <?php
+   if($kitchen==0){
+
+   }else{
+    echo "<br><br><br>";
+   }
+   
    if($bar > 0){
     ?>
     <table width="100%" border="0" style="font-family:Arial;">

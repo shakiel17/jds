@@ -38,7 +38,7 @@ date_default_timezone_set('Asia/Manila');
             }
         }
         public function getAllCategory(){
-            $result=$this->db->query("SELECT category FROM stocks GROUP BY category");
+            $result=$this->db->query("SELECT category FROM stocks GROUP BY category ORDER BY category ASC");
             return $result->result_array();
         }
         public function delete_stocks($code){
@@ -364,6 +364,46 @@ date_default_timezone_set('Asia/Manila');
             }else{
                 return false;
             }
+        }
+        public function getAllSalesByDept($dept,$category){
+            $startdate=$this->input->post('startdate');
+            $enddate=$this->input->post('enddate');
+            if($dept=="all"){
+                if($category=="all"){
+                    $result=$this->db->query("SELECT so.*,s.description,s.dept,s.category FROM stock_out so INNER JOIN stocks s ON s.code=so.code WHERE so.datearray BETWEEN '$startdate' AND '$enddate' ORDER BY s.dept ASC,s.category ASC,so.datearray ASC");
+                }else{
+                    $result=$this->db->query("SELECT so.*,s.description,s.dept,s.category FROM stock_out so INNER JOIN stocks s ON s.code=so.code WHERE so.datearray BETWEEN '$startdate' AND '$enddate' AND s.category='$category' ORDER BY s.dept ASC,s.category ASC,so.datearray ASC");
+                }                
+            }else{
+                if($category=="all"){
+                    $result=$this->db->query("SELECT so.*,s.description,s.dept,s.category FROM stock_out so INNER JOIN stocks s ON s.code=so.code WHERE so.datearray BETWEEN '$startdate' AND '$enddate' AND s.dept='$dept' ORDER BY s.dept ASC,s.category ASC,so.datearray ASC");
+                }else{
+                    $result=$this->db->query("SELECT so.*,s.description,s.dept,s.category FROM stock_out so INNER JOIN stocks s ON s.code=so.code WHERE so.datearray BETWEEN '$startdate' AND '$enddate' AND s.dept='$dept' AND s.category='$category' ORDER BY s.dept ASC,s.category ASC,so.datearray ASC");
+                }                
+            }            
+            return $result->result_array();
+        }
+
+        public function getSalesByDept($dept,$startdate,$enddate){            
+            if($dept=="all"){
+                    $result=$this->db->query("SELECT s.dept,s.category FROM stock_out so INNER JOIN stocks s ON s.code=so.code WHERE so.datearray BETWEEN '$startdate' AND '$enddate' GROUP BY s.category ORDER BY s.dept ASC,s.category ASC,so.datearray ASC");
+            }else{
+                    $result=$this->db->query("SELECT s.dept,s.category FROM stock_out so INNER JOIN stocks s ON s.code=so.code WHERE so.datearray BETWEEN '$startdate' AND '$enddate' AND s.dept='$dept' GROUP BY s.category ORDER BY s.dept ASC,s.category ASC,so.datearray ASC");                
+            }            
+            return $result->result_array();
+        }
+        public function getSalesByCategory($dept,$category,$startdate,$enddate){
+            $result=$this->db->query("SELECT so.* FROM stock_out so INNER JOIN stocks s ON s.code=so.code WHERE so.datearray BETWEEN '$startdate' AND '$enddate' AND s.dept='$dept' AND s.category='$category'");
+            return $result->result_array();
+        }
+
+        public function getAllSalesByBooking($startdate,$enddate){               
+                $result=$this->db->query("SELECT res_fullname,res_downpayment as amount,res_mode_payment,res_book_date as datearray FROM reservation WHERE res_book_date BETWEEN '$startdate' AND '$enddate'");
+                return $result->result_array();            
+        }
+        public function getAllSalesByCheckout($startdate,$enddate){               
+                $result=$this->db->query("SELECT r.res_fullname,rd.res_amount_paid as amount,r.res_date_depart as datearray,rd.res_amount_due as discount FROM reservation_details rd INNER JOIN reservation r ON r.res_id=rd.res_id WHERE r.res_date_depart BETWEEN '$startdate' AND '$enddate'");
+                return $result->result_array();            
         }
     }
 ?>
