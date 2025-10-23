@@ -6,7 +6,7 @@
                 <h3>Log me out!</h3>
             </div>
             <div class="modal-body">
-                <img  src="<?=base_url('design/img/logout.jpg');?>">
+                <img  src="<?=base_url('design/img/logout.jpg');?>" width="80%">
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-default" data-dismiss="modal">No, I will stay</a>

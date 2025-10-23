@@ -398,7 +398,7 @@ date_default_timezone_set('Asia/Manila');
         }
 
         public function getAllSalesByBooking($startdate,$enddate){               
-                $result=$this->db->query("SELECT res_fullname,res_downpayment as amount,res_mode_payment,res_book_date as datearray FROM reservation WHERE res_book_date BETWEEN '$startdate' AND '$enddate'");
+                $result=$this->db->query("SELECT res_fullname,res_downpayment as amount,res_mode_payment,res_book_date as datearray,discount FROM reservation WHERE res_book_date BETWEEN '$startdate' AND '$enddate'");
                 return $result->result_array();            
         }
         public function getAllSalesByCheckout($startdate,$enddate){               
