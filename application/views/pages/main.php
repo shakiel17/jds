@@ -8,6 +8,45 @@
             </li>
         </ul>
 </div>
+<div class=" row">
+    <div class="col-md-4 col-sm-3 col-xs-6">
+        <a data-toggle="tooltip" class="well top-block" href="#">
+            <i class="glyphicon glyphicon-home green"></i>
+
+            <div>Bookings</div>
+            <div><?=count($booked);?></div>
+        </a>
+    </div>
+
+    <div class="col-md-4 col-sm-3 col-xs-6">
+        <a data-toggle="tooltip" class="well top-block" href="#">
+            <i class="glyphicon glyphicon-download-alt blue"></i>
+
+            <div>Checked In</div>
+            <div><?=count($checkin);?></div>
+
+        </a>
+    </div>
+
+    <div class="col-md-4 col-sm-3 col-xs-6">
+        <a data-toggle="tooltip" class="well top-block" href="#">
+            <i class="glyphicon glyphicon-share yellow"></i>
+
+            <div>Checked Out</div>
+            <div><?=count($checkout);?></div>
+        </a>
+    </div>
+
+    <!-- <div class="col-md-3 col-sm-3 col-xs-6">
+        <a data-toggle="tooltip" class="well top-block" href="#">
+            <i class="glyphicon glyphicon-book blue"></i>
+
+            <div>Checked In (Package)</div>
+            <div></div>
+        
+        </a>
+    </div> -->
+</div>
 <div class="row">
         <div class="box col-md-12">
             <div class="box-inner">

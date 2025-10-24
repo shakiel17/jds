@@ -73,7 +73,8 @@ if($this->session->dept=="HOUSEKEEPING"){
                         <li class="accordion" <?=$reports;?>>
                              <a href="#"><i class="glyphicon glyphicon-file"></i><span> Reports <?=$pen;?></span></a>
                              <ul class="nav nav-pills nav-stacked">
-                                <li><a href="<?=base_url('sales_report');?>">Sales Report</a></li>                              
+                                <li><a href="<?=base_url('sales_report');?>">Sales Report</a></li>
+                                <li><a href="<?=base_url('booking_report');?>">Reservation Report</a></li>                              
                             </ul>
                         </li>
                         <li class="accordion" <?=$settings;?>>

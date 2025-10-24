@@ -34,7 +34,7 @@
                 </ul>
             </div>
             <div class="btn-group pull-right theme-container animated tada">
-                <!-- <p>Login Date/Time: <?=date('m/d/Y',strtotime($user['date_login']));?> / <?=date('h:i A',strtotime($user['time_login']));?></p> -->
+                <p>Date/Time: <b><?=date('F d, Y');?> / <i id="clock"></i></b></p>
             </div>
         </div>
     </div>

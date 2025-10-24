@@ -60,6 +60,9 @@ date_default_timezone_set('Asia/Manila');
             if($this->session->dept=="HOUSEKEEPING"){
                 redirect(base_url('manage_housekeeping'));
             }
+            $data['booked'] = $this->Reservation_model->getReservation('booked');
+            $data['checkin'] = $this->Reservation_model->getReservation('checkedin');
+            $data['checkout'] = $this->Reservation_model->getReservation('checkedout');
             $this->load->view('includes/header'); 
             $this->load->view('includes/navbar');           
             $this->load->view('includes/sidebar');            
@@ -887,6 +890,47 @@ date_default_timezone_set('Asia/Manila');
             $data['startdate'] = $startdate;
             $data['enddate'] = $enddate;
             $data['dept'] = $dept;            
+            $this->load->view('pages/'.$page,$data);                           
+        }
+        public function booking_report(){
+            $page = "booking_report";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $date=date('Y-m-d');
+            $data['department'] = $this->General_model->getAllDepartment();
+            $data['category'] = $this->Sales_model->getAllCategory();
+            $this->load->view('includes/header'); 
+            $this->load->view('includes/navbar');           
+            $this->load->view('includes/sidebar');            
+            $this->load->view('pages/'.$page,$data);    
+            $this->load->view('includes/modal');     
+            $this->load->view('includes/footer');               
+        }
+
+        public function generate_booking_report(){
+            $page = "generate_booking_report";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $startdate=$this->input->post('startdate');
+            $enddate=$this->input->post('enddate');
+            $type=$this->input->post('type');
+            $data['info'] = $this->General_model->getSettings(); 
+            $data['items'] = $this->Reservation_model->getAllReservation($type,$startdate,$enddate);         
+            $data['startdate'] = $startdate;
+            $data['enddate'] = $enddate;
+            if($type=="booked"){
+                $data['type'] = "BOOKING";
+            }else if($type=="checkedin"){
+                $data['type'] = "CHECKED IN";
+            }else{
+                $data['type'] = "CHECKED OUT";
+            }
             $this->load->view('pages/'.$page,$data);                           
         }
 }

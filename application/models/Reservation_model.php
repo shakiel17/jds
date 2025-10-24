@@ -271,5 +271,15 @@
                 return false;
             }
         }
+        public function getAllReservation($status,$startdate,$enddate){
+            if($status=="booked"){
+                $result=$this->db->query("SELECT r.*,rm.room_type,rm.room_color,p.description FROM reservation r LEFT JOIN room rm ON rm.id=r.res_room_id LEFT JOIN package p ON p.id=r.res_room_id WHERE r.res_book_date BETWEEN '$startdate' AND '$enddate' ORDER BY r.res_book_date ASC");
+            }else if($status=="checkedin"){
+                $result=$this->db->query("SELECT r.*,rm.room_type,rm.room_color,p.description FROM reservation r LEFT JOIN room rm ON rm.id=r.res_room_id LEFT JOIN package p ON p.id=r.res_room_id WHERE r.res_date_arrive BETWEEN '$startdate' AND '$enddate' ORDER BY r.res_date_arrive ASC");
+            }else{
+                $result=$this->db->query("SELECT r.*,rm.room_type,rm.room_color,p.description FROM reservation r LEFT JOIN room rm ON rm.id=r.res_room_id LEFT JOIN package p ON p.id=r.res_room_id WHERE r.res_date_depart BETWEEN '$startdate' AND '$enddate' ORDER BY r.res_date_depart ASC");
+            }
+            return $result->result_array();
+        }
     }
 ?>

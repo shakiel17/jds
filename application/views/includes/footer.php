@@ -292,6 +292,27 @@
         document.getElementById('edit_room_qty_res_id').value=id[5];
         document.getElementById('edit_room_qty_fullname').value=id[6];
     });
+
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      let minutes = now.getMinutes();
+      let seconds = now.getSeconds();
+
+
+      // Add leading zeros if necessary
+      hours = hours.toString().padStart(2, '0');
+      minutes = minutes.toString().padStart(2, '0');
+      seconds = seconds.toString().padStart(2, '0');
+      let ampm = hours >= 12 ? 'PM' : 'AM';
+      const timeString = `${hours}:${minutes}:${seconds} ${ampm}`;
+      
+      document.getElementById('clock').textContent = timeString;
+    }
+
+    // Call updateClock initially and then every second
+    updateClock();
+    setInterval(updateClock, 1000);
 </script>
 
 
