@@ -14,6 +14,11 @@
         </ul>
     </div>
     <?php
+    if(count($category)>0){
+        $new="";
+    }else{
+        $new="style='display:none;'";
+    }
     if($refno==""){
         $cancel="style='display:none;'";
         $new="";
