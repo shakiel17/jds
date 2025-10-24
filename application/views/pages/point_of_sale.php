@@ -14,11 +14,7 @@
         </ul>
     </div>
     <?php
-    if(count($category)>0){
-        $new="";
-    }else{
-        $new="style='display:none;'";
-    }
+    
     if($refno==""){
         $cancel="style='display:none;'";
         $new="";
@@ -32,6 +28,11 @@
         $new="";
     }else{
         $disabled="";
+    }
+    if(count($category)>0){
+        $new="";
+    }else{
+        $new="style='display:none;'";
     }
     ?>
     <div class="row">
