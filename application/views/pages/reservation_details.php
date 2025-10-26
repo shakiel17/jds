@@ -6,7 +6,7 @@
             <a href="<?=base_url('main');?>">Home</a>
         </li> 
          <li>
-            <a href="<?=base_url('manage_reservation');?>">Reservation</a>
+            <a href="<?=base_url('manage_reservation/room');?>">Reservation</a>
         </li>        
         <li>
            Reservation Details
@@ -63,7 +63,7 @@ if($reserve['room_type']==""){
                             <b>Email: </b><?=$reserve['res_email'];?>
                         </td>
                         <td>                            
-                            <b>No. of Guest(s): </b><?=$reserve['res_no_guest'];?>
+                            <b>No. of Guest(s): </b><?=$reserve['res_no_guest_adult'];?> Adult / <?=$reserve['res_no_guest_child'];?> Child / <?=$reserve['res_no_guest_senior'];?> Senior/PWD
                         </td>
                     </tr>
                     <tr>
@@ -79,7 +79,14 @@ if($reserve['room_type']==""){
         </div>
         <br>
         <?php
-        $other=$reserve['res_room_rate']-$reserve['res_downpayment'];        
+        $full=0;
+        $disc=0;
+        if($checkin){
+            $full=$checkin['amount'];
+            $disc=$reserve['res_downpayment']-$full;
+        }
+
+        $other=$reserve['res_room_rate']-$reserve['res_downpayment']-$full-$disc;        
         foreach($charges as $item){
             $other += $item['amount'];            
         }        
