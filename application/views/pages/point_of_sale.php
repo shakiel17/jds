@@ -96,7 +96,7 @@
                                 <td style="text-align:center;" width="100">
                                     <a href="<?=base_url('add_item/'.$item['code']);?>" style="text-decoration:none; color:black; <?=$disabled;?> <?=$q;?>">
                                     <img src="data:image/jpg;charset=utf8;base64,<?=base64_encode($item['img']);?>" alt="Item" width="100"><br>                            
-                                    <?=$item['description'];?><br>P <?=number_format($item['sellingprice'],2);?><br>Quantity: <?=$item['quantity'];?>                                    
+                                    <b style="font-size:20px;"><?=$item['description'];?></b><br>P <?=number_format($item['sellingprice'],2);?><br>Quantity: <?=$item['quantity'];?></b>                                    
                                     </a>
                                 </td>
                                 <?php

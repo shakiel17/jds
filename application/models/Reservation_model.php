@@ -305,5 +305,9 @@
                 return false;
             }
         }
+        public function getAllStatistic($startdate,$enddate){
+            $result=$this->db->query("SELECT * FROM reservation WHERE res_date_depart BETWEEN '$startdate' AND '$enddate' AND res_status='checkedout'");
+            return $result->result_array();
+        }
     }
 ?>

@@ -57,7 +57,7 @@ if($this->session->flashdata('failed')){
                             $date2=date_create(date("Y-m-d"));
                             $interval = date_diff($date1,$date2);
                             $days=$interval->format('%a');
-                            if($days == 2 ){
+                            if($days <= 2  && $days >= 1){
                                 $color="style='background-color:green; color:white;'";
                             }else{
                                 $color="";
@@ -80,6 +80,12 @@ if($this->session->flashdata('failed')){
                                 $person=$room['res_room_rate']/$totalpax;
                                 $disc=($person*.20)*$room['res_no_guest_senior'];
                                 $balance=$balance-$disc;
+                            }
+
+                            if($room['res_date_arrive']==date('Y-m-d')){
+                                $c_in="";
+                            }else{
+                                $c_in="style='display:none;'";
                             }
                             
                         echo "<tr>";                            
@@ -119,7 +125,7 @@ if($this->session->flashdata('failed')){
                                         <ul class="dropdown-menu" role="menu">
                                             <li><a href="<?=base_url('print_reg_form/'.$room['res_id']);?>" target="_blank" <?=$regform;?>>Registration Form</a></li>
                                             <li><a href="<?=base_url('print_voucher/'.$room['res_id']);?>" target="_blank">Reservation Voucher</a></li>
-                                            <li><a href="#" class="checkIn" data-toggle="modal" data-target="#CheckIn" data-id="<?=$room['res_id'];?>_<?=$balance;?>">Check In</a></li>
+                                            <li><a href="#" class="checkIn" data-toggle="modal" data-target="#CheckIn" data-id="<?=$room['res_id'];?>_<?=$balance;?>" <?=$c_in;?>>Check In</a></li>
                                             <li class="divider"></li>                                            
                                             <li><a href="#" <?=$regform;?> class="editReservation" data-toggle="modal" data-target="#EditReservation" data-id="<?=$room['res_id'];?>_<?=$room['res_fullname'];?>_<?=$room['res_address'];?>_<?=$room['res_contactno'];?>_<?=$room['res_email'];?>_<?=$room['res_nationality'];?>_<?=$room['res_date_arrive'];?>_<?=$room['res_date_depart'];?>_<?=$room['res_no_guest_adult'];?>_<?=$room['res_no_guest_child'];?>_<?=$room['res_no_guest_senior'];?>_<?=$room['res_source'];?>_<?=$room['res_downpayment'];?>_<?=$room['res_mode_payment'];?>">Edit</a></li>
                                             <li><a href="#" <?=$edit;?> class="editReservationPackage" data-toggle="modal" data-target="#EditReservationPackage" data-id="<?=$room['res_id'];?>_<?=$room['res_fullname'];?>_<?=$room['res_address'];?>_<?=$room['res_contactno'];?>_<?=$room['res_email'];?>_<?=$room['res_nationality'];?>_<?=$room['res_date_arrive'];?>_<?=$room['res_date_depart'];?>_<?=$room['res_no_guest_adult'];?>_<?=$room['res_source'];?>_<?=$room['res_downpayment'];?>_<?=$room['res_mode_payment'];?>_<?=$room_type;?>">Edit</a></li>

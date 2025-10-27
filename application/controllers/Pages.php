@@ -976,5 +976,32 @@ date_default_timezone_set('Asia/Manila');
                 echo "window.history.back();";
             echo "</script>";
         }
+        public function generate_statistic_report(){
+            $page = "generate_statistic_report";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $month=$this->input->post('month');
+            $year=$this->input->post('year');
+            $type=$this->input->post('type');
+            if($type=="monthly"){
+                $startdate=$year."-".$month."-01";
+                $enddate=date('Y-m-t',strtotime($year."-".$month));
+                $type="MONTHLY";
+            }            
+            if($type=="yearly"){
+                $startdate=$year."-01-01";
+                $enddate=$year."-12-31";
+                $type="YEARLY";
+            }
+            $data['info'] = $this->General_model->getSettings(); 
+            $data['items'] = $this->Reservation_model->getAllStatistic($startdate,$enddate);         
+            $data['startdate'] = $startdate;
+            $data['enddate'] = $enddate;
+            $data['type'] = $type;
+            $this->load->view('pages/'.$page,$data);                           
+        }
 }
 ?>

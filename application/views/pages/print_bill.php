@@ -77,7 +77,7 @@
         }
         if($checkin){
             $paid1=$checkin['amount'];
-            $disc1=$reserve['res_downpayment']-$checkin['amount'];
+            $disc1=$reserve['res_room_rate']-$reserve['res_downpayment']-$checkin['amount'];
         }
         ?>        
         <tr style="border-top:1px solid black;">

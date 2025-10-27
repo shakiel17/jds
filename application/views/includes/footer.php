@@ -231,7 +231,8 @@
         var id=data.split('_');
         document.getElementById("final_payment_refno").value=id[0];
         document.getElementById("final_payment_total_amount").value=id[1]; 
-        document.getElementById("final_payment_amount").value=id[1]; 
+        document.getElementById("final_payment_amount").value=id[1];
+        document.getElementById("final_payment_discount").value=id[2]; 
     });
     $('.addDiscount').click(function(){
         var id=$(this).data('id');
@@ -314,6 +315,20 @@
         document.getElementById("checkin_refno").value=id[0];
         document.getElementById('checkin_balance').value=id[1];
     });
+
+    function viewStat(value){
+        if(value=="monthly"){
+            document.getElementById('stat_month').style.display = 'block';
+            document.getElementById('stat_year').style.display = 'block';
+        }else if(value=="yearly"){
+            document.getElementById('stat_month').style.display = 'none';
+            document.getElementById('stat_year').style.display = 'block';
+        }else{
+            document.getElementById('stat_month').style.display = 'none';
+            document.getElementById('stat_year').style.display = 'none';
+        }
+        
+    }
 
     function updateClock() {
       const now = new Date();

@@ -1154,7 +1154,7 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Discount</label>
-                    <input type="text" name="discount" class="form-control" value="0">
+                    <input type="text" name="discount" class="form-control" id="final_payment_discount">
                 </div>                                
             </div>
             <div class="modal-footer">
